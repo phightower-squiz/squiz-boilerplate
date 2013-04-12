@@ -1,0 +1,85 @@
+/**
+ * {%= name %} - Global CSS
+ *
+ * global.css
+ * author: Squiz Australia
+ * change log: 
+ *     {%= author_email %} - 01/01/2013 - First revision
+ */
+
+/*
+ * Table of Contents
+ *
+ * 1. Reset
+ * 2. Utilities
+ * 3. General
+ * 4. Modules
+ *    4.1. Skip Links
+ *    4.2. Breadcrumbs
+ *    4.3. Buttons
+ *    4.4. Tabs
+ * 5. Responsive
+ *    5.1. Images
+ *    5.2. Video
+ */
+
+@import "variables";
+@import "functions";
+@import "mixins";
+
+/*
+--------------------
+1. Reset (Normalize.css)
+--------------------
+*/
+
+@import "normalize";
+
+/*
+--------------------
+2. Utilities
+--------------------
+*/
+
+@import "utilities";
+
+/*
+--------------------
+3. General
+--------------------
+*/
+
+@import "links";
+@import "content";
+
+/*
+--------------------
+4. Modules
+--------------------
+*/
+
+/* -- 4.1. Skip Links --*/
+@import "../../modules/skip_links/css/skip-links";
+
+/* -- 4.2. Breadcrumbs--*/
+@import "../../modules/breadcrumbs/css/breadcrumbs";
+
+/* -- 4.3. Buttons --*/
+@import "../../modules/button/css/button";
+
+/* -- 4.4. Tabs --*/
+@import "../../modules/tabs/css/tabs";
+
+/*
+--------------------
+5. Responsive
+--------------------
+*/
+
+@import "responsive";
+
+/* -- 5.1. Responsive images --*/
+@import "../../modules/responsive_image/css/responsive-image";
+
+/* -- 5.2. Responsive video --*/
+@import "../../modules/responsive_video/css/responsive-video";

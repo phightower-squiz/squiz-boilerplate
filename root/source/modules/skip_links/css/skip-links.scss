@@ -1,0 +1,14 @@
+// Best Practice Article: https://central.squiz.net/imp/best-practice/accessibility/skip-links
+// For simplicity returning the items to visibilty we use positioning
+.skip-links-list {
+  @include list-reset;
+}
+
+.skip-links-link {
+  @include screen-hide();
+}
+
+.skip-links-link:focus,
+.skip-links-link:active {
+  @include screen-show();
+}

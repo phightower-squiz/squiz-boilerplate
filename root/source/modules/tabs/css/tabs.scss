@@ -1,0 +1,11 @@
+.tabs-nav-list {
+  @include list-reset();
+}
+
+.tabs-panel-visible {
+  @include screen-show();
+}
+
+.tabs-panel-hide {
+  @include screen-hide();
+}

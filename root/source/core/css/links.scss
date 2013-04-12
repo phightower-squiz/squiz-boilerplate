@@ -1,0 +1,12 @@
+a {
+  color: $link-colour;
+  text-decoration: underline;
+}
+a:hover,
+a:focus {
+  color: $link-colour-hover;
+  text-decoration: underline;
+}
+a:visited {
+  color: $link-colour-visited;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "squiz_boilerplate_grunt_init",
+
+  "description": "The boilerplate grunt init plugin",
+
+  "version": "0.0.3",
+
+  "maintainers": [{
+    "name": "Anthony Barnes",
+    "email": "abarnes@squiz.com.au"
+  }],
+
+  "dependencies": {
+    "grunt": "*"
+  }
+}

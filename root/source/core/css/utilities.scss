@@ -1,0 +1,42 @@
+// Screen Hidden Content
+.visuallyhidden {
+    @include screen-hide;
+}
+
+// When screen hidden content is focused restore it to view
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    @include screen-show;
+}
+
+// Clear fix class for floats
+.clearfix {
+    @include clearfix;
+}
+
+// Image replacement
+.ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    /* IE 6/7 fallback */
+    *text-indent: -9999px;
+}
+
+.ir:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+
+// Hide from both screenreaders and browsers: h5bp.com/u
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+// Hide visually and from screenreaders, but maintain layout
+.invisible {
+    visibility: hidden;
+}

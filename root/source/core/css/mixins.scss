@@ -1,0 +1,73 @@
+// REM font sizing with pixel fall back
+// This technique will allow external font sizes to be set for html and respected
+// if REMs are supported (everything but IE8 and older).
+// This can be replaced with EMs if necessary, but risks font changes being set relative
+// parent elements.
+@mixin font-size($sizeValue: 1){
+  font-size: ($sizeValue * $base-font-pixel) + px;
+  font-size: $sizeValue + rem;
+}
+
+// Reset list styles
+@mixin list-reset() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// Clear fix for floats
+@mixin clearfix() {
+  &:after,
+  &:before {
+    display: table;
+    line-height: 0;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+  *zoom: 1;
+}
+
+// Best Practice Article: https://central.squiz.net/imp/best-practice/accessibility/screen-hidden-content
+// Prevent an element from being displayed.
+@mixin screen-hide() {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+// Restore to view
+@mixin screen-show() {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+// Add border box setting to an element.
+// http://paulirish.com/2012/box-sizing-border-box-ftw/
+@mixin border-box() {
+  box-sizing: border-box;
+}
+
+// Border radius helper
+@mixin border-radius($radius: 4px) {
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+// Individual border radius rule helper.
+@mixin rounded($vert, $horz, $radius: 10px) {
+  border-#{$vert}-#{$horz}-radius: $radius;
+  -moz-border-radius-#{$vert}#{$horz}: $radius;
+  -webkit-border-#{$vert}-#{$horz}-radius: $radius;
+}

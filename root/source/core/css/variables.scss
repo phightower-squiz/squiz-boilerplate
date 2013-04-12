@@ -1,0 +1,18 @@
+// Base font
+$base-font-size: 1em; // Allow the users default (browser default normally 16px)
+$base-font-pixel: 16; // Used for font size calculations & conversions
+$base-font-colour: #222;
+
+// Link Colours
+$link-colour: blue;
+$link-colour-hover: blue;
+$link-colour-visited: blue;
+
+// Button Colours
+$button-background: #ccc;
+$button-text: #000;
+$button-background-hover: #000;
+$button-text-hover: #fff;
+
+// Selection highlighting
+$content-selection-highlight: #b3d4fc;

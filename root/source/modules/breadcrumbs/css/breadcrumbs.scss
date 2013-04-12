@@ -1,0 +1,11 @@
+.breadcrumbs-list {
+    @include list-reset;
+}
+
+.breadcrumbs-inline .breadcrumbs-item {
+    display: inline;
+}
+
+.breadcrumbs-float .breadcrumbs-item {
+    float: left;
+}

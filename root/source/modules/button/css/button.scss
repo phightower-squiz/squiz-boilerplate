@@ -1,0 +1,13 @@
+.button {
+  text-decoration: none;
+  display: block;
+  background-color: $button-background;
+  color: $button-text;
+}
+
+.button:active,
+.button:focus,
+.button:hover {
+  background-color: $button-background-hover;
+  color: $button-text-hover;
+}
