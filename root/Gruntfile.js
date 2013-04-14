@@ -10,13 +10,16 @@ module.exports = function(grunt) {
 
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', 'source/core/js/global.js'],
+        src: ['source/core/js/global.js'],
         dest: 'dist/js/global.js'
       }
     },
 
     sass: {
       dist: {
+        options: {
+          style: 'expanded'
+        },
         files: {
           'dist/css/global/global.css': 'source/core/css/global.scss',
           'dist/css/medium/medium.css': 'source/core/css/medium.scss',
@@ -25,15 +28,17 @@ module.exports = function(grunt) {
       }
     },
 
+    // Update 
     watch: {
-      files: '<config:sass.dist.files>',
-      tasks: 'sass'
+      files: ['source/core/css/*.scss', 'modules/**/css/*.scss'],
+      tasks: 'build'
     },
 
     copy: {
       main: {
         files: [
-          {src: ['*.js', '!global.js'], dest: 'dist/js/', cwd: 'source/core/js/', expand: true}
+          {src: ['*.js', '!global.js'], dest: 'dist/js/', cwd: 'source/core/js/', expand: true},
+          {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true}
         ]
       }
     },
@@ -73,6 +78,7 @@ module.exports = function(grunt) {
 
   // Tasks
   grunt.registerTask('reset', ['clean']);
+  grunt.registerTask('build', ['clean', 'sass', 'copy', 'concat']);
   grunt.registerTask('default', ['jshint','clean', 'sass', 'copy', 'concat']);
 
 };
