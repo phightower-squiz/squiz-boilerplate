@@ -1,10 +1,10 @@
 /**
- * [Client Name] - Global JavaScript
+ * {%= name %} - Global JavaScript
  *
  * global.js
  * author: Squiz Australia
  * change log: 
- *     [Author email] - 01/01/2013 - First revision
+ *     {%= author_email %} - 01/01/2013 - First revision
  */
 
 /*

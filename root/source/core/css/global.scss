@@ -23,9 +23,9 @@
  *    5.2. Video
  */
 
-@import "variables";
-@import "functions";
-@import "mixins";
+@import "variables.scss";
+@import "functions.scss";
+@import "mixins.scss";
 
 /*
 --------------------
@@ -33,7 +33,7 @@
 --------------------
 */
 
-@import "normalize";
+@import "normalize.scss";
 
 /*
 --------------------
@@ -41,7 +41,7 @@
 --------------------
 */
 
-@import "utilities";
+@import "utilities.scss";
 
 /*
 --------------------
@@ -49,8 +49,8 @@
 --------------------
 */
 
-@import "links";
-@import "content";
+@import "links.scss";
+@import "content.scss";
 
 /*
 --------------------
@@ -59,16 +59,16 @@
 */
 
 /* -- 4.1. Skip Links --*/
-@import "../../modules/skip_links/css/skip-links";
+@import "../../modules/skip_links/css/skip-links.scss";
 
 /* -- 4.2. Breadcrumbs--*/
-@import "../../modules/breadcrumbs/css/breadcrumbs";
+@import "../../modules/breadcrumbs/css/breadcrumbs.scss";
 
 /* -- 4.3. Buttons --*/
-@import "../../modules/button/css/button";
+@import "../../modules/button/css/button.scss";
 
 /* -- 4.4. Tabs --*/
-@import "../../modules/tabs/css/tabs";
+@import "../../modules/tabs/css/tabs.scss";
 
 /*
 --------------------
@@ -76,10 +76,10 @@
 --------------------
 */
 
-@import "responsive";
+@import "responsive.scss";
 
 /* -- 5.1. Responsive images --*/
-@import "../../modules/responsive_image/css/responsive-image";
+@import "../../modules/responsive_image/css/responsive-image.scss";
 
 /* -- 5.2. Responsive video --*/
-@import "../../modules/responsive_video/css/responsive-video";
+@import "../../modules/responsive_video/css/responsive-video.scss";
