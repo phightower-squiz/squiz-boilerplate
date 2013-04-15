@@ -2,10 +2,6 @@
   @include list-reset();
 }
 
-.tabs-panel-visible {
-  @include screen-show();
-}
-
-.tabs-panel-hide {
+.js-enabled .tabs-panel-hide {
   @include screen-hide();
 }

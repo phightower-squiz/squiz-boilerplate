@@ -13,19 +13,19 @@
  * 1. Reset
  * 2. Utilities
  * 3. General
- * 4. Modules
- *    4.1. Skip Links
- *    4.2. Breadcrumbs
- *    4.3. Buttons
- *    4.4. Tabs
- * 5. Responsive
- *    5.1. Images
- *    5.2. Video
+ * 4. Responsive
+ *    4.1. Images
+ *    4.2. Video
+ * 5. Modules
+ *    5.1. Skip Links
+ *    5.2. Breadcrumbs
+ *    5.3. Buttons
+ *    5.4. Tabs
  */
 
-@import "variables.scss";
-@import "functions.scss";
-@import "mixins.scss";
+@import "common/variables.scss";
+@import "common/functions.scss";
+@import "common/mixins.scss";
 
 /*
 --------------------
@@ -33,7 +33,7 @@
 --------------------
 */
 
-@import "normalize.scss";
+@import "common/normalize.scss";
 
 /*
 --------------------
@@ -41,7 +41,7 @@
 --------------------
 */
 
-@import "utilities.scss";
+@import "common/utilities.scss";
 
 /*
 --------------------
@@ -49,37 +49,37 @@
 --------------------
 */
 
-@import "links.scss";
-@import "content.scss";
+@import "common/links.scss";
+@import "common/content.scss";
 
 /*
 --------------------
-4. Modules
+4. Responsive
 --------------------
 */
 
-/* -- 4.1. Skip Links --*/
-@import "../../modules/skip_links/css/skip-links.scss";
+@import "common/responsive.scss";
 
-/* -- 4.2. Breadcrumbs--*/
-@import "../../modules/breadcrumbs/css/breadcrumbs.scss";
-
-/* -- 4.3. Buttons --*/
-@import "../../modules/button/css/button.scss";
-
-/* -- 4.4. Tabs --*/
-@import "../../modules/tabs/css/tabs.scss";
-
-/*
---------------------
-5. Responsive
---------------------
-*/
-
-@import "responsive.scss";
-
-/* -- 5.1. Responsive images --*/
+/* -- 4.1. Responsive images --*/
 @import "../../modules/responsive_image/css/responsive-image.scss";
 
-/* -- 5.2. Responsive video --*/
+/* -- 4.2. Responsive video --*/
 @import "../../modules/responsive_video/css/responsive-video.scss";
+
+/*
+--------------------
+5. Modules
+--------------------
+*/
+
+/* -- 5.1. Skip Links --*/
+@import "../../modules/skip_links/css/skip-links.scss";
+
+/* -- 5.2. Breadcrumbs--*/
+@import "../../modules/breadcrumbs/css/breadcrumbs.scss";
+
+/* -- 5.3. Buttons --*/
+@import "../../modules/button/css/button.scss";
+
+/* -- 5.4. Tabs --*/
+@import "../../modules/tabs/css/tabs.scss";
