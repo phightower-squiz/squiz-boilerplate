@@ -10,7 +10,9 @@ module.exports = function(grunt) {
 
     concat: {
       dist: {
-        src: ['source/core/js/global.js'],
+        src: ['source/core/js/global.js',
+              'source/modules/**/js/*.js' // All modules
+             ],
         dest: 'dist/js/global.js'
       }
     },
@@ -58,10 +60,12 @@ module.exports = function(grunt) {
         globals: {
           "jQuery": true,
           "document": true,
-          "window": true
+          "window": true,
+          "squizImp": true,
+          "$": true
         }
       },
-      all: ['Gruntfile.js', 'source/core/js/global.js']
+      all: ['Gruntfile.js', 'source/core/js/global.js', 'source/modules/**/js/*.js']
     },
 
     // Clean the sass cache & distribution directories
