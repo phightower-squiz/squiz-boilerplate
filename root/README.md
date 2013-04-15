@@ -9,9 +9,9 @@ Installation of the boilerplate first requires a few pre-requisites:
 
 ### Install Grunt
 
-Grunt is an automated build tool well suiting to JS related projects. Websites
-fit well into this category and Grunt has been used here to help automate the
-construction of HTML, CSS and JS fit for distribute from a series of source files.
+Grunt is a task based build tool well suiting to web projects. Grunt has been
+used here to help automate the construction of HTML, CSS and JS fit for
+distribute from a series of source files.
 http://gruntjs.com/
 
 ```
