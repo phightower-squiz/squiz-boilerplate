@@ -23,11 +23,6 @@ $correction: 0.5 / $min-width * 100;
 // GRID //
 //////////
 
-body {
-	width: 100%;
-	@include clearfix();
-}
-
 @mixin row($columns:$columns) {
 	display: block;
 	width: $total-width*(($gutter-width + gridsystem-width($columns))/gridsystem-width($columns));
