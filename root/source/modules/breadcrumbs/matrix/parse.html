@@ -1,0 +1,16 @@
+<div class="breadcrumbs clearfix" role="navigation">
+  <MySource_AREA id_name="breadcrumbs" design_area="asset_lineage">
+    <MySource_SET name="prefix_with_home_link" value="false" />
+    <MySource_SET name="suffix_with_current_link" value="false" />
+    <MySource_SET name="prefix_with_divider" value="false" />
+    <MySource_SET name="suffix_with_divider" value="false" />
+    <MySource_DIVIDER></MySource_DIVIDER>
+    <ol class="breadcrumbs-list">
+      <li class="breadcrumbs-item"><a class="breadcrumbs-item-link" href="<MySource_PRINT id_name='__global__' var='site_link' full_url='true'/>">Home</a><span class="breadcrumbs-separator"></span></li>
+    <MySource_ASSET>
+      <li class="breadcrumbs-item"><a class="breadcrumbs-item-link"  href="<MySource_PRINT var="asset_link" />"><MySource_PRINT var="asset_short_name" /></a><span class="breadcrumbs-separator"></span></li>
+    </MySource_ASSET>
+      <li class="breadcrumbs-item"><MySource_PRINT id_name="__global__" var="asset_short_name" /></li>
+    <ol>
+  </MySource_AREA>
+</div><!-- /.breadcrumbs -->
