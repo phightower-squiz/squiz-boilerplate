@@ -1,5 +1,6 @@
-squizImp.plugins.tabs = {
+// Tabs init plugin.
+Squiz.plugins.module_tabs = {
     init: function() {
-        $('.tabs').squizImp_tabs();
-    }
-};
+        $('.tabs').module_tabs();
+    }//end init()
+};//end module_tabs

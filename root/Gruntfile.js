@@ -10,10 +10,18 @@ module.exports = function(grunt) {
 
     concat: {
       dist: {
+        options: {
+          separator: "\n\n"
+        },
         src: ['source/core/js/global.js',
-              'source/modules/**/js/*.js' // All modules
+              'source/core/js/core-*.js', // Any core modules
+              'source/modules/**/js/init.js' // All modules
              ],
         dest: 'dist/js/global.js'
+      },
+      plugins: {
+        src: ['source/modules/**/js/plugin.js'],
+        dest: 'dist/js/plugins.js'
       }
     },
 
@@ -32,15 +40,16 @@ module.exports = function(grunt) {
 
     // Update 
     watch: {
-      files: ['source/core/css/*.scss', 'modules/**/css/*.scss'],
+      files: ['source/**/*.scss', 'source/**/*.js'],
       tasks: 'build'
     },
 
     copy: {
       main: {
         files: [
-          {src: ['*.js', '!global.js'], dest: 'dist/js/', cwd: 'source/core/js/', expand: true},
-          {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true}
+          {src: ['*.js', '!global.js', '!core-*.js'], dest: 'dist/js/', cwd: 'source/core/js/', expand: true},
+          {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true},
+          {src: ['*'], dest: 'dist/files/', cwd: 'source/core/files/', expand: true}
         ]
       }
     },
@@ -61,11 +70,16 @@ module.exports = function(grunt) {
           "jQuery": true,
           "document": true,
           "window": true,
-          "squizImp": true,
+          "Squiz": true,
           "$": true
         }
       },
       all: ['Gruntfile.js', 'source/core/js/global.js', 'source/modules/**/js/*.js']
+    },
+
+    // Unit tests that require the DOM
+    qunit: {
+      all: ['source/modules/**/tests/*.html']
     },
 
     // Clean the sass cache & distribution directories
@@ -77,12 +91,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Tasks
   grunt.registerTask('reset', ['clean']);
   grunt.registerTask('build', ['clean', 'sass', 'copy', 'concat']);
-  grunt.registerTask('default', ['jshint','clean', 'sass', 'copy', 'concat']);
+  grunt.registerTask('default', ['jshint', 'qunit', 'clean', 'sass', 'copy', 'concat']);
 
 };

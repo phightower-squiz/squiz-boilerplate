@@ -2,6 +2,14 @@
   @include list-reset();
 }
 
-.js-enabled .tabs-panel-hide {
+.tabs-panel-hide {
   @include screen-hide();
+}
+
+.tabs-panel-active {
+
+}
+
+.tabs-nav-link-active {
+
 }
