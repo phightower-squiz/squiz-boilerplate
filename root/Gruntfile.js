@@ -3,10 +3,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    pkg: '<json:package.json>',
-    meta: {
-      banner: '/* Temp banner */'
-    },
+    pkg: grunt.file.readJSON('package.json'),
 
     concat: {
       dist: {
@@ -47,9 +44,19 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {src: ['*.js', '!global.js', '!core-*.js'], dest: 'dist/js/', cwd: 'source/core/js/', expand: true},
+          // Copy any JS files not being concatenated.
+          {src: ['*.js', '!global.js', '!core-*.js'], dest: 'dist/js/',
+            cwd: 'source/core/js/', expand: true},
+
+          // Copy any HTML example files across.
           {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true},
-          {src: ['*'], dest: 'dist/files/', cwd: 'source/core/files/', expand: true}
+
+          // Copy any core files across.
+          {src: ['*'], dest: 'dist/files/', cwd: 'source/core/files/', expand: true},
+
+          // Copy any associated css files (images) into the correct location.
+          {src: ['**/css/*.png', '**/css/*.gif', '**/css/*.jpeg', '**/css/*.jpg'],
+            dest: 'dist/css/global/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
       }
     },
