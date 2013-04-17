@@ -1,4 +1,5 @@
-// Core initialise functions.
+// @@core-init
+// Core initialisation functions
 Squiz.plugins.core_init = {
     init: function() {
         // Declare JS Enabled

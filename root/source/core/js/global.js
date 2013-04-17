@@ -1,11 +1,13 @@
 /*global jQuery:false*/
 /**
- * {%= name %} - Global JavaScript
+ * {%= client_name %} - {%= client_project %}
+ * Global JavaScript
  *
- * global.js
- * author: Squiz Australia
+ * version: @@version
+ * file:    global.js
+ * author:  Squiz Australia
  * change log: 
- *     {%= author_email %} - 01/01/2013 - First revision
+ *     {%= author_email %} - @@date - First revision
  */
 
 /*
@@ -13,6 +15,8 @@
  * 1. Global
  *     1.1. Namespace
  *     1.2. Plugin Execution
+ * 2. Modules
+@@toc
  */
 
 /*
@@ -39,3 +43,9 @@ $(document).ready(function(){
         }//end if
     }//end for
 });
+
+/*
+--------------------
+2. Modules
+--------------------
+*/

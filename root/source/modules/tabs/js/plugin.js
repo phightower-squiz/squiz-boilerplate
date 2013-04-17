@@ -1,4 +1,4 @@
-/* @todo replace this with an actual plugin */
+// @@tabs
 ;(function($, undefined){
     'use strict';
 

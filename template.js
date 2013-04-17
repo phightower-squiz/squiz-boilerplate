@@ -22,6 +22,24 @@ exports.warnOn = '*';
 exports.template = function(grunt, init, done) {
 
   init.process({type: 'grunt'}, [
+
+    // Custom prompt for client name
+    {
+      name: 'client_name',
+      message: 'Who is the client?',
+      "default": 'Squiz',
+      validator: /^[\w\-\.]+$/,
+      warning: 'Must be only letters, numbers, dashes, dots or underscores. (If this is not for a client, leave the default at Squiz)'
+    },
+
+    {
+      name: 'client_project',
+      message: 'What is the name of the client project?',
+      "default": 'Internet Site',
+      validator: /^[\w\-\.\s]+$/,
+      warning: 'Must be only letters, numbers, dashes, spaces, dots or underscores.'
+    },
+
     // Prompt for these values.
     init.prompt('name', 'squiz_boilerplate'),
     init.prompt('description', ''),
@@ -52,6 +70,7 @@ exports.template = function(grunt, init, done) {
       'grunt-contrib-jshint': '*',
       'grunt-contrib-watch': '*',
       'grunt-contrib-qunit': '*',
+      'grunt-replace': '*',
       'grunt-contrib-sass': '*'
     };
     props.peerDependencies = {
