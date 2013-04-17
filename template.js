@@ -28,7 +28,7 @@ exports.template = function(grunt, init, done) {
       name: 'client_name',
       message: 'Who is the client?',
       "default": 'Squiz',
-      validator: /^[\w\-\.]+$/,
+      validator: /^[\w\-\.\_]+$/,
       warning: 'Must be only letters, numbers, dashes, dots or underscores. (If this is not for a client, leave the default at Squiz)'
     },
 
@@ -36,7 +36,7 @@ exports.template = function(grunt, init, done) {
       name: 'client_project',
       message: 'What is the name of the client project?',
       "default": 'Internet Site',
-      validator: /^[\w\-\.\s]+$/,
+      validator: /^[\w\-\.\s\_]+$/,
       warning: 'Must be only letters, numbers, dashes, spaces, dots or underscores.'
     },
 
