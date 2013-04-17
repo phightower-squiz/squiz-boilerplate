@@ -139,6 +139,7 @@ module.exports = function(grunt) {
 
           // Copy any HTML example files across.
           {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true},
+          {src: ['**/html/*.html'], dest: 'dist/examples/', cwd: 'source/modules/', expand: true},
 
           // Copy any core files across.
           {src: ['*'], dest: 'dist/files/', cwd: 'source/core/files/', expand: true},
