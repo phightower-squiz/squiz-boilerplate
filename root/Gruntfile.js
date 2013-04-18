@@ -164,7 +164,8 @@ module.exports = function(grunt) {
           "$": true
         }
       },
-      all: ['Gruntfile.js', 'source/core/js/global.js', 'source/modules/**/js/*.js']
+      all: ['Gruntfile.js', 'source/core/js/global.js',
+            'source/modules/**/js/*.js', '!source/modules/**/js/*.min.js']
     },
 
     // Unit tests that require the DOM
@@ -194,8 +195,8 @@ module.exports = function(grunt) {
   grunt.registerTask('reset', ['clean']);
   grunt.registerTask('default', [
     // Testing
-    //'jshint',
-    //'qunit',
+    'jshint',
+    'qunit',
     // After test begin the build
     'clean',
     'module',
