@@ -15,6 +15,8 @@
  * 1. Global
  *     1.1. Namespace
  *     1.2. Plugin Execution
+ *     1.3. Core init functions
+ *           1.3.A - Declare JS Enabled
  * 2. Modules
 @@toc
  */
@@ -38,11 +40,19 @@ $(document).ready(function(){
     'use strict';
     for (var plugin in Squiz.plugins) {
         if (Squiz.plugins[plugin].hasOwnProperty('init') &&
-            typeof(Squiz.plugins[plugin]) === 'function') {
+            typeof(Squiz.plugins[plugin].init) === 'function') {
             Squiz.plugins[plugin].init.call();
         }//end if
     }//end for
 });
+
+/*-- 1.3. Core Init Functions --*/
+Squiz.plugins.core_init = {
+    init: function() {
+        // 1.3.A - Declare JS Enabled.
+        $('body').removeClass('no-js').addClass('js-enabled');
+    }//end init()
+};//end module_tabs
 
 /*
 --------------------
