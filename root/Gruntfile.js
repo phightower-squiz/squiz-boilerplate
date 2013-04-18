@@ -57,7 +57,7 @@ module.exports = function(grunt) {
       global_js: {
         options: {
           variables: {
-            num: "3"
+            num: "2"
           }
         },
         files: [
