@@ -74,7 +74,7 @@ module.exports = function(grunt) {
           }
         },
         files: [
-          {expand: true, flatten: true, src: ['dist/js/plugin.js'],
+          {expand: true, flatten: true, src: ['dist/js/plugins.js'],
           dest: 'dist/js/'},
           {expand: true, flatten: true, src: ['dist/css/medium/*.css'],
           dest: 'dist/css/medium/'},
