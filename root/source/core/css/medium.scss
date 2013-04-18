@@ -11,6 +11,8 @@
 
 /*
  * Table of Contents
+ * 1. Modules
+@toc
  */
 
 @import "common/variables.scss";
@@ -19,3 +21,12 @@
 
 // Make the grid available or medium styles.
 @import "../../modules/grid/css/grid.scss";
+
+/*
+--------------------
+1. Modules
+--------------------
+*/
+
+// The modules keyword will get replaced by automated, numbered module CSS output
+@@modules

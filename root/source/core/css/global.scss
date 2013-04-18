@@ -19,10 +19,7 @@
  *    4.1. Images
  *    4.2. Video
  * 5. Modules
- *    5.1. Skip Links
- *    5.2. Breadcrumbs
- *    5.3. Buttons
- *    5.4. Tabs
+@toc
  */
 
 @import "common/variables.scss";
@@ -62,29 +59,11 @@
 
 @import "common/responsive.scss";
 
-/* -- 4.1. Responsive images --*/
-@import "../../modules/responsive_image/css/responsive-image.scss";
-
-/* -- 4.2. Responsive video --*/
-@import "../../modules/responsive_video/css/responsive-video.scss";
-
 /*
 --------------------
 5. Modules
 --------------------
 */
 
-/* -- 5.1. Skip Links --*/
-@import "../../modules/skip_links/css/skip-links.scss";
-
-/* -- 5.2. Breadcrumbs--*/
-@import "../../modules/breadcrumbs/css/breadcrumbs.scss";
-
-/* -- 5.3. Buttons --*/
-@import "../../modules/button/css/button.scss";
-
-/* -- 5.4. Tabs --*/
-@import "../../modules/tabs/css/tabs.scss";
-
-/* -- 5.5. Overlay --*/
-@import "../../modules/overlay/css/overlay.scss";
+// The modules keyword will get replaced by automated, numbered module CSS output
+@@modules

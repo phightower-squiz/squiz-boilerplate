@@ -1,6 +1,3 @@
-/**
- * @@overlay
- */
 ;(function($, undefined){
     var Overlay = function(options) {
         var defaults = {

@@ -1,4 +1,3 @@
-// @@tabs
 ;(function($, undefined){
     'use strict';
 

@@ -1,98 +1,25 @@
 /*global module:false, console:false*/
 module.exports = function(grunt) {
 
-  // Files to concatenate (this gets populated below)
-  var pluginFiles    = [];
-  var initFiles      = [];
-
-  // Module JS keyword replacement
-  var moduleKeywords = {
-    toc: ''
-  };
-
-  (function(){
-    // The order of this will determine how module associated JS files are
-    // concatenated and labelled in the resulting global.js and plugin.js
-    // Commenting out any of these modules will cause it to be omitted from
-    // compilation
-    var JSCompiler = {
-      // Core initialisation functions
-      'core-init': {
-        global: ['source/core/js/core-init.js']
-      },
-
-      // Tabs module
-      'tabs': {
-        global: ['source/modules/tabs/js/init.js'],
-        plugin: ['source/modules/tabs/js/plugin.js']
-      },
-
-      // Overlay Module
-      'overlay': {
-        //global: ['source/core/modules/overlay/js/init.js'],
-        plugin: ['source/modules/overlay/js/plugin.js']
-      }
-  };
-
-    var count          = 1; // A simple counter
-    var startingNum    = 2; // The module numbering in the js file starts at
-    var friendlyName   = ''; // Converted friendly name of the module
-
-    // This will generate the necessary file list of module JS files and assign
-    // some numbered labels and table of contents based on those enabled in the
-    // JSCompiler variable.
-    for (var name in JSCompiler) {
-
-      // Make the presentation of the name a bit nicer.
-      friendlyName = name.charAt(0).toUpperCase() + name.slice(1);
-      friendlyName = friendlyName.replace('_', ' ');
-
-      // Global init files
-      if (JSCompiler[name].hasOwnProperty('global') &&
-          Array.isArray(JSCompiler[name].global)) {
-
-        initFiles = initFiles.concat(JSCompiler[name].global);
-
-        // Build the numbered labels and table of contents
-        moduleKeywords[name] = '2.' + count + '. ' + friendlyName;
-        moduleKeywords.toc += " *     2." + count + ". " + friendlyName + "\n";
-      }//end if
-
-      // Plugin files
-      if (JSCompiler[name].hasOwnProperty('plugin') &&
-          Array.isArray(JSCompiler[name].plugin)) {
-        pluginFiles = pluginFiles.concat(JSCompiler[name].plugin);
-        moduleKeywords[name] = '2.' + count + '. ' + friendlyName;
-      }//end if
-
-      count ++;
-    }//end for
-
-    // Trim the last newline character
-    moduleKeywords.toc = moduleKeywords.toc.slice(0,-1);
-  }());
-
-  moduleKeywords.version = '<%= pkg.version %>';
-  moduleKeywords.date = '<%= grunt.template.today() %>';
-
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    concat: {
+    // Combines known module patterns into prefined output into a temp directory
+    module: {
       dist: {
-        options: {
-          separator: "\n\n"
-        },
-        src: ['source/core/js/global.js'].concat(initFiles),
-        dest: 'dist/js/global.js'
-      },
-      plugins: {
-        options: {
-          separator: "\n\n"
-        },
-        src: pluginFiles,
-        dest: 'dist/js/plugins.js'
+        // Add and remove module names from this array to decide which modules are
+        // automatically included in the final build. Any associated JS plugins and CSS
+        // will appear in a numbered format in the output.
+        modules: [
+          'breadcrumbs',
+          'button',
+          'overlay',
+          'skip_links',
+          'responsive_image',
+          'responsive_video',
+          'tabs'
+        ]
       }
     },
 
@@ -100,13 +27,59 @@ module.exports = function(grunt) {
     replace: {
       dist: {
         options: {
-          variables: moduleKeywords,
-          prefix: '@@'
+          variables: {
+            version: '<%= pkg.version %>',
+            date:    '<%= grunt.template.today() %>'
+          }
         },
         files: [
-          {expand: true, flatten: true, src: ['dist/js/global.js', 'dist/js/plugins.js'], dest: 'dist/js/'},
+          {expand: true, flatten: true, src: ['dist/js/global.js', 'dist/js/plugins.js'],
+            dest: 'dist/js/'},
           {src: ['**/*.css'], dest: 'dist/css/', cwd: 'dist/css/',
-            expand: true, flatten: true}
+            expand: true, flatten: false}
+        ]
+      },
+
+      // Global CSS module numbering system
+      global_css: {
+        options: {
+          variables: {
+            num: "5"
+          }
+        },
+        files: [
+          {expand: true, flatten: true, src: ['dist/css/global/global.css'],
+          dest: 'dist/css/global/'}
+        ]
+      },
+
+      // Global JS module numbering system
+      global_js: {
+        options: {
+          variables: {
+            num: "3"
+          }
+        },
+        files: [
+          {expand: true, flatten: true, src: ['dist/js/global.js'],
+          dest: 'dist/js/'}
+        ]
+      },
+
+      // Other files module numbering system
+      others: {
+        options: {
+          variables: {
+            num: "1"
+          }
+        },
+        files: [
+          {expand: true, flatten: true, src: ['dist/js/plugin.js'],
+          dest: 'dist/js/'},
+          {expand: true, flatten: true, src: ['dist/css/medium/*.css'],
+          dest: 'dist/css/medium/'},
+          {expand: true, flatten: true, src: ['dist/css/wide/*.css'],
+          dest: 'dist/css/wide/'}
         ]
       }
     },
@@ -114,17 +87,23 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         options: {
-          style: 'expanded'
+          style: 'expanded',
+
+          // We need extra load paths to account for the source being in the modules
+          // tmp folder
+          loadPath: [
+            'source/core/css/',
+            '/'
+          ]
         },
         files: {
-          'dist/css/global/global.css': 'source/core/css/global.scss',
-          'dist/css/medium/medium.css': 'source/core/css/medium.scss',
-          'dist/css/wide/wide.css': 'source/core/css/wide.scss'
+          'dist/css/global/global.css': 'tmp/global.scss',
+          'dist/css/medium/medium.css': 'tmp/medium.scss',
+          'dist/css/wide/wide.css':     'tmp/wide.scss'
         }
       }
     },
 
-    // Update 
     watch: {
       files: ['source/**/*.scss', 'source/**/*.js'],
       tasks: 'build'
@@ -134,8 +113,11 @@ module.exports = function(grunt) {
       main: {
         files: [
           // Copy any JS files not being concatenated.
-          {src: ['*.js', '!global.js', '!core-*.js'], dest: 'dist/js/',
+          {src: ['*.js', '!global.js', '!plugin.js'], dest: 'dist/js/',
             cwd: 'source/core/js/', expand: true},
+
+          // Copy the JS files from the module tmp folder into distribution
+          {src: ['*.js'], dest: 'dist/js/', cwd: 'tmp/', expand: true},
 
           // Copy any HTML example files across.
           {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true},
@@ -184,8 +166,13 @@ module.exports = function(grunt) {
     },
 
     // Clean the sass cache & distribution directories
-    clean: ["dist", ".sass-cache"]
+    clean: {
+      dist: ["dist", ".sass-cache"],
+      tmp:  ["tmp"]
+    }
   });
+
+  grunt.loadTasks('tasks');
 
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -198,7 +185,18 @@ module.exports = function(grunt) {
 
   // Tasks
   grunt.registerTask('reset', ['clean']);
-  grunt.registerTask('build', ['clean', 'sass', 'copy', 'concat', 'replace']);
-  grunt.registerTask('default', ['jshint', 'qunit', 'clean', 'sass', 'copy', 'concat', 'replace']);
+  grunt.registerTask('default', [
+    // Testing
+    'jshint',
+    'qunit',
+    // After test begin the build
+    'clean',
+    'module',
+    'sass',
+    'copy',
+    'replace',
+    // Clean up after the build
+    'clean:tmp'
+  ]);
 
 };
