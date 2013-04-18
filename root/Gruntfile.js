@@ -1,6 +1,21 @@
 /*global module:false, console:false*/
 module.exports = function(grunt) {
 
+  var modules = grunt.file.readJSON('modules.json');
+
+  // Gather glob patterns for each listed module. This is used in the copy
+  // pattern so only files from modules listed to be installed will be copied.
+  var moduleCSSFiles = {
+    global: [],
+    medium: [],
+    wide:   []
+  };
+  modules.forEach(function(name, i){
+    moduleCSSFiles.global.push(name + '/css/global/*.*');
+    moduleCSSFiles.medium.push(name + '/css/medium/*.*');
+    moduleCSSFiles.wide.push(name + '/css/wide/*.*');
+  });
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -11,15 +26,7 @@ module.exports = function(grunt) {
         // Add and remove module names from this array to decide which modules are
         // automatically included in the final build. Any associated JS plugins and CSS
         // will appear in a numbered format in the output.
-        modules: [
-          'breadcrumbs',
-          'button',
-          'overlay',
-          'skip_links',
-          'responsive_image',
-          'responsive_video',
-          'tabs'
-        ]
+        modules: modules
       }
     },
 
@@ -127,11 +134,11 @@ module.exports = function(grunt) {
           {src: ['*'], dest: 'dist/files/', cwd: 'source/core/files/', expand: true},
 
           // Copy any associated css files (images) into the correct location.
-          {src: ['**/css/global/*.png', '**/css/global/*.gif', '**/css/global/*.jpeg', '**/css/global/*.jpg'],
+          {src: moduleCSSFiles.global,
             dest: 'dist/css/global/files/', cwd: 'source/modules/', expand: true, flatten: true},
-          {src: ['**/css/medium/*.png', '**/css/medium/*.gif', '**/css/medium/*.jpeg', '**/css/medium/*.jpg'],
+          {src: moduleCSSFiles.medium,
             dest: 'dist/css/medium/files/', cwd: 'source/modules/', expand: true, flatten: true},
-          {src: ['**/css/wide/*.png', '**/css/wide/*.gif', '**/css/wide/*.jpeg', '**/css/wide/*.jpg'],
+          {src: moduleCSSFiles.wide,
             dest: 'dist/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
       }
@@ -187,8 +194,8 @@ module.exports = function(grunt) {
   grunt.registerTask('reset', ['clean']);
   grunt.registerTask('default', [
     // Testing
-    'jshint',
-    'qunit',
+    //'jshint',
+    //'qunit',
     // After test begin the build
     'clean',
     'module',
