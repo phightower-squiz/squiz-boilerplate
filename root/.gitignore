@@ -3,6 +3,8 @@
 dist/
 npm-debug.log
 node_modules/
+tmp/
+.sass-cache/
 
 # OS generated files #
 ######################
