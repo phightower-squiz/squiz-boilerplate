@@ -1,4 +1,5 @@
 ;(function($, undefined){
+    /*
     var Overlay = function(options) {
         var defaults = {
             content:   '',
@@ -36,4 +37,5 @@
             // overlay.show();
         }//end init()
     };//end overlay()
+    */
 }(jQuery));

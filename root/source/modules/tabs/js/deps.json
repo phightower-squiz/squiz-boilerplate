@@ -1,0 +1,6 @@
+{
+    "name": "tabs",
+    "dependencies": [
+        "underscore"
+    ]
+}

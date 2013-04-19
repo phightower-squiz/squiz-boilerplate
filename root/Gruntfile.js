@@ -130,6 +130,14 @@ module.exports = function(grunt) {
       }
     },
 
+    // Process plugin dependencies
+    plugins: {
+      dist: {
+        modules: modules,
+        dest: 'dist/js/plugins.js'
+      }
+    },
+
     // Replace keywords in the generated .js files.
     replace: keywordReplacements,
 
@@ -243,13 +251,8 @@ module.exports = function(grunt) {
 
   // Tasks
   grunt.registerTask('reset', ['clean']);
-  grunt.registerTask('build', ['clean', 'module', 'sass', 'copy', 'replace', 'clean:tmp']);
-  grunt.registerTask('default', [
-    // Testing
-    'jshint',
-    'qunit',
-    // After test begin the build
-    'build'
-  ]);
+  grunt.registerTask('test', ['jshint', 'qunit']);
+  grunt.registerTask('build', ['clean', 'module', 'sass', 'copy', 'replace', 'plugins', 'clean:tmp']);
+  grunt.registerTask('default', ['test', 'build']);
 
 };

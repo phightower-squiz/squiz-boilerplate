@@ -71,6 +71,7 @@ exports.template = function(grunt, init, done) {
       'grunt-contrib-watch': '*',
       'grunt-contrib-qunit': '*',
       'grunt-replace': '*',
+      'underscore': '~1.4.4',
       'grunt-contrib-sass': '*'
     };
     props.peerDependencies = {
