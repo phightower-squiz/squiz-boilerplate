@@ -1,6 +1,7 @@
 /*global module:false, console:false*/
 module.exports = function(grunt) {
 
+  // Bring in the list of modules from external source
   var modules = grunt.file.readJSON('modules.json');
 
   // Gather glob patterns for each listed module. This is used in the copy
@@ -10,29 +11,15 @@ module.exports = function(grunt) {
     medium: [],
     wide:   []
   };
-  modules.forEach(function(name, i){
-    moduleCSSFiles.global.push(name + '/css/global/*.*');
-    moduleCSSFiles.medium.push(name + '/css/medium/*.*');
-    moduleCSSFiles.wide.push(name + '/css/wide/*.*');
-  });
 
-  // Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+  // Some storage for arrays of information related to example files to generate for
+  // installed modules.
+  var exampleCSSFiles = {};
+  var exampleHTMLFiles = [];
 
-    // Combines known module patterns into prefined output into a temp directory
-    module: {
-      dist: {
-        // Add and remove module names from this array to decide which modules are
-        // automatically included in the final build. Any associated JS plugins and CSS
-        // will appear in a numbered format in the output.
-        modules: modules
-      }
-    },
-
-    // Replace keywords in the generated .js files.
-    replace: {
-      dist: {
+  // Some keyword replacements.
+  var keywordReplacements = {
+    dist: {
         options: {
           variables: {
             version: '<%= pkg.version %>',
@@ -89,7 +76,62 @@ module.exports = function(grunt) {
           dest: 'dist/css/wide/'}
         ]
       }
+    };
+
+  modules.forEach(function(name, i){
+    // A list of module CSS associated files (images) to supply to the copy task
+    moduleCSSFiles.global.push(name + '/css/global/*.*');
+    moduleCSSFiles.medium.push(name + '/css/medium/*.*');
+    moduleCSSFiles.wide.push(name + '/css/wide/*.*');
+
+    // A list of example sass files to compile into the final examples folder for each module.
+    for (var type in moduleCSSFiles) {
+      var exampleFile = 'source/modules/' + name + '/example/' + type + '.scss';
+      if (grunt.file.exists(exampleFile)) {
+        exampleCSSFiles['dist/examples/' + name + '/' + type + '.css'] = exampleFile;
+      }//end if
+    }//end for
+
+    var htmlFiles = grunt.file.expand('source/modules/' + name + '/html/*.html');
+    var exampleFiles = grunt.file.expand('source/modules/' + name + '/example/*.*');
+    if (htmlFiles.length && exampleFiles.length) {
+      // Create HTML examples
+      exampleHTMLFiles.push({src: ['*.html'], dest: 'dist/examples/' + name +'/',
+        cwd: 'source/core/example/', expand: true});
+
+      // Replace keywords in generate module example HTML files.
+      keywordReplacements['module_' + name] = {
+          options: {
+            variables: {
+              jsPath: "../../js/",
+              title: name + " Example",
+              content: grunt.file.read(htmlFiles)
+            }
+          },
+          files: [
+            {expand: true, flatten: true, src: ['dist/examples/' + name + '/*.html'],
+            dest: 'dist/examples/' + name + '/'}
+          ]
+        };
+    }
+  });
+
+  // Project configuration.
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+
+    // Combines known module patterns into prefined output into a temp directory
+    module: {
+      dist: {
+        // Add and remove module names from this array to decide which modules are
+        // automatically included in the final build. Any associated JS plugins and CSS
+        // will appear in a numbered format in the output.
+        modules: modules
+      }
     },
+
+    // Replace keywords in the generated .js files.
+    replace: keywordReplacements,
 
     sass: {
       dist: {
@@ -108,6 +150,12 @@ module.exports = function(grunt) {
           'dist/css/medium/medium.css': 'tmp/medium.scss',
           'dist/css/wide/wide.css':     'tmp/wide.scss'
         }
+      },
+      example: {
+        options: {
+          style: 'expanded'
+        },
+        files: exampleCSSFiles
       }
     },
 
@@ -126,9 +174,8 @@ module.exports = function(grunt) {
           // Copy the JS files from the module tmp folder into distribution
           {src: ['*.js'], dest: 'dist/js/', cwd: 'tmp/', expand: true},
 
-          // Copy any HTML example files across.
+          // Copy any HTML files across.
           {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true},
-          {src: ['**/html/*.html'], dest: 'dist/examples/', cwd: 'source/modules/', expand: true},
 
           // Copy any core files across.
           {src: ['*'], dest: 'dist/files/', cwd: 'source/core/files/', expand: true},
@@ -141,6 +188,9 @@ module.exports = function(grunt) {
           {src: moduleCSSFiles.wide,
             dest: 'dist/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
+      },
+      examples: {
+        files: exampleHTMLFiles
       }
     },
 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title>@@title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="../../global/global.css" />
+        <link rel="stylesheet" href="../../medium/medium.css" media="(min-width: 37.5em)" /><!-- 600px or higher (with font size set @ 16px) -->
+        <link rel="stylesheet" href="../../wide/wide.css" media="(min-width: 60em)" /><!-- 960px or higher (with font size set @ 16px) -->
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="../../medium/medium.css" />
+            <link rel="stylesheet" href="../../wide/wide.css" />
+        <![endif]-->
+
+        <!-- the example stylesheets -->
+        <link rel="stylesheet" href="global.css" />
+        <link rel="stylesheet" href="medium.css" media="(min-width: 37.5em)" />
+        <link rel="stylesheet" href="wide.css" media="(min-width: 60em)" />
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="medium.css" />
+            <link rel="stylesheet" href="wide.css" />
+        <![endif]-->
+
+        <script src="@@jsPath/modernizr.min.js"></script>
+    </head>
+    <!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+    <!--[if IE 7]><body class="no-js lt-ie9 lt-ie8"><![endif]-->
+    <!--[if IE 8]><body class="no-js lt-ie9"><![endif]-->
+    <!--[if gt IE 8]><!-->
+    <body class="no-js">
+      @@content
+      <script src="@@jsPath/jquery.min.js"></script>
+      <script src="@@jsPath/plugins.js"></script>
+      <script src="@@jsPath/global.js"></script>
+    </body>
+</html>
