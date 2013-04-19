@@ -86,14 +86,14 @@ module.exports = function(grunt) {
 
     // A list of example sass files to compile into the final examples folder for each module.
     for (var type in moduleCSSFiles) {
-      var exampleFile = 'source/modules/' + name + '/example/' + type + '.scss';
+      var exampleFile = 'source/modules/' + name + '/css/example-' + type + '.scss';
       if (grunt.file.exists(exampleFile)) {
         exampleCSSFiles['dist/examples/' + name + '/' + type + '.css'] = exampleFile;
       }//end if
     }//end for
 
     var htmlFiles = grunt.file.expand('source/modules/' + name + '/html/*.html');
-    var exampleFiles = grunt.file.expand('source/modules/' + name + '/example/*.*');
+    var exampleFiles = grunt.file.expand('source/modules/' + name + '/css/example*');
     if (htmlFiles.length && exampleFiles.length) {
       // Create HTML examples
       exampleHTMLFiles.push({src: ['*.html'], dest: 'dist/examples/' + name +'/',
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
       keywordReplacements['module_' + name] = {
           options: {
             variables: {
-              jsPath: "../../js/",
+              jsPath: "../../js",
               title: name + " Example",
               content: grunt.file.read(htmlFiles)
             }
@@ -243,18 +243,13 @@ module.exports = function(grunt) {
 
   // Tasks
   grunt.registerTask('reset', ['clean']);
+  grunt.registerTask('build', ['clean', 'module', 'sass', 'copy', 'replace', 'clean:tmp']);
   grunt.registerTask('default', [
     // Testing
     'jshint',
     'qunit',
     // After test begin the build
-    'clean',
-    'module',
-    'sass',
-    'copy',
-    'replace',
-    // Clean up after the build
-    'clean:tmp'
+    'build'
   ]);
 
 };
