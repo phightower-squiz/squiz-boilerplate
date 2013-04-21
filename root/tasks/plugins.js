@@ -20,6 +20,9 @@ module.exports = function(grunt) {
         // Keyword replacement
         keyword:     '@@dependencies',
 
+        // Dependency file name.
+        depFileName: 'plugin.json',
+
         // Separate each plugin file content output with a double new line.
         separator:   "\n\n",
 
@@ -45,7 +48,8 @@ module.exports = function(grunt) {
     var dependencies = [];
 
     // Initital population of the dependency array.
-    var libDeps = grunt.file.expand(options.libPath + '**/deps.json');
+    var libDeps = grunt.file.expand(options.libPath + '**/' +
+        options.depFileName);
     libDeps.forEach(function(file, i){
         var pathParts = file.split('/');
         var deps = grunt.file.readJSON(file);
@@ -54,7 +58,8 @@ module.exports = function(grunt) {
 
     // Iterate the menu and solve dependencies.
     this.data.modules.forEach(function(name, i){
-        var depFiles = grunt.file.expand(options.modulePath + name + '/js/deps.json');
+        var depFiles = grunt.file.expand(options.modulePath + name +
+            '/js/' + options.depFileName);
         depFiles.forEach(function(file, i){
             var pathParts = file.split('/');
             moduleDeps[name] = grunt.file.readJSON(file);
@@ -66,7 +71,8 @@ module.exports = function(grunt) {
                 dependencies = dependencies.concat(moduleDeps[name].dependencies);
 
                 moduleDeps[name].dependencies.forEach(function(dep){
-                    if (_(libraryDeps).has(dep) && _(libraryDeps[dep]).has('dependencies')) {
+                    if (_(libraryDeps).has(dep) &&
+                        _(libraryDeps[dep]).has('dependencies')) {
                         dependencies = dependencies.concat(libraryDeps[dep].dependencies);
                     }//end if
                 });
