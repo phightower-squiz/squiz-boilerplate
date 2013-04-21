@@ -1,7 +1,7 @@
 /*global module:false, console:false*/
 module.exports = function(grunt) {
 
-  // Bring in the list of modules from external source
+  // Bring in the list of modules from external source.
   var modules = grunt.file.readJSON('modules.json');
 
   // Gather glob patterns for each listed module. This is used in the copy
@@ -12,89 +12,81 @@ module.exports = function(grunt) {
     wide:   []
   };
 
-  // Some storage for arrays of information related to example files to generate for
-  // installed modules.
-  var exampleCSSFiles = {};
-  var exampleHTMLFiles = [];
-
-  // Some keyword replacements.
+  // Some keyword replacements that the example generation can append to.
   var keywordReplacements = {
     dist: {
-        options: {
-          variables: {
-            version: '<%= pkg.version %>',
-            date:    '<%= grunt.template.today() %>'
-          }
-        },
-        files: [
-          {expand: true, flatten: true, src: ['dist/js/global.js', 'dist/js/plugins.js'],
-            dest: 'dist/js/'},
-          {src: ['**/*.css'], dest: 'dist/css/', cwd: 'dist/css/',
-            expand: true, flatten: false}
-        ]
+      options: {
+        variables: {
+          version: '<%= pkg.version %>',
+          date:    '<%= grunt.template.today() %>'
+        }
       },
-
-      // Global CSS module numbering system
-      global_css: {
-        options: {
-          variables: {
-            num: "5"
-          }
-        },
-        files: [
-          {expand: true, flatten: true, src: ['dist/css/global/global.css'],
-          dest: 'dist/css/global/'}
-        ]
-      },
-
-      // Global JS module numbering system
-      global_js: {
-        options: {
-          variables: {
-            num: "2"
-          }
-        },
-        files: [
-          {expand: true, flatten: true, src: ['dist/js/global.js'],
-          dest: 'dist/js/'}
-        ]
-      },
-
-      // Other files module numbering system
-      others: {
-        options: {
-          variables: {
-            num: "1"
-          }
-        },
-        files: [
-          {expand: true, flatten: true, src: ['dist/js/plugins.js'],
+      files: [
+        {expand: true, flatten: true, src: ['dist/js/global.js', 'dist/js/plugins.js'],
           dest: 'dist/js/'},
-          {expand: true, flatten: true, src: ['dist/css/medium/*.css'],
-          dest: 'dist/css/medium/'},
-          {expand: true, flatten: true, src: ['dist/css/wide/*.css'],
-          dest: 'dist/css/wide/'}
-        ]
-      }
-    };
+        {src: ['**/*.css'], dest: 'dist/css/', cwd: 'dist/css/',
+          expand: true, flatten: false}
+      ]
+    },
+
+    // Global CSS module numbering system
+    global_css: {
+      options: {
+        variables: {
+          num: "5"
+        }
+      },
+      files: [
+        {expand: true, flatten: true, src: ['dist/css/global/global.css'],
+        dest: 'dist/css/global/'}
+      ]
+    },
+
+    // Global JS module numbering system
+    global_js: {
+      options: {
+        variables: {
+          num: "2"
+        }
+      },
+      files: [
+        {expand: true, flatten: true, src: ['dist/js/global.js'],
+        dest: 'dist/js/'}
+      ]
+    },
+
+    // Other files module numbering system
+    others: {
+      options: {
+        variables: {
+          num: "1"
+        }
+      },
+      files: [
+        {expand: true, flatten: true, src: ['dist/js/plugins.js'],
+        dest: 'dist/js/'},
+        {expand: true, flatten: true, src: ['dist/css/medium/*.css'],
+        dest: 'dist/css/medium/'},
+        {expand: true, flatten: true, src: ['dist/css/wide/*.css'],
+        dest: 'dist/css/wide/'}
+      ]
+    }
+  };
+
+
+  // Some storage for arrays of information related to example files to generate for
+  // installed modules.
+  var exampleHTMLFiles = [];
 
   modules.forEach(function(name, i){
     // A list of module CSS associated files (images) to supply to the copy task
+    // Performing this logic here ensures only installed module files are copied.
     moduleCSSFiles.global.push(name + '/css/global/*.*');
     moduleCSSFiles.medium.push(name + '/css/medium/*.*');
     moduleCSSFiles.wide.push(name + '/css/wide/*.*');
 
-    // A list of example sass files to compile into the final examples folder for each module.
-    for (var type in moduleCSSFiles) {
-      var exampleFile = 'source/modules/' + name + '/css/example-' + type + '.scss';
-      if (grunt.file.exists(exampleFile)) {
-        exampleCSSFiles['dist/examples/' + name + '/' + type + '.css'] = exampleFile;
-      }//end if
-    }//end for
-
     var htmlFiles = grunt.file.expand('source/modules/' + name + '/html/*.html');
-    var exampleFiles = grunt.file.expand('source/modules/' + name + '/css/example*');
-    if (htmlFiles.length && exampleFiles.length) {
+    if (htmlFiles.length) {
       // Create HTML examples
       exampleHTMLFiles.push({src: ['*.html'], dest: 'dist/examples/' + name +'/',
         cwd: 'source/core/example/', expand: true});
@@ -113,7 +105,7 @@ module.exports = function(grunt) {
             dest: 'dist/examples/' + name + '/'}
           ]
         };
-    }
+    }//end if
   });
 
   // Project configuration.
@@ -158,12 +150,6 @@ module.exports = function(grunt) {
           'dist/css/medium/medium.css': 'tmp/medium.scss',
           'dist/css/wide/wide.css':     'tmp/wide.scss'
         }
-      },
-      example: {
-        options: {
-          style: 'expanded'
-        },
-        files: exampleCSSFiles
       }
     },
 
@@ -196,9 +182,6 @@ module.exports = function(grunt) {
           {src: moduleCSSFiles.wide,
             dest: 'dist/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
-      },
-      examples: {
-        files: exampleHTMLFiles
       }
     },
 
