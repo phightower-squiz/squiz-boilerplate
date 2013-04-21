@@ -50,10 +50,6 @@ module.exports = function(grunt) {
         var pathParts = file.split('/');
         var deps = grunt.file.readJSON(file);
         libraryDeps[deps.name] = deps;
-        dependencies.push(deps.name);
-        if (deps.hasOwnProperty('dependencies') && Array.isArray(deps.dependencies)) {
-            dependencies = dependencies.concat(deps.dependencies);
-        }//end if
     });
 
     // Iterate the menu and solve dependencies.
@@ -62,7 +58,19 @@ module.exports = function(grunt) {
         depFiles.forEach(function(file, i){
             var pathParts = file.split('/');
             moduleDeps[name] = grunt.file.readJSON(file);
-            dependencies.concat(moduleDeps[name].dependencies);
+
+            // Find any relevant library dependencies
+            if (_(moduleDeps[name]).has('dependencies') &&
+                _.isArray(moduleDeps[name].depedencies)) {
+
+                dependencies = dependencies.concat(moduleDeps[name].dependencies);
+
+                moduleDeps[name].dependencies.forEach(function(dep){
+                    if (_(libraryDeps).has(dep) && _(libraryDeps[dep]).has('dependencies')) {
+                        dependencies = dependencies.concat(libraryDeps[dep].dependencies);
+                    }//end if
+                });
+            }//end if
         });
     });
 

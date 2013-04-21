@@ -4,3 +4,7 @@
 @import "../../../core/css/common/example.scss";
 
 /* Custom Tabs CSS */
+
+body {
+    padding: $example-default-padding;
+}
