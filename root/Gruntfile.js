@@ -130,6 +130,18 @@ module.exports = function(grunt) {
       }
     },
 
+    // Automatic minification for known targets
+    uglify: {
+      custom_plugins: {
+        options: {
+          banner: "/* Generated: <%= grunt.template.today('yyyy-mm-dd') %> */\n"
+        },
+        files: {
+          'source/modules/overlay/js/plugin.min.js': 'source/modules/overlay/lib/overlay.js'
+        }
+      }
+    },
+
     // Replace keywords in the generated .js files.
     replace: keywordReplacements,
 
@@ -182,6 +194,9 @@ module.exports = function(grunt) {
           {src: moduleCSSFiles.wide,
             dest: 'dist/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
+      },
+      examples: {
+        files: exampleHTMLFiles
       }
     },
 
@@ -211,7 +226,10 @@ module.exports = function(grunt) {
 
     // Unit tests that require the DOM
     qunit: {
-      all: ['source/modules/**/tests/*.html']
+      all: [
+        'source/modules/**/tests/*.html',
+        'source/libs/**/tests/*.html'
+      ]
     },
 
     // Clean the sass cache & distribution directories
@@ -230,12 +248,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-replace');
 
   // Tasks
   grunt.registerTask('reset', ['clean']);
   grunt.registerTask('test', ['jshint', 'qunit']);
-  grunt.registerTask('build', ['clean', 'module', 'sass', 'copy', 'replace', 'plugins', 'clean:tmp']);
+  grunt.registerTask('build', ['uglify:custom_plugins', 'clean', 'module', 'sass', 'copy', 'replace', 'plugins', 'clean:tmp']);
   grunt.registerTask('default', ['test', 'build']);
 
 };

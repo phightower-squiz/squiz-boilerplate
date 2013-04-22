@@ -70,9 +70,10 @@ exports.template = function(grunt, init, done) {
       'grunt-contrib-jshint': '*',
       'grunt-contrib-watch': '*',
       'grunt-contrib-qunit': '*',
+      'grunt-contrib-sass': '*',
+      'grunt-contrib-uglify': '*',
       'grunt-replace': '*',
-      'underscore': '~1.4.4',
-      'grunt-contrib-sass': '*'
+      'underscore': '~1.4.4'
     };
     props.peerDependencies = {
       'grunt': props.grunt_version
