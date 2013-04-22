@@ -52,6 +52,13 @@
   width: auto;
 }
 
+// Inline-block display mixin that works on older IE
+@mixin inline-block() {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+
 // Add border box setting to an element.
 // http://paulirish.com/2012/box-sizing-border-box-ftw/
 @mixin border-box() {

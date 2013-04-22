@@ -1,13 +1,16 @@
 .button {
   text-decoration: none;
   display: block;
-  background-color: $button-background;
-  color: $button-text;
+  background-color: $basic-colour;
+  color: $base-font-colour;
+  padding: $default-padding/2;
+  @include inline-block();
+  @include border-radius(4px);
 }
 
 .button:active,
 .button:focus,
 .button:hover {
-  background-color: $button-background-hover;
-  color: $button-text-hover;
+  background-color: $highlight-colour;
+  color: $highlight-text-colour;
 }
