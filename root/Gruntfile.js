@@ -77,6 +77,7 @@ module.exports = function(grunt) {
   // Some storage for arrays of information related to example files to generate for
   // installed modules.
   var exampleHTMLFiles = [];
+  var exampleMatrixFiles = [];
 
   modules.forEach(function(name, i){
     // A list of module CSS associated files (images) to supply to the copy task
@@ -84,6 +85,13 @@ module.exports = function(grunt) {
     moduleCSSFiles.global.push(name + '/css/global/*.*');
     moduleCSSFiles.medium.push(name + '/css/medium/*.*');
     moduleCSSFiles.wide.push(name + '/css/wide/*.*');
+
+    // Gather any matrix parse file examples.
+    var matrixFiles = grunt.file.expand('source/modules/' + name + '/matrix/parse*.html');
+    if (matrixFiles.length) {
+      exampleMatrixFiles.push({src: [matrixFiles], dest: 'dist/examples/' + name +'/',
+         flatten: true, expand: true});
+    }//end if
 
     var htmlFiles = grunt.file.expand('source/modules/' + name + '/html/*.html');
     if (htmlFiles.length) {
@@ -194,6 +202,10 @@ module.exports = function(grunt) {
           {src: moduleCSSFiles.wide,
             dest: 'dist/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
+      },
+      // Copy any matrix parse files into relevant example folders
+      matrix: {
+        files: exampleMatrixFiles
       },
       examples: {
         files: exampleHTMLFiles

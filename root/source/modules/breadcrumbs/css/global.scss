@@ -9,3 +9,9 @@
 .breadcrumbs-float .breadcrumbs-item {
     float: left;
 }
+
+.breadcrumbs-separator:after {
+    content: "/";
+    color: $base-font-colour;
+    padding: 0 $default-padding;
+}
