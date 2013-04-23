@@ -1,21 +1,21 @@
 <p>Horizontal tabs example:</p>
 
-<div class="tabs">
-  <ul class="tabs-nav-list">
-    <li class="tabs-nav-item tabs-nav-item-first"><a class="tabs-nav-link" href="#tab1">Tab 1</a></li>
-    <li class="tabs-nav-item"><a class="tabs-nav-link" href="#tab2">Tab 2</a></li>
-    <li class="tabs-nav-item tabs-nav-item-last"><a class="tabs-nav-link" href="#tab3">Tab 3</a></li>
+<div class="tabs" role="tabpanel">
+  <ul class="tabs-nav-list" role="tablist">
+    <li class="tabs-nav-item tabs-nav-item-first" role="tab"><a class="tabs-nav-link" href="#tab1">Tab 1</a></li>
+    <li class="tabs-nav-item" role="tab"><a class="tabs-nav-link" href="#tab2">Tab 2</a></li>
+    <li class="tabs-nav-item tabs-nav-item-last" role="tab"><a class="tabs-nav-link" href="#tab3">Tab 3</a></li>
   </ul>
   <div class="tabs-panel">
-    <div class="tabs-panel-item" id="tab1">
+    <div class="tabs-panel-item" id="tab1" role="tabpanel" aria-labelledby="tab1">
       <h1>Tab #1</h1>
       <p>Lorem ipsum dolor</p>
     </div>
-    <div class="tabs-panel-item" id="tab2">
+    <div class="tabs-panel-item" id="tab2" role="tabpanel" aria-labelledby="tab2">
       <h1>Tab #2</h1>
       <p>Lorem ipsum dolor</p>
     </div>
-    <div class="tabs-panel-item" id="tab3">
+    <div class="tabs-panel-item" id="tab3" role="tabpanel" aria-labelledby="tab3">
       <h1>Tab #3</h1>
       <p>Lorem ipsum dolor</p>
     </div>
@@ -24,23 +24,23 @@
 
 <p>Vertical tabs example:</p>
 
-<div class="tabs tabs-vertical">
-  <ul class="tabs-nav-list">
-    <li class="tabs-nav-item tabs-nav-item-first"><a class="tabs-nav-link" href="#tab4">Tab 1</a></li>
-    <li class="tabs-nav-item"><a class="tabs-nav-link" href="#tab5">Tab 2</a></li>
-    <li class="tabs-nav-item tabs-nav-item-last"><a class="tabs-nav-link" href="#tab6">Tab 3</a></li>
+<div class="tabs tabs-vertical" role="tabpanel">
+  <ul class="tabs-nav-list" role="tablist">
+    <li class="tabs-nav-item tabs-nav-item-first" role="tab"><a class="tabs-nav-link" href="#tab4">Tab 4</a></li>
+    <li class="tabs-nav-item" role="tab"><a class="tabs-nav-link" href="#tab5">Tab 5</a></li>
+    <li class="tabs-nav-item tabs-nav-item-last" role="tab"><a class="tabs-nav-link" href="#tab6">Tab 6</a></li>
   </ul>
   <div class="tabs-panel">
-    <div class="tabs-panel-item" id="tab4">
-      <h1>Tab #1</h1>
+    <div class="tabs-panel-item" id="tab4" role="tabpanel" aria-labelledby="tab4">
+      <h1>Tab #4</h1>
       <p>Lorem ipsum dolor</p>
     </div>
-    <div class="tabs-panel-item" id="tab5">
-      <h1>Tab #2</h1>
+    <div class="tabs-panel-item" id="tab5" role="tabpanel" aria-labelledby="tab5">
+      <h1>Tab #5</h1>
       <p>Lorem ipsum dolor</p>
     </div>
-    <div class="tabs-panel-item" id="tab6">
-      <h1>Tab #3</h1>
+    <div class="tabs-panel-item" id="tab6" role="tabpanel" aria-labelledby="tab6">
+      <h1>Tab #6</h1>
       <p>Lorem ipsum dolor</p>
     </div>
   </div>
