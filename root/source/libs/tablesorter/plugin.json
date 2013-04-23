@@ -1,4 +1,4 @@
 {
     "name": "tablesorter",
-    "main": "js/jquery.tablesorter.js"
+    "main": "js/jquery.tablesorter.min.js"
 }
