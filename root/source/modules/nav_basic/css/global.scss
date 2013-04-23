@@ -1,0 +1,25 @@
+.nav-basic-list {
+    @include list-reset();
+}
+
+.nav-basic-right .nav-basic-list {
+    float: right;
+}
+
+.nav-basic-item {
+    float: left;
+    @include inline-block();
+    width: 100%;
+}
+
+.nav-basic-item-link {
+    display: block;
+    padding: $default-padding/2 $default-padding;
+    background: $basic-colour;
+}
+
+.nav-basic-item-link:hover,
+.nav-basic-item-link:focus {
+    background: $highlight-colour;
+    color: $highlight-text-colour;
+}
