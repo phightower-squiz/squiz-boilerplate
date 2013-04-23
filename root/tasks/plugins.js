@@ -66,7 +66,7 @@ module.exports = function(grunt) {
 
             // Find any relevant library dependencies
             if (_(moduleDeps[name]).has('dependencies') &&
-                _.isArray(moduleDeps[name].depedencies)) {
+                _.isArray(moduleDeps[name].dependencies)) {
 
                 dependencies = dependencies.concat(moduleDeps[name].dependencies);
 
