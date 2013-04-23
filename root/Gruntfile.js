@@ -78,6 +78,7 @@ module.exports = function(grunt) {
   // installed modules.
   var exampleHTMLFiles = [];
   var exampleMatrixFiles = [];
+  var exampleAssociatedFiles = [];
 
   modules.forEach(function(name, i){
     // A list of module CSS associated files (images) to supply to the copy task
@@ -96,7 +97,7 @@ module.exports = function(grunt) {
     var htmlFiles = grunt.file.expand('source/modules/' + name + '/html/*.html');
     if (htmlFiles.length) {
       // Create HTML examples
-      exampleHTMLFiles.push({src: ['*.html'], dest: 'dist/examples/' + name +'/',
+      exampleHTMLFiles.push({src: ['index.html'], dest: 'dist/examples/' + name +'/',
         cwd: 'source/core/example/', expand: true});
 
       // Replace keywords in generate module example HTML files.
@@ -114,6 +115,13 @@ module.exports = function(grunt) {
           ]
         };
     }//end if
+
+    var associatedFiles = grunt.file.expand('source/modules/' + name + '/files/*.*');
+    if (associatedFiles.length) {
+      // Create HTML examples
+      exampleAssociatedFiles.push({src: ['*.*'], dest: 'dist/examples/' + name +'/files/',
+        cwd: 'source/modules/' + name + '/files/', expand: true});
+    }
   });
 
   // Project configuration.
@@ -210,6 +218,10 @@ module.exports = function(grunt) {
       },
       examples: {
         files: exampleHTMLFiles
+      },
+      // Any associated files from <module>/files/*.*
+      associated: {
+        files: exampleAssociatedFiles
       }
     },
 
