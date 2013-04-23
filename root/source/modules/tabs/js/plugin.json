@@ -1,3 +1,6 @@
 {
-    "name": "tabs"
+    "name": "tabs",
+    "dependencies": [
+        "tabbedcontent"
+    ]
 }
