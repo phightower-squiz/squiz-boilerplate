@@ -1,4 +1,5 @@
 ;(function($){
+    'use strict';
     // Add a link wrapping in the table header
     var addHeaderLink = function($th) {
         var $container = $th.find('.tablesorter-header-inner');

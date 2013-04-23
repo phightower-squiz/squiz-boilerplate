@@ -1,4 +1,5 @@
 ;(function($){
+    'use strict';
     $(document).ready(function(){
         $('.tabs').each(function(){
             var $container = $(this);

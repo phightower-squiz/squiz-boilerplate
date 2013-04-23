@@ -24,14 +24,17 @@
 --------------------
 */
 
-var $ = jQuery.noConflict();
-
-/*-- 1.1 Core Init Functions --*/
-$(document).ready(function(){
+;(function($){
     'use strict';
-    //  Declare JS Enabled.
-    $('body').removeClass('no-js').addClass('js-enabled');
-});
+
+    /*-- 1.1 Core Init Functions --*/
+    $(document).ready(function(){
+        'use strict';
+        //  Declare JS Enabled.
+        $('body').removeClass('no-js').addClass('js-enabled');
+    });
+}(jQuery));
+
 
 /*
 --------------------
