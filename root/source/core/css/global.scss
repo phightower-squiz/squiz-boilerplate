@@ -15,10 +15,7 @@
  * 1. Reset
  * 2. Utilities
  * 3. General
- * 4. Responsive
- *    4.1. Images
- *    4.2. Video
- * 5. Modules
+ * 4. Modules
 @@toc
  */
 
@@ -50,18 +47,11 @@
 
 @import "common/links.scss";
 @import "common/content.scss";
-
-/*
---------------------
-4. Responsive
---------------------
-*/
-
 @import "common/responsive.scss";
 
 /*
 --------------------
-5. Modules
+4. Modules
 --------------------
 */
 

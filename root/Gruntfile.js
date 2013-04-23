@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     global_css: {
       options: {
         variables: {
-          num: "5"
+          num: "4"
         }
       },
       files: [
