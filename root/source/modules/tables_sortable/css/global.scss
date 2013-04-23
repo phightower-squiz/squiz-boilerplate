@@ -1,0 +1,26 @@
+// Sortable tables
+.table-sortable .tablesorter-header {
+    padding: 0;
+}
+
+.table-sortable-header-link {
+    width: 100%;
+    display: block;
+    padding: $default-padding/2 $default-padding;
+    @include border-box();
+}
+
+.table-sortable-header-link:hover,
+.table-sortable-header-link:focus,
+.tablesorter-headerAsc  .table-sortable-header-link,
+.tablesorter-headerDesc  .table-sortable-header-link {
+    background-color: $button-background-hover;
+}
+
+.tablesorter-headerAsc  .table-sortable-header-link:after {
+    content: " (ASC)";
+}
+
+.tablesorter-headerDesc  .table-sortable-header-link:after {
+    content: " (DESC)";
+}

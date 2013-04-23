@@ -1,0 +1,6 @@
+{
+    "name": "tables_sortable",
+    "dependencies": [
+        "tablesorter"
+    ]
+}

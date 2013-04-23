@@ -145,7 +145,8 @@ module.exports = function(grunt) {
           banner: "/* Generated: <%= grunt.template.today('yyyy-mm-dd') %> */\n"
         },
         files: {
-          'source/modules/overlay/js/plugin.min.js': 'source/modules/overlay/lib/overlay.js'
+          'source/modules/overlay/js/plugin.min.js': 'source/modules/overlay/lib/overlay.js',
+          'source/modules/tables_sortable/js/plugin.min.js': 'source/modules/tables_sortable/lib/*.js'
         }
       }
     },
