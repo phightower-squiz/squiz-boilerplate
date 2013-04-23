@@ -6,5 +6,7 @@
   "responsive_image",
   "responsive_video",
   "tabs",
-  "tables"
+  "tables",
+  "tables_sortable",
+  "nav_basic"
 ]

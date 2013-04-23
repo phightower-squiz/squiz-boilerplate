@@ -19,7 +19,8 @@
 }
 
 .nav-basic-item-link:hover,
-.nav-basic-item-link:focus {
+.nav-basic-item-link:focus,
+.nav-basic-item-current {
     background: $highlight-colour;
     color: $highlight-text-colour;
 }
