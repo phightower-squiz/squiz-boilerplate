@@ -10,11 +10,22 @@
         $container.append($link);
 
         $link.on('click', function(e){
-            var evt = new jQuery.Event('mousedown.tablesorter');
-            evt.which = 1;
-            evt.type  = 'sort';
-            $th.trigger(evt);
+            e.which = 1;
+            e.type  = 'sort';
         });
+
+        // Add keyboard accessibility to the link
+        $link.on('keyup', function(e){
+            // Keyup on the link registers as a click
+            if (e.which === 13) {
+                var evt = new jQuery.Event('mouseup.tablesorter ');
+                evt.which = 1;
+                evt.type  = 'sort';
+                e.stopPropagation();
+                $th.trigger(evt);
+            }//end if
+        });
+
     };//end addHeaderLink
 
     $(document).ready(function(){
