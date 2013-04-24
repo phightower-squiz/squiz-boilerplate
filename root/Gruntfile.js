@@ -183,7 +183,7 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: ['source/**/*.scss', 'source/**/*.js'],
+      files: ['source/**/*.scss', 'source/**/*.js', 'source/**/*.html'],
       tasks: 'build'
     },
 
@@ -259,7 +259,7 @@ module.exports = function(grunt) {
 
     // Clean the sass cache & distribution directories
     clean: {
-      dist: ["dist", ".sass-cache"],
+      dist: ["dist"], // This one will remove all dist files, be careful with it.
       tmp:  ["tmp"]
     }
   });
@@ -279,7 +279,7 @@ module.exports = function(grunt) {
   // Tasks
   grunt.registerTask('reset', ['clean']);
   grunt.registerTask('test', ['jshint', 'qunit']);
-  grunt.registerTask('build', ['uglify:custom_plugins', 'clean', 'module', 'sass', 'copy', 'replace', 'plugins', 'clean:tmp']);
+  grunt.registerTask('build', ['uglify:custom_plugins', 'module', 'sass', 'copy', 'replace', 'plugins', 'clean:tmp']);
   grunt.registerTask('default', ['test', 'build']);
 
 };
