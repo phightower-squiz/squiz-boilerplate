@@ -1,0 +1,53 @@
+.quick-search {
+    width: 100%;
+    position: relative;
+    @include clearfix();
+}
+
+.quick-search-form {
+    margin: 0;
+    padding: 0;
+}
+
+// Search field
+.quick-search-field {
+    width: 100%;
+    float: left;
+}
+
+.quick-search-field-input {
+    border: 1px solid $basic-colour;
+    text-indent: $default-padding/2;
+    line-height: $default-padding*2;
+    color: lighten($base-font-colour, 20%);
+    width: 100%;
+    display: block;
+    padding: $default-padding/2 0;
+}
+
+.quick-search-field-input:focus {
+    color: darken($base-font-colour, 20%);
+    background-color: lighten($basic-colour, 20%);
+}
+
+// Submit Button
+.quick-search-submit-button {
+    right: -1px; // Accounts for the border
+    position: absolute;
+}
+
+.quick-search-submit-button-input {
+    border: 0;
+    display: block;
+    padding: $default-padding/2 $default-padding;
+    background: $highlight-colour;
+    border: 1px solid $highlight-colour;
+    color: $highlight-text-colour;
+    text-align: center;
+    line-height: $default-padding*2;
+}
+
+.quick-search-submit-button-input:hover,
+.quick-search-submit-button-input:focus {
+    background: darken($highlight-colour, 10%);
+}
