@@ -52,6 +52,13 @@
   width: auto;
 }
 
+// Transition shortcut
+@mixin transition($args: all 1s ease) {
+    -webkit-transition: $args;
+       -moz-transition: $args;
+            transition: $args;
+}
+
 // Inline-block display mixin that works on older IE
 @mixin inline-block() {
   display: inline-block;

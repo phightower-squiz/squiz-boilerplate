@@ -13,7 +13,6 @@ The following is a list of modules that need have solutions created
 Necessary:
 * Nav - Mega Menu
 * Nav - Secondary Nav
-* Nav - mobile button solution
 * Quick Search Box
 * Light Box Overlay
 * SlideShow/Carousels (add flexslider to libs)
