@@ -1,3 +1,12 @@
 .nav-basic-item {
     width: auto;
 }
+
+// Menu toggling is not necessary on larger screens
+.nav-basic-menu-toggle {
+    display: none;
+}
+
+.nav-basic-list-menu-toggle-inactive {
+    @include screen-show();
+}

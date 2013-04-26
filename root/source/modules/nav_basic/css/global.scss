@@ -24,3 +24,27 @@
     background: $highlight-colour;
     color: $highlight-text-colour;
 }
+
+// Nav small screen toggle menu
+.nav-basic-menu-toggle,
+.nav-basic-menu-toggle:active,
+.nav-basic-menu-toggle:visited {
+    display: block;
+    padding: $default-padding/2 $default-padding;
+    background: $highlight-colour;
+    color: $highlight-text-colour;
+}
+
+.nav-basic-menu-toggle:hover,
+.nav-basic-menu-toggle:focus {
+    background: darken($highlight-colour, 20%);
+}
+
+// Replace this style with the visual representation of a closed menu.
+.nav-basic-menu-toggle-active:after {
+    content: " (COLLAPSED)";
+}
+
+.nav-basic-list-menu-toggle-inactive {
+    @include screen-hide();
+}
