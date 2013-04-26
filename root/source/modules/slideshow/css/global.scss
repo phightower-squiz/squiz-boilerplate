@@ -1,0 +1,81 @@
+.slideshow {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    border: 1px solid $basic-colour;
+}
+
+.slideshow-slides {
+    @include list-reset();
+    @include clearfix();
+}
+
+.slideshow-slide-image {
+    width: 100%;
+    display: block;
+}
+
+.slideshow-slide {
+    position: relative;
+}
+
+.slideshow-slide-summary {
+    background: rgba(0,0,0, 0.4);
+    color: $highlight-text-colour;
+    position: absolute;
+    bottom: 0;
+    padding: $default-padding;
+    width: auto;
+}
+
+// This part has to use descendent selectors, imposed by the output of flexslider
+// default navigation options.
+.slideshow-nav a,
+.slideshow-nav a:active,
+.slideshow-nav a:visited {
+    background: lighten($highlight-colour, 10%);
+    color: $highlight-text-colour;
+    display: block;
+    padding: $default-padding/2;
+}
+
+.slideshow-nav a:hover,
+.slideshow-nav a:focus {
+    background: $highlight-colour;
+}
+
+.flex-control-nav,
+.flex-direction-nav {
+    float: left;
+    @include list-reset();
+}
+
+.slideshow-nav li {
+    @include inline-block();
+    margin-left: 1px;
+}
+
+.slideshow-nav a {
+    cursor: pointer;
+}
+
+.flex-control-nav a.flex-active {
+    background: lighten($highlight-colour, 80%);
+    color: $base-font-colour;
+}
+
+.flex-pauseplay {
+    float: left;
+    margin-left: 1px;
+}
+
+.flex-pause,
+.flex-play {
+    // Play pause styles
+}
+
+.flex-viewport {
+    max-height: 2000px;
+    clear: left;
+    @include transition(all 1s ease);
+}

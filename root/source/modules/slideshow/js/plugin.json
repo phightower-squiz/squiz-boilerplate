@@ -1,0 +1,6 @@
+{
+    "name": "slideshow",
+    "dependencies": [
+        "flexslider"
+    ]
+}
