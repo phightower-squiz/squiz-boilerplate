@@ -79,6 +79,7 @@ module.exports = function(grunt) {
   var exampleHTMLFiles = [];
   var exampleMatrixFiles = [];
   var exampleAssociatedFiles = [];
+  var keywordFileReplacements = {};
 
   modules.forEach(function(name, i){
     // A list of module CSS associated files (images) to supply to the copy task
@@ -100,13 +101,18 @@ module.exports = function(grunt) {
       exampleHTMLFiles.push({src: ['index.html'], dest: 'dist/examples/' + name +'/',
         cwd: 'source/core/example/', expand: true});
 
+      var combinedHTML = '';
+      htmlFiles.forEach(function(file){
+        combinedHTML += grunt.file.read(file);
+      });
+
       // Replace keywords in generate module example HTML files.
       keywordReplacements['module_' + name] = {
           options: {
             variables: {
               jsPath: "../../js",
               title: name + " Example",
-              content: grunt.file.read(htmlFiles)
+              content: combinedHTML
             }
           },
           files: [
@@ -114,6 +120,15 @@ module.exports = function(grunt) {
             dest: 'dist/examples/' + name + '/'}
           ]
         };
+
+      // Keyword replacements for module html content in final file generation.
+      htmlFiles.forEach(function(file){
+        if (grunt.file.exists(file)) {
+          var fileName = file.split('/').pop().split('.').shift();
+          var keywordName = 'module_' + name + '--' + fileName;
+          keywordFileReplacements[keywordName] = grunt.file.read(file);
+        }//end if
+      });
     }//end if
 
     var associatedFiles = grunt.file.expand('source/modules/' + name + '/files/*.*');
@@ -123,6 +138,17 @@ module.exports = function(grunt) {
         cwd: 'source/modules/' + name + '/files/', expand: true});
     }
   });
+
+  // Generic HTML keyword replacement for module html
+  keywordReplacements['module_generic_html'] = {
+    options: {
+      variables: keywordFileReplacements
+    },
+    files: [
+      {expand: true, flatten: true, src: ['dist/*.html'],
+            dest: 'dist/'}
+    ]
+  };
 
   // Project configuration.
   grunt.initConfig({
@@ -274,12 +300,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+
+  // Non contrib npm tasks
   grunt.loadNpmTasks('grunt-replace');
 
   // Tasks
   grunt.registerTask('reset', ['clean']);
   grunt.registerTask('test', ['jshint', 'qunit']);
-  grunt.registerTask('build', ['uglify:custom_plugins', 'module', 'sass', 'copy', 'replace', 'plugins', 'clean:tmp']);
+  grunt.registerTask('build', ['uglify:custom_plugins', 'module', 'sass', 'copy',
+    'replace', 'plugins', 'clean:tmp']);
   grunt.registerTask('default', ['test', 'build']);
 
 };
