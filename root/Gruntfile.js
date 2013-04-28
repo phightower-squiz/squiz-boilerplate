@@ -4,6 +4,13 @@ module.exports = function(grunt) {
   // Bring in the list of modules from external source.
   var modules = grunt.file.readJSON('modules.json');
 
+  // The selected modules can be overwritten by using:
+  // --modules=<module1>,<module2>
+  var userModules = grunt.option('modules') || '';
+  if (userModules !== '') {
+    modules = userModules.split(',');
+  }//end if
+
   // Gather glob patterns for each listed module. This is used in the copy
   // pattern so only files from modules listed to be installed will be copied.
   var moduleCSSFiles = {
