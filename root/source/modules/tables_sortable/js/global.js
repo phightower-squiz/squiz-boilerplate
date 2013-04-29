@@ -10,6 +10,7 @@
         $container.append($link);
 
         $link.on('click', function(e){
+            e.preventDefault();
             e.which = 1;
             e.type  = 'sort';
         });

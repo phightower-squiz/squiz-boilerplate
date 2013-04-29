@@ -88,7 +88,7 @@ exports.template = function(grunt, init, done) {
     // Sort out image files, they need to be separated from the
     // process function
     init.copyAndProcess(files, props, {
-      noProcess: ['*.png', '*.jpg', '*.jpeg', '*.gif']
+      noProcess: ['*.png', '*.jpg', '*.jpeg', '*.gif', '*.ico']
     });
 
     // Generate package.json file.
