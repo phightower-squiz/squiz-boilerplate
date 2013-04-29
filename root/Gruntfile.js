@@ -255,6 +255,14 @@ module.exports = function(grunt) {
       // Any associated files from <module>/files/*.*
       associated: {
         files: exampleAssociatedFiles
+      },
+
+      // Copy associated files into a folder where they will also work outside
+      // of the examples folder
+      associated_publish: {
+        files: [
+          {src: ['**/files/*'], dest: 'dist/files/', cwd: 'dist/examples/', expand: true, flatten: true}
+        ]
       }
     },
 
@@ -274,7 +282,7 @@ module.exports = function(grunt) {
           "jQuery": true,
           "document": true,
           "window": true,
-          "Squiz": true,
+          "Modernizr": true,
           "$": true
         }
       },
