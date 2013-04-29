@@ -81,6 +81,13 @@
   -webkit-border-radius: $radius;
 }
 
+// Box shadow (won't work in IE8 or older)
+@mixin box-shadow($args: 6px 6px 6px rgba(0,0,0,0.3)) {
+  -webkit-box-shadow: $args;
+     -moz-box-shadow: $args;
+          box-shadow: $args;
+}
+
 // Individual border radius rule helper.
 @mixin rounded($vert, $horz, $radius: 10px) {
   border-#{$vert}-#{$horz}-radius: $radius;

@@ -1,0 +1,65 @@
+$tooltipArrowWidth: 5px;
+$tooltipColour:     $highlight-colour;
+
+// Base class
+.tooltip {
+  position: absolute;
+  z-index: 2000;
+  display: block;
+  visibility: visible;
+}
+
+.tooltip.top { margin-top:  -3px; padding: 5px 0; }
+.tooltip.right { margin-left:  3px; padding: 0 5px; }
+.tooltip.bottom { margin-top:   3px; padding: 5px 0; }
+.tooltip.left { margin-left: -3px; padding: 0 5px; }
+
+// Wrapper for the tooltip content
+.tooltip-inner {
+  max-width: 200px;
+  padding: 8px;
+  text-align: center;
+  text-decoration: none;
+  background-color: $tooltipColour;
+  color: $highlight-text-colour;
+  font-size: 90%;
+  @include box-shadow();
+}
+
+// Arrows
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+.tooltip.top .tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -$tooltipArrowWidth;
+  border-width: $tooltipArrowWidth $tooltipArrowWidth 0;
+  border-top-color: $tooltipColour;
+}
+.tooltip.right .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -$tooltipArrowWidth;
+  border-width: $tooltipArrowWidth $tooltipArrowWidth $tooltipArrowWidth 0;
+  border-right-color: $tooltipColour;
+}
+.tooltip.left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -$tooltipArrowWidth;
+  border-width: $tooltipArrowWidth 0 $tooltipArrowWidth $tooltipArrowWidth;
+  border-left-color: $tooltipColour;
+}
+.tooltip.bottom .tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -$tooltipArrowWidth;
+  border-width: 0 $tooltipArrowWidth $tooltipArrowWidth;
+  border-bottom-color: $tooltipColour;
+}

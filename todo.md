@@ -20,7 +20,6 @@ Necessary:
 * Form validation (jQuery.validate)
 * Pagination (Matrix lists & search)
 * Pagination (Funnelback)
-* Tool tip
 * Date chooser/picker
 * On/Off Switcher
 * Dictionary Search box
