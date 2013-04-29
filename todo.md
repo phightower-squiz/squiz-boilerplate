@@ -13,7 +13,6 @@ The following is a list of modules that need have solutions created
 Necessary:
 * Nav - Mega Menu
 * Nav - Secondary Nav
-* Quick Search Box
 * Light Box Overlay
 * SlideShow/Carousels (add flexslider to libs)
 * Contact Details (hCard microformat)
@@ -34,10 +33,7 @@ Nice to haves:
 * Clickable AU map as scalable SVG
 
 Other Features:
-* Automated keyword replacement for module HTML inside the core/html/ files
 * Rename the dist directory, or allow versions to be created
-* Module option that can be passed through in the build to select different sets of available modules
-
 
 Feedback notes:
 * git console vs cygwin - cygwin issues?
