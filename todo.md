@@ -14,7 +14,6 @@ Necessary:
 * Nav - Mega Menu
 * Nav - Secondary Nav
 * Light Box Overlay
-* SlideShow/Carousels (add flexslider to libs)
 * Contact Details (hCard microformat)
 * Default form styles (Matrix-friendly)
 * Form validation (jQuery.validate)
