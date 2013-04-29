@@ -5,7 +5,7 @@
     if(!Modernizr.input.placeholder && $searchInput.attr('placeholder') !== '') {
         $searchInput.focus(function() {
           var input = $(this);
-          if (input.val() == input.attr('placeholder')) {
+          if (input.val() === input.attr('placeholder')) {
             input.val('');
             input.removeClass('placeholder');
           }
@@ -19,7 +19,7 @@
         $searchInput.parents('form').submit(function() {
           $(this).find('[placeholder]').each(function() {
             var input = $(this);
-            if (input.val() == input.attr('placeholder')) {
+            if (input.val() === input.attr('placeholder')) {
               input.val('');
             }
           });
