@@ -11,6 +11,10 @@ module.exports = function(grunt) {
     modules = userModules.split(',');
   }//end if
 
+  // The destination distribution directory.
+  var destDir = grunt.option('dest') || 'dist';
+  destDir = destDir.replace('/', '');
+
   // Gather glob patterns for each listed module. This is used in the copy
   // pattern so only files from modules listed to be installed will be copied.
   var moduleCSSFiles = {
@@ -18,6 +22,12 @@ module.exports = function(grunt) {
     medium: [],
     wide:   []
   };
+
+  // Sass processing from the temporary directory.
+  var sassFiles = {};
+  sassFiles[destDir + '/css/global/global.css'] = 'tmp/global.scss';
+  sassFiles[destDir + '/css/medium/medium.css'] = 'tmp/medium.scss';
+  sassFiles[destDir + '/css/wide/wide.css'] = 'tmp/wide.scss';
 
   // Some keyword replacements that the example generation can append to.
   var keywordReplacements = {
@@ -29,9 +39,9 @@ module.exports = function(grunt) {
         }
       },
       files: [
-        {expand: true, flatten: true, src: ['dist/js/global.js', 'dist/js/plugins.js'],
-          dest: 'dist/js/'},
-        {src: ['**/*.css'], dest: 'dist/css/', cwd: 'dist/css/',
+        {expand: true, flatten: true, src: [destDir + '/js/global.js', destDir + '/js/plugins.js'],
+          dest: destDir + '/js/'},
+        {src: ['**/*.css'], dest: destDir + '/css/', cwd: destDir + '/css/',
           expand: true, flatten: false}
       ]
     },
@@ -44,8 +54,8 @@ module.exports = function(grunt) {
         }
       },
       files: [
-        {expand: true, flatten: true, src: ['dist/css/global/global.css'],
-        dest: 'dist/css/global/'}
+        {expand: true, flatten: true, src: [destDir + '/css/global/global.css'],
+        dest: destDir + '/css/global/'}
       ]
     },
 
@@ -57,8 +67,8 @@ module.exports = function(grunt) {
         }
       },
       files: [
-        {expand: true, flatten: true, src: ['dist/js/global.js'],
-        dest: 'dist/js/'}
+        {expand: true, flatten: true, src: [destDir + '/js/global.js'],
+        dest: destDir + '/js/'}
       ]
     },
 
@@ -70,12 +80,12 @@ module.exports = function(grunt) {
         }
       },
       files: [
-        {expand: true, flatten: true, src: ['dist/js/plugins.js'],
-        dest: 'dist/js/'},
-        {expand: true, flatten: true, src: ['dist/css/medium/*.css'],
-        dest: 'dist/css/medium/'},
-        {expand: true, flatten: true, src: ['dist/css/wide/*.css'],
-        dest: 'dist/css/wide/'}
+        {expand: true, flatten: true, src: [destDir + '/js/plugins.js'],
+        dest: destDir + '/js/'},
+        {expand: true, flatten: true, src: [destDir + '/css/medium/*.css'],
+        dest: destDir + '/css/medium/'},
+        {expand: true, flatten: true, src: [destDir + '/css/wide/*.css'],
+        dest: destDir + '/css/wide/'}
       ]
     }
   };
@@ -98,14 +108,14 @@ module.exports = function(grunt) {
     // Gather any matrix parse file examples.
     var matrixFiles = grunt.file.expand('source/modules/' + name + '/matrix/parse*.html');
     if (matrixFiles.length) {
-      exampleMatrixFiles.push({src: [matrixFiles], dest: 'dist/examples/' + name +'/',
+      exampleMatrixFiles.push({src: [matrixFiles], dest: destDir + '/examples/' + name +'/',
          flatten: true, expand: true});
     }//end if
 
     var htmlFiles = grunt.file.expand('source/modules/' + name + '/html/*.html');
     if (htmlFiles.length) {
       // Create HTML examples
-      exampleHTMLFiles.push({src: ['index.html'], dest: 'dist/examples/' + name +'/',
+      exampleHTMLFiles.push({src: ['index.html'], dest: destDir + '/examples/' + name +'/',
         cwd: 'source/core/example/', expand: true});
 
       var combinedHTML = '';
@@ -123,8 +133,8 @@ module.exports = function(grunt) {
             }
           },
           files: [
-            {expand: true, flatten: true, src: ['dist/examples/' + name + '/*.html'],
-            dest: 'dist/examples/' + name + '/'}
+            {expand: true, flatten: true, src: [destDir + '/examples/' + name + '/*.html'],
+            dest: destDir + '/examples/' + name + '/'}
           ]
         };
 
@@ -141,7 +151,7 @@ module.exports = function(grunt) {
     var associatedFiles = grunt.file.expand('source/modules/' + name + '/files/*.*');
     if (associatedFiles.length) {
       // Create HTML examples
-      exampleAssociatedFiles.push({src: ['*.*'], dest: 'dist/examples/' + name +'/files/',
+      exampleAssociatedFiles.push({src: ['*.*'], dest: destDir + '/examples/' + name +'/files/',
         cwd: 'source/modules/' + name + '/files/', expand: true});
     }
   });
@@ -152,8 +162,8 @@ module.exports = function(grunt) {
       variables: keywordFileReplacements
     },
     files: [
-      {expand: true, flatten: true, src: ['dist/*.html'],
-            dest: 'dist/'}
+      {expand: true, flatten: true, src: [destDir + '/*.html'],
+            dest: destDir + '/'}
     ]
   };
 
@@ -175,7 +185,7 @@ module.exports = function(grunt) {
     plugins: {
       dist: {
         modules: modules,
-        dest: 'dist/js/plugins.js'
+        dest: destDir + '/js/plugins.js'
       }
     },
 
@@ -207,11 +217,7 @@ module.exports = function(grunt) {
             '/'
           ]
         },
-        files: {
-          'dist/css/global/global.css': 'tmp/global.scss',
-          'dist/css/medium/medium.css': 'tmp/medium.scss',
-          'dist/css/wide/wide.css':     'tmp/wide.scss'
-        }
+        files: sassFiles
       }
     },
 
@@ -224,25 +230,25 @@ module.exports = function(grunt) {
       main: {
         files: [
           // Copy any JS files not being concatenated.
-          {src: ['*.js', '!global.js', '!plugin.js'], dest: 'dist/js/',
+          {src: ['*.js', '!global.js', '!plugin.js'], dest: destDir + '/js/',
             cwd: 'source/core/js/', expand: true},
 
           // Copy the JS files from the module tmp folder into distribution
-          {src: ['*.js'], dest: 'dist/js/', cwd: 'tmp/', expand: true},
+          {src: ['*.js'], dest: destDir + '/js/', cwd: 'tmp/', expand: true},
 
           // Copy any HTML files across.
-          {src: ['*.html'], dest: 'dist/', cwd: 'source/core/html/', expand: true},
+          {src: ['*.html'], dest: destDir + '/', cwd: 'source/core/html/', expand: true},
 
           // Copy any core files across.
-          {src: ['*'], dest: 'dist/files/', cwd: 'source/core/files/', expand: true},
+          {src: ['*'], dest: destDir + '/files/', cwd: 'source/core/files/', expand: true},
 
           // Copy any associated css files (images) into the correct location.
           {src: moduleCSSFiles.global,
-            dest: 'dist/css/global/files/', cwd: 'source/modules/', expand: true, flatten: true},
+            dest: destDir + '/css/global/files/', cwd: 'source/modules/', expand: true, flatten: true},
           {src: moduleCSSFiles.medium,
-            dest: 'dist/css/medium/files/', cwd: 'source/modules/', expand: true, flatten: true},
+            dest: destDir + '/css/medium/files/', cwd: 'source/modules/', expand: true, flatten: true},
           {src: moduleCSSFiles.wide,
-            dest: 'dist/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
+            dest: destDir + '/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
       },
       // Copy any matrix parse files into relevant example folders
@@ -261,7 +267,7 @@ module.exports = function(grunt) {
       // of the examples folder
       associated_publish: {
         files: [
-          {src: ['**/files/*'], dest: 'dist/files/', cwd: 'dist/examples/', expand: true, flatten: true}
+          {src: ['**/files/*'], dest: destDir + '/files/', cwd: destDir + '/examples/', expand: true, flatten: true}
         ]
       }
     },
@@ -300,7 +306,7 @@ module.exports = function(grunt) {
 
     // Clean the sass cache & distribution directories
     clean: {
-      dist: ["dist"], // This one will remove all dist files, be careful with it.
+      dist: [destDir], // This one will remove all dist files, be careful with it.
       tmp:  ["tmp"]
     }
   });
