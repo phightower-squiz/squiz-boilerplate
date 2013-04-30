@@ -1,0 +1,23 @@
+// Medium form styles
+.sq-form-question-title {
+    float: left;
+    width: 25%;
+}
+
+.sq-form-question-answer,
+.sq-form-question-note,
+.sq-form-error {
+    width: 73%;
+    margin-left: 2%;
+    float: right;
+}
+
+.sq-form input[type="text"].sq-form-field,
+.sq-form input[type="password"].sq-form-field,
+.sq-form textarea.sq-form-field {
+    width: auto;
+}
+
+.sq-form-question-password-answer {
+    margin-bottom: $default-padding/2;
+}

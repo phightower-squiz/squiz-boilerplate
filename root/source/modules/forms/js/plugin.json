@@ -1,0 +1,6 @@
+{
+    "name": "forms",
+    "dependencies": [
+        "jquery_validate"
+    ]
+}
