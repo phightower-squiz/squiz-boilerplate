@@ -17,7 +17,6 @@
     Accordion.prototype = {
         // Show a group.
         show: function($group) {
-            console.log('show', $group);
             this.$groups
                 .filter('.accordion-group-active')
                 .find('.accordion-group-content')
@@ -57,7 +56,6 @@
         return this.each(function () {
             if (!$.data(this, 'accordion')) {
                 $.data(this, 'accordion', new Accordion( this, options ));
-                console.log($.data(this, 'accordion'));
             }
         });
     };
