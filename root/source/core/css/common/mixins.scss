@@ -88,6 +88,16 @@
           box-shadow: $args;
 }
 
+// Opacity
+@mixin opacity($value) {
+  -khtml-opacity: #{"." + $value};
+  -webkit-opacity: #{"." + $value};
+  -moz-opacity: #{"." + $value};
+  opacity: #{"." + $value};
+  -ms-filter: "alpha(opacity=$value)";
+  filter: alpha(opacity=$value);
+}
+
 // Individual border radius rule helper.
 @mixin rounded($vert, $horz, $radius: 10px) {
   border-#{$vert}-#{$horz}-radius: $radius;
