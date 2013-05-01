@@ -5,6 +5,11 @@
     border: 1px solid $basic-colour;
 }
 
+.slideshow {
+    width: 100%;
+    background: $highlight-colour;
+}
+
 .slideshow-slides {
     @include list-reset();
     @include clearfix();
