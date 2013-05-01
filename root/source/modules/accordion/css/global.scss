@@ -1,0 +1,34 @@
+.accordion {
+    border: 1px solid $basic-colour;
+}
+
+.accordion-group-header {
+    margin: 0;
+    padding: 0;
+}
+
+.accordion-group-header-link,
+.accordion-group-header-link:active,
+.accordion-group-header-link:visited {
+    display: block;
+    padding: $default-padding/2 $default-padding;
+    color: $highlight-text-colour;
+    background: $highlight-colour;
+}
+
+.accordion-group-header-link:hover {
+    color: $highlight-text-colour;
+    background: lighten($highlight-colour, 10%);
+}
+
+.accordion-group-header-link {
+    border-bottom: 1px solid #fff;
+}
+
+.accordion-group-last .accordion-group-header-link {
+    border: 0;
+}
+
+.accordion-group-content {
+    padding: $default-padding;
+}
