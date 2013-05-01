@@ -19,13 +19,18 @@
     position: relative;
 }
 
+// If you want IE 8 transparency here you'll need a background image.
 .slideshow-slide-summary {
-    background: rgba(0,0,0, 0.4);
+    background: $highlight-colour;
+    background: rgba(0,0,0, 0.6);
     color: $highlight-text-colour;
     position: absolute;
     bottom: 0;
+    width: 100%;
+}
+
+.slideshow-slide-summary-inner {
     padding: $default-padding;
-    width: auto;
 }
 
 // This part has to use descendent selectors, imposed by the output of flexslider
