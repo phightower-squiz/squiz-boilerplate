@@ -53,4 +53,5 @@ asyncTest('test callbacks', function() {
   var overlay = $.data($overlay.get(0), 'overlay');
   overlay.show();
   overlay.hide();
+  start();
 });
