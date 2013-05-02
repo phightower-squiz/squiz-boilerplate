@@ -34,4 +34,4 @@ Feedback notes:
 
 
 Bugs:
-* Nav dropdown not working in IE (JS version)
+* Keyboard tab navigation in LTE IE8

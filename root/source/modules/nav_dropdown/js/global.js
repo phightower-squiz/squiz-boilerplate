@@ -1,5 +1,8 @@
 ;(function($, undefined){
     var options = {
+        // Set this to false to stop any JS behaviour overriding CSS defaults.
+        jsNavEnhancementEnabled: true,
+
         // The class to apply to the enclosing nav-dropdown-item
         // when the menu is active
         activeClass: 'nav-dropdown-item-active',
@@ -21,6 +24,11 @@
     };
 
     var isSmallScreen = function() {
+        // Detect support for media queries, then match
+        // small screen.
+        if (!Modernizr.mq('only all')) {
+            return false;
+        }//end if
         var mq = '(min-width: 37.5em)';
         return !Modernizr.mq(mq);
     };
@@ -48,6 +56,12 @@
 
     // Hover menu behaviour changes
     $dropdowns.each(function(){
+
+        // Check if JS Nav is enabled.
+        if (!options.jsNavEnhancementEnabled) {
+            return false;
+        }//end if
+
         var $nav   = $(this);
         var hideInterval = null;
 
