@@ -1,0 +1,55 @@
+.nav-dropdown-list,
+.nav-dropdown-sub {
+    @include list-reset();
+}
+
+.nav-dropdown-right .nav-dropdown-list {
+    float: right;
+}
+
+.nav-dropdown-item {
+    float: left;
+    @include inline-block();
+    width: 100%;
+}
+.nav-dropdown-item-link,
+.nav-dropdown-sub-item-link {
+    display: block;
+    padding: $default-padding/2 $default-padding;
+}
+
+.nav-dropdown-item-link {
+    background: $highlight-colour;
+    color: $highlight-text-colour;
+}
+
+.nav-dropdown-sub-item-link {
+    background: $basic-colour;
+}
+
+.nav-dropdown-sub {
+    display: none;
+}
+
+// Detection on sub menu items
+.nav-dropdown-item-subs .nav-dropdown-item-link:after {
+    content: " (SUBS)";
+}
+
+// Active menu class
+.nav-dropdown-item-active:after {
+    content: " (ACTIVE)";
+}
+
+///////////////
+// Mega Menu //
+///////////////
+
+.nav-dropdown.nav-dropdown-mega .nav-dropdown-sub {
+    width: auto;
+    background: $basic-colour;
+}
+
+.nav-dropdown-sub-mega-column-content {
+    padding: $default-padding;
+}
