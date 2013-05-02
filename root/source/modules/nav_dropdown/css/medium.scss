@@ -1,17 +1,18 @@
-$menu-width: 220px;
+$menu-width: 220/$base-font-pixel + em;
 
 .nav-dropdown-sub {
     display: none;
 }
 
+.nav-dropdown-item-active.nav-dropdown-item-link,
 .nav-dropdown-item:hover .nav-dropdown-item-link,
 .nav-dropdown-item-link:hover,
-.nav-dropdown-item-link:focus {
+.no-js .nav-dropdown-item-link:focus {
     background-color: $basic-colour;
 }
 
 .nav-dropdown-sub-item-link:hover,
-.nav-dropdown-sub-item-link:focus {
+.no-js .nav-dropdown-sub-item-link:focus {
     background-color: $highlight-colour;
     color: $highlight-text-colour;
 }
@@ -21,6 +22,7 @@ $menu-width: 220px;
     z-index: 1000;
 }
 
+// CSS display fallback with JS disabled.
 .nav-dropdown-item:hover .nav-dropdown-sub,
 .nav-dropdown-item-link:hover ~ .nav-dropdown-sub,
 .nav-dropdown-item-link:focus ~ .nav-dropdown-sub {

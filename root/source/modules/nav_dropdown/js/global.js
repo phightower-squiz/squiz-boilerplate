@@ -12,7 +12,12 @@
         hasSubsClass: 'nav-dropdown-item-subs',
 
         // The class applied to links
-        linkClass:    'nav-dropdown-item-link'
+        linkClass:    'nav-dropdown-item-link',
+
+        // Time in milliseconds to trigger the hide of a sub menu.
+        // This should give the user enough time to navigate from the hyperlink
+        // to a sub menu without accidentally mousing off the element
+        menuHideDelay: 150
     };
 
     var isSmallScreen = function() {
@@ -21,12 +26,30 @@
     };
 
     var $dropdowns = $('.nav-dropdown');
+    var $items = $('.' + options.itemClass, $dropdowns);
+    var $subs  = $('.' + options.subMenuClass, $dropdowns);
+    var $links = $('.' + options.linkClass, $dropdowns);
+
+    function showSub($sub, $link) {
+        $link.addClass(options.activeClass);
+        $sub.show();
+    }//end showSub()
+
+    function hideSub($sub, $link) {
+        $link.removeClass(options.activeClass);
+        $sub.hide();
+    }//end hideSub()
+
+    function hideAll() {
+        // Hide other subs
+        $subs.hide();
+        $links.removeClass(options.activeClass);
+    }//end hideAll()
 
     // Hover menu behaviour changes
     $dropdowns.each(function(){
         var $nav   = $(this);
-        var $items = $('.' + options.itemClass, $nav);
-        var $subs  = $('.' + options.subMenuClass, $nav);
+        var hideInterval = null;
 
         // Some detection on whether the menu has subs available.
         $items.each(function(){
@@ -35,18 +58,55 @@
             }
         });
 
-        // Override the default hover behavior
-        $items.on('mouseenter focus', function() {
+        // Mouse over with timeout
+        $items.on('mouseenter', function() {
+            hideAll();
+
+            // Show this sub.
             if (!isSmallScreen()) {
-                var $sub = $(this).find('.' + options.subMenuClass);
-                $sub.show();
-                $('.' + options.linkClass,this).addClass(options.activeClass);
+                // Reveal sub
+                showSub($(this).find('.' + options.subMenuClass),
+                        $(this).find('.' + options.linkClass));
             }//end if
-        }).on('mouseleave blur', function(){
+        }).on('mouseleave', function(e) {
+            hideAll();
             if (!isSmallScreen()) {
+                clearInterval(hideInterval);
                 var $sub = $(this).find('.' + options.subMenuClass);
-                $sub.hide();
-                $('.' + options.linkClass,this).removeClass(options.activeClass);
+                hideInterval = setTimeout(function() {
+                    $links.removeClass(options.activeClass);
+                    hideSub($sub,
+                            $sub.find('.' + options.linkClass));
+                }, options.menuHideDelay);
+            }//end if
+        });
+
+        // Keyboard focus
+        $('*', $items).on('focus', function(){
+            hideAll();
+            if (!isSmallScreen()) {
+                var $item = $(this).parents('.' + options.itemClass);
+                if ($item.length) {
+                    var $link = $item.find('.' + options.linkClass);
+                    var $sub  = $item.find('.' + options.subMenuClass);
+                    if (!$link.hasClass(options.activeClass)) {
+                        showSub($sub, $link);
+                    }//end if
+                }//end if
+            }//end if
+        }).on('blur', function(e) {
+            if (!isSmallScreen()) {
+                clearInterval(hideInterval);
+                var $item = $(this).parents('.' + options.itemClass);
+                if ($item.length) {
+                    var $link = $item.find('.' + options.linkClass);
+                    var $sub  = $item.find('.' + options.subMenuClass);
+                    if (!$link.hasClass(options.activeClass)) {
+                        hideInterval = setTimeout(function() {
+                            hideSub($sub, $link);
+                        }, options.menuHideDelay);
+                    }//end if
+                }//end if
             }//end if
         });
 

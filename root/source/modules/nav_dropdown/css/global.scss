@@ -18,9 +18,16 @@
     padding: $default-padding/2 $default-padding;
 }
 
-.nav-dropdown-item-link {
+.nav-dropdown-item-link,
+.nav-dropdown-item-link:visited,
+.nav-dropdown-item-link:active {
     background: $highlight-colour;
     color: $highlight-text-colour;
+}
+
+.nav-dropdown-item-link.nav-dropdown-item-active,
+.nav-dropdown-item-link:hover {
+    color: $base-font-colour;
 }
 
 .nav-dropdown-sub-item-link {
@@ -32,13 +39,8 @@
 }
 
 // Detection on sub menu items
-.nav-dropdown-item-subs .nav-dropdown-item-link:after {
-    content: " (SUBS)";
-}
-
-// Active menu class
-.nav-dropdown-item-active:after {
-    content: " (ACTIVE)";
+.nav-dropdown-item-subs .nav-dropdown-item-link {
+    // Add your sub menu styling here
 }
 
 ///////////////
@@ -52,4 +54,5 @@
 
 .nav-dropdown-sub-mega-column-content {
     padding: $default-padding;
+    margin: 0;
 }
