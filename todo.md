@@ -31,3 +31,7 @@ Other Features:
 
 Feedback notes:
 * git console vs cygwin - cygwin issues?
+
+
+Bugs:
+* Nav dropdown not working in IE (JS version)
