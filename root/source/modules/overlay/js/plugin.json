@@ -2,6 +2,6 @@
     "name": "overlay",
     "main": "plugin.min.js",
     "minify": {
-        "plugin.min.js": ["plugin.js"]
+        "plugin.min.js": ["overlay.js"]
     }
 }
