@@ -118,9 +118,12 @@ module.exports = function(grunt) {
     };
 
     // Get the js output for a module.
-    var getJSContent = function(moduleNum, name, type) {
+    var getJSContent = function(moduleNum, name, type, fileName) {
       return createModuleOutput(moduleNum, name, function(opt){
-        var fileName = type + '*.js'; // name pattern is <type>*.js
+        if (fileName === undefined) {
+          // If no specific file name applied, then use a pre-defined pattern.
+          fileName = type + '.js';
+        }
         var filePath = options.modulePath + name + '/js/' + fileName;
         var moduleFiles = grunt.file.expand(filePath);
         if (moduleFiles.length) {
@@ -175,9 +178,9 @@ module.exports = function(grunt) {
     };//end pushSass()
 
     // Push JS content to the JS content array.
-    var pushJS = function(name, type) {
+    var pushJS = function(name, type, fileName) {
       if (pushToContent(source.js[type],
-          getJSContent(counters.js[type], name, type))) {
+          getJSContent(counters.js[type], name, type, fileName))) {
           counters.js[type] += 1;
       }//end if
     };//end pushJS()
@@ -189,9 +192,22 @@ module.exports = function(grunt) {
       pushSass(name, 'global');
       pushSass(name, 'medium');
       pushSass(name, 'wide');
-      // Combine JS.
+      // Combine global JS.
       pushJS(name, 'global');
-      pushJS(name, 'plugin');
+
+      // Figure out the plugin option for the 'main' file and perform
+      // the combination based on preference (only if plugin.json is present)
+      var mainPluginFile = 'plugin.js';
+      var pluginJSONPath = options.modulePath + name + '/js/plugin.json';
+      if (grunt.file.exists(pluginJSONPath)) {
+        var json = grunt.file.readJSON(pluginJSONPath);
+        if (json.hasOwnProperty('main')) {
+          mainPluginFile = json.main;
+        }//end if
+      }//end if
+
+      pushJS(name, 'plugin', mainPluginFile);
+
       grunt.log.ok();
     });
 

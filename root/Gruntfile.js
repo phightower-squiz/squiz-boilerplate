@@ -93,25 +93,36 @@ module.exports = function(grunt) {
 
   // Some storage for arrays of information related to example files to generate for
   // installed modules.
-  var exampleHTMLFiles = [];
-  var exampleMatrixFiles = [];
-  var exampleAssociatedFiles = [];
+  var exampleHTMLFiles        = [];
+  var exampleMatrixFiles      = [];
+  var exampleAssociatedFiles  = [];
   var keywordFileReplacements = {};
+  var minifyPluginFiles       = {};
 
-  modules.forEach(function(name, i){
+  // Iterate each module to be installed.
+  modules.forEach(function(name, num){
+
+    ////////////////////////////////////////
+    // Module CSS associated binary files //
+    ////////////////////////////////////////
     // A list of module CSS associated files (images) to supply to the copy task
     // Performing this logic here ensures only installed module files are copied.
     moduleCSSFiles.global.push(name + '/css/global/*.*');
     moduleCSSFiles.medium.push(name + '/css/medium/*.*');
     moduleCSSFiles.wide.push(name + '/css/wide/*.*');
 
-    // Gather any matrix parse file examples.
+    ////////////////////////////////
+    // Matrix parse file examples //
+    ////////////////////////////////
     var matrixFiles = grunt.file.expand('source/modules/' + name + '/matrix/parse*.html');
     if (matrixFiles.length) {
       exampleMatrixFiles.push({src: [matrixFiles], dest: destDir + '/examples/' + name +'/',
          flatten: true, expand: true});
     }//end if
 
+    ////////////////////////
+    // Example HTML Files //
+    ////////////////////////
     var htmlFiles = grunt.file.expand('source/modules/' + name + '/html/*.html');
     if (htmlFiles.length) {
       // Create HTML examples
@@ -148,12 +159,36 @@ module.exports = function(grunt) {
       });
     }//end if
 
+    /////////////////////////////
+    // Associated Binary Files //
+    /////////////////////////////
     var associatedFiles = grunt.file.expand('source/modules/' + name + '/files/*.*');
     if (associatedFiles.length) {
       // Create HTML examples
       exampleAssociatedFiles.push({src: ['*.*'], dest: destDir + '/examples/' + name +'/files/',
         cwd: 'source/modules/' + name + '/files/', expand: true});
     }
+
+    //////////////////////////////////////
+    // Plugins that need to be minified //
+    //////////////////////////////////////
+    var pluginJSPath   = 'source/modules/' + name + '/js/';
+    var pluginJSONFile = 'source/modules/' + name + '/js/plugin.json';
+    if (grunt.file.exists(pluginJSONFile)) {
+      var pluginSettings = grunt.file.readJSON(pluginJSONFile);
+      if (pluginSettings.hasOwnProperty('minify')) {
+        for (var dest in pluginSettings.minify) {
+
+          // Make all the plugin paths relative to the js directory
+          for (var i = 0, l = pluginSettings.minify[dest].length; i<l; i+=1) {
+            pluginSettings.minify[dest][i] = pluginJSPath + pluginSettings.minify[dest][i];
+          }//end for
+
+          // Add them for minification.
+          minifyPluginFiles[pluginJSPath + dest] = pluginSettings.minify[dest];
+        }// end for
+      }//end if
+    }//end if
   });
 
   // Generic HTML keyword replacement for module html
@@ -195,10 +230,7 @@ module.exports = function(grunt) {
         options: {
           banner: "/* Generated: <%= grunt.template.today('yyyy-mm-dd') %> */\n"
         },
-        files: {
-          'source/modules/overlay/js/plugin.min.js': 'source/modules/overlay/lib/overlay.js',
-          'source/modules/tables_sortable/js/plugin.min.js': 'source/modules/tables_sortable/lib/*.js'
-        }
+        files: minifyPluginFiles
       }
     },
 
