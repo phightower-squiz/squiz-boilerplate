@@ -5,6 +5,7 @@ npm-debug.log
 node_modules/
 tmp/
 .sass-cache/
+*plugin.min.js
 
 # OS generated files #
 ######################
