@@ -59,6 +59,13 @@
             transition: $args;
 }
 
+// 2D rotation
+@mixin rotate($deg) {
+    -webkit-transform: rotate($deg); /* Safari and Chrome */
+        -ms-transform: rotate($deg); /* IE 9 */
+            transform: rotate($deg);
+}
+
 // Inline-block display mixin that works on older IE
 @mixin inline-block() {
   display: inline-block;
@@ -90,11 +97,12 @@
 
 // Opacity
 @mixin opacity($value) {
-  -khtml-opacity: #{"." + $value};
-  -webkit-opacity: #{"." + $value};
-  -moz-opacity: #{"." + $value};
-  opacity: #{"." + $value};
-  -ms-filter: "alpha(opacity=$value)";
+  $decimal-value: $value/100;
+  -khtml-opacity: $decimal-value;
+  -webkit-opacity: $decimal-value;
+  -moz-opacity: $decimal-value;
+  opacity: $decimal-value;
+  -ms-filter: #{"alpha(opacity=" + $value + ")"};
   filter: alpha(opacity=$value);
 }
 

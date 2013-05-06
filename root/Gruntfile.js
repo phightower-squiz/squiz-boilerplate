@@ -253,9 +253,10 @@ module.exports = function(grunt) {
       }
     },
 
+    // Watch all source files except minified ones.
     watch: {
       files: ['source/**/*.scss', 'source/**/*.js', 'source/**/*.html',
-              'source/**/*.json'],
+              'source/**/*.json', '!source/**/*.min.js'],
       tasks: 'build'
     },
 
