@@ -327,7 +327,7 @@ module.exports = function(grunt) {
         }
       },
       all: ['Gruntfile.js', 'source/core/js/global.js',
-            'source/modules/**/js/*.js', '!source/modules/**/js/*.min.js']
+            'source/modules/**/js/global.js']
     },
 
     // Unit tests that require the DOM
