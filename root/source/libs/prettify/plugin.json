@@ -1,4 +1,4 @@
 {
     "name": "prettify",
-    "main": "prettify.js"
+    "main": "prettify.min.js"
 }
