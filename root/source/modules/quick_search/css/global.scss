@@ -19,7 +19,6 @@
 .quick-search-field-input {
     border: 0;
     text-indent: $default-padding/2;
-    line-height: $default-padding*2;
     color: lighten($base-font-colour, 20%);
     display: block;
     padding: $default-padding/2 0;
@@ -45,7 +44,6 @@
     border: 1px solid $highlight-colour;
     color: $highlight-text-colour;
     text-align: center;
-    line-height: $default-padding*2;
 }
 
 .lt-ie9 .quick-search-submit-button-input,
