@@ -5,9 +5,8 @@
  * gathering and combining modules with a consistent number and labelling system.
  */
 
-'use strict';
-
 module.exports = function(grunt) {
+  'use strict';
 
   grunt.registerMultiTask('module', 'Module build helper.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
