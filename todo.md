@@ -35,3 +35,5 @@ Feedback notes:
 
 Bugs:
 * Keyboard tab navigation in LTE IE8
+* Table sorting Chrome
+* Tooltip position (all browsers)

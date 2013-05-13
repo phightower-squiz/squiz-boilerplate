@@ -1,3 +1,3 @@
 ;(function($){
-    $('.tooltip').tooltip();
+    $('.tip').tooltip();
 }(jQuery));
