@@ -28,6 +28,7 @@ module.exports = function(grunt) {
   sassFiles[destDir + '/css/global/global.css'] = 'tmp/global.scss';
   sassFiles[destDir + '/css/medium/medium.css'] = 'tmp/medium.scss';
   sassFiles[destDir + '/css/wide/wide.css'] = 'tmp/wide.scss';
+  sassFiles[destDir + '/css/print/print.css'] = 'source/core/css/print.scss';
 
   // Some keyword replacements that the example generation can append to.
   var keywordReplacements = {
