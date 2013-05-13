@@ -32,8 +32,5 @@ Other Features:
 Feedback notes:
 * git console vs cygwin - cygwin issues?
 
-
 Bugs:
 * Keyboard tab navigation in LTE IE8
-* Table sorting Chrome
-* Tooltip position (all browsers)

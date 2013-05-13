@@ -10,20 +10,21 @@
         $container.append($link);
 
         $link.on('click', function(e){
+            $link.focus();
             e.preventDefault();
-            e.which = 1;
-            e.type  = 'sort';
+            $th.trigger('click');
         });
 
         // Add keyboard accessibility to the link
-        $link.on('keyup', function(e){
-            // Keyup on the link registers as a click
+        $link.on('keyup', function(e) {
+            // Keyup on the link registers as a mouse up sort event.
             if (e.which === 13) {
-                var evt = new jQuery.Event('mouseup.tablesorter ');
+                e.stopPropagation();
+                e.preventDefault();
+                var evt = new jQuery.Event('mouseup.tablesorter');
                 evt.which = 1;
                 evt.type  = 'sort';
-                e.stopPropagation();
-                $th.trigger(evt);
+                $th.trigger(evt, true);
             }//end if
         });
 
