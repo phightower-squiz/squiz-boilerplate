@@ -34,3 +34,4 @@ Feedback notes:
 
 Bugs:
 * Keyboard tab navigation in LTE IE8
+* Nav dropdown/Mega - doesn't seem to have JS delay

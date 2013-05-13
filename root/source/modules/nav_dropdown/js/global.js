@@ -18,10 +18,13 @@
         // The class applied to links
         linkClass:    'nav-dropdown-item-link',
 
+        // Class to tell the CSS that this is a JS enabled dropdown
+        jsEnabledClass: 'nav-dropdown-js-enabled',
+
         // Time in milliseconds to trigger the hide of a sub menu.
         // This should give the user enough time to navigate from the hyperlink
         // to a sub menu without accidentally mousing off the element
-        menuHideDelay: 150
+        menuHideDelay: 350
     };
 
     var isSmallScreen = function() {
@@ -35,9 +38,14 @@
     };
 
     var $dropdowns = $('.nav-dropdown');
+
     var $items = $('.' + options.itemClass, $dropdowns);
     var $subs  = $('.' + options.subMenuClass, $dropdowns);
     var $links = $('.' + options.linkClass, $dropdowns);
+
+    if (options.jsNavEnhancementEnabled) {
+        $dropdowns.addClass('nav-dropdown-js-enabled');
+    }//end if
 
     function showSub($sub, $link) {
         $link.addClass(options.activeClass);
@@ -75,8 +83,8 @@
 
         // Mouse over with timeout
         $items.on('mouseenter', function() {
+            clearInterval(hideInterval);
             hideAll();
-
             // Show this sub.
             if (!isSmallScreen()) {
                 // Reveal sub
@@ -84,11 +92,11 @@
                         $(this).find('.' + options.linkClass));
             }//end if
         }).on('mouseleave', function(e) {
-            hideAll();
             if (!isSmallScreen()) {
                 clearInterval(hideInterval);
                 var $sub = $(this).find('.' + options.subMenuClass);
                 hideInterval = setTimeout(function() {
+                    hideAll();
                     $links.removeClass(options.activeClass);
                     hideSub($sub,
                             $sub.find('.' + options.linkClass));
