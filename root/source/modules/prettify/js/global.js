@@ -1,4 +1,4 @@
-/*global prettyPrint: false*/
+/*global prettyPrint:false*/
 ;(function($){
     $(document).ready(function(){
         if (typeof(prettyPrint) === 'function') {
