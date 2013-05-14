@@ -216,6 +216,22 @@ module.exports = function(grunt) {
     tmp:  ["tmp", ".sass-cache"]
   };
 
+  ///////////////////////
+  // HTML Code Sniffer //
+  ///////////////////////
+  tasks.htmlcs = {
+    dist: {
+      options: {
+        standard: 'WCAG2AA'
+      },
+      files: [
+        // Run HTML CS across examples
+        // {src: destDir + '/examples/**/index.html'},
+        {src: destDir + '/*.html'}
+      ]
+    }
+  };
+
   /////////////////////////
   // Image Optimisations //
   /////////////////////////
@@ -253,7 +269,7 @@ module.exports = function(grunt) {
   grunt.registerTask('reset', ['clean']);
 
   // Run tests.
-  grunt.registerTask('test', ['jshint', 'qunit']);
+  grunt.registerTask('test', ['jshint', 'qunit', 'htmlcs']);
 
   // The main build task. Special attention needs to be paid to the order in
   // which the tasks are run, many tasks require previously run tasks.
