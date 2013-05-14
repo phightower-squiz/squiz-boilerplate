@@ -73,7 +73,6 @@ exports.template = function(grunt, init, done) {
       'grunt-contrib-sass': '*',
       'grunt-contrib-uglify': '*',
       'grunt-lib-phantomjs': '*',
-      'grunt-img': '*',
       'grunt-replace': '*',
       'underscore': '~1.4.4'
     };
