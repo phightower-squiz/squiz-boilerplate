@@ -26,9 +26,9 @@ module.exports = (function(){
     }//end if
 
     // Only use valid module names.
-    data.modules = data.modules.map(function(module){
-        if (!grunt.file.isDir('source/modules/' + module)) {
-            return module;
+    data.modules = data.modules.map(function(name){
+        if (grunt.file.isDir('source/modules/' + name)) {
+            return name;
         }
     });
 
