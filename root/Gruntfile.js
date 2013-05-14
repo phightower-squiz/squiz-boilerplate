@@ -3,89 +3,140 @@ var moduleData = require('./lib/helpers/module-data.js');
 
 module.exports = function(grunt) {
 
+  // The destination directory
+  // Can be overidden by supplying --dest=<dir>
   var destDir = moduleData.destDir;
 
-  // Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+  // Default external NPM tasks to be loaded.
+  var npmTasks = [
+    'grunt-contrib-sass',
+    'grunt-contrib-concat',
+    'grunt-contrib-copy',
+    'grunt-contrib-jshint',
+    'grunt-contrib-qunit',
+    'grunt-contrib-watch',
+    'grunt-contrib-clean',
+    'grunt-contrib-uglify',
+    'grunt-replace'
+  ];
 
-    // Combines known module patterns into prefined output into a temp directory
-    module: {
-      dist: {
-        // Add and remove module names from this array to decide which modules are
-        // automatically included in the final build. Any associated JS plugins and CSS
-        // will appear in a numbered format in the output.
-        modules: moduleData.modules
-      }
-    },
+  // Default build tasks.
+  var buildTasks = [
+    'uglify:custom_plugins',
+    'module',
+    'sass',
+    'copy',
+    'replace',
+    'plugins',
+    'clean:tmp'
+  ];
 
-    // Process plugin dependencies
-    plugins: {
-      dist: {
-        modules: moduleData.modules,
-        dest: destDir + '/js/plugins.js'
-      }
-    },
+  // Tasks config list.
+  var tasks = {};
 
-    // Automatic minification for known targets
-    uglify: {
-      custom_plugins: {
-        options: {
-          banner: "/* Generated: <%= grunt.template.today('yyyy-mm-dd') %> */\n"
-        },
-        files: moduleData.minifyPluginFiles
-      }
-    },
+  //////////////////
+  // Package JSON //
+  //////////////////
+  tasks.pkg = grunt.file.readJSON('package.json');
 
-    // Replace keywords in the generated .js files.
-    replace: moduleData.keywordReplacements,
+  /////////////
+  // Modules //
+  /////////////
+  // Combines known module patterns into prefined output into a temp directory
+  tasks.module = {
+    dist: {
+      // Add and remove module names from this array to decide which modules are
+      // automatically included in the final build. Any associated JS plugins and CSS
+      // will appear in a numbered format in the output.
+      modules: moduleData.modules
+    }
+  };
 
-    sass: {
-      dist: {
-        options: {
-          style: 'expanded',
+  /////////////
+  // Plugins //
+  /////////////
+  // Process plugin dependencies
+  tasks.plugins = {
+    dist: {
+      modules: moduleData.modules,
+      dest: destDir + '/js/plugins.js'
+    }
+  };
 
-          // We need extra load paths to account for the source being in the modules
-          // tmp folder
-          loadPath: [
-            'source/core/css/',
-            '/'
-          ]
-        },
-        files: moduleData.sassFiles
-      }
-    },
+  ////////////
+  // Minify //
+  ////////////
+  // Automatic minification for known targets
+  tasks.uglify = {
+    custom_plugins: {
+      options: {
+        banner: "/* Generated: <%= grunt.template.today('yyyy-mm-dd') %> */\n"
+      },
+      files: moduleData.minifyPluginFiles
+    }
+  };
 
-    // Watch all source files except minified ones.
-    watch: {
+  //////////////
+  // Keywords //
+  //////////////
+  // Replace keywords in the generated .js files.
+  tasks.replace = moduleData.keywordReplacements;
+
+  //////////
+  // Sass //
+  //////////
+  tasks.sass = {
+    dist: {
+      options: {
+        style: 'expanded',
+
+        // We need extra load paths to account for the source being in the modules
+        // tmp folder
+        loadPath: [
+          'source/core/css/',
+          '/'
+        ]
+      },
+      files: moduleData.sassFiles
+    }
+  };
+
+  ///////////
+  // Watch //
+  ///////////
+  // Watch all source files except minified ones.
+  tasks.watch = {
       files: ['source/**/*.scss', 'source/**/*.js', 'source/**/*.html',
               'source/**/*.json', '!source/**/*.min.js'],
       tasks: 'build'
-    },
+  };
 
-    copy: {
-      main: {
-        files: [
-          // Copy any JS files not being concatenated.
-          {src: ['*.js', '!global.js', '!plugin.js'], dest: destDir + '/js/',
-            cwd: 'source/core/js/', expand: true},
+  ////////////////
+  // Copy Files //
+  ////////////////
+  tasks.copy = {
+    main: {
+      files: [
+        // Copy any JS files not being concatenated.
+        {src: ['*.js', '!global.js', '!plugin.js'], dest: destDir + '/js/',
+          cwd: 'source/core/js/', expand: true},
 
-          // Copy the JS files from the module tmp folder into distribution
-          {src: ['*.js'], dest: destDir + '/js/', cwd: 'tmp/', expand: true},
+        // Copy the JS files from the module tmp folder into distribution
+        {src: ['*.js'], dest: destDir + '/js/', cwd: 'tmp/', expand: true},
 
-          // Copy any HTML files across.
-          {src: ['*.html'], dest: destDir + '/', cwd: 'source/core/html/', expand: true},
+        // Copy any HTML files across.
+        {src: ['*.html'], dest: destDir + '/', cwd: 'source/core/html/', expand: true},
 
-          // Copy any core files across.
-          {src: ['*'], dest: destDir + '/files/', cwd: 'source/core/files/', expand: true},
+        // Copy any core files across.
+        {src: ['*'], dest: destDir + '/files/', cwd: 'source/core/files/', expand: true},
 
-          // Copy any associated css files (images) into the correct location.
-          {src: moduleData.moduleCSSFiles.global,
-            dest: destDir + '/css/global/files/', cwd: 'source/modules/', expand: true, flatten: true},
-          {src: moduleData.moduleCSSFiles.medium,
-            dest: destDir + '/css/medium/files/', cwd: 'source/modules/', expand: true, flatten: true},
-          {src: moduleData.moduleCSSFiles.wide,
-            dest: destDir + '/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
+        // Copy any associated css files (images) into the correct location.
+        {src: moduleData.moduleCSSFiles.global,
+          dest: destDir + '/css/global/files/', cwd: 'source/modules/', expand: true, flatten: true},
+        {src: moduleData.moduleCSSFiles.medium,
+          dest: destDir + '/css/medium/files/', cwd: 'source/modules/', expand: true, flatten: true},
+        {src: moduleData.moduleCSSFiles.wide,
+          dest: destDir + '/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
         ]
       },
       // Copy any matrix parse files into relevant example folders
@@ -107,75 +158,108 @@ module.exports = function(grunt) {
           {src: ['**/files/*'], dest: destDir + '/files/', cwd: destDir + '/examples/', expand: true, flatten: true}
         ]
       }
-    },
+    };
 
-    jshint: {
-      options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        globals: {
-          "jQuery": true,
-          "document": true,
-          "window": true,
-          "Modernizr": true,
-          "clearInterval": true,
-          "setTimeout": true,
-          "setInterval": true,
-          "$": true
-        }
+  ////////////////
+  // JS Linting //
+  ////////////////
+  tasks.jshint = {
+    options: {
+      curly: true,
+      eqeqeq: true,
+      immed: true,
+      latedef: true,
+      newcap: true,
+      noarg: true,
+      sub: true,
+      undef: true,
+      boss: true,
+      eqnull: true,
+      globals: {
+        "jQuery": true,
+        "document": true,
+        "window": true,
+        "Modernizr": true,
+        "clearInterval": true,
+        "setTimeout": true,
+        "setInterval": true,
+        "$": true
+      }
+    },
+    all: ['Gruntfile.js',
+          'source/core/js/global.js',
+          'source/modules/**/js/*.js',
+
+          // Exclusions
+          '!source/libs/**',
+          '!source/modules/**/js/bootstrap*.js',
+          '!source/modules/**/js/*.min.js']
+  };
+
+  //////////////////
+  // Unit Testing //
+  //////////////////
+  // Unit tests that require the DOM
+  tasks.qunit = {
+    all: [
+      'source/modules/**/tests/*.html',
+      'source/libs/**/tests/*.html'
+    ]
+  };
+
+  //////////////
+  // Clean Up //
+  //////////////
+  // Clean the sass cache & distribution directories
+  tasks.clean = {
+    dist: [destDir], // This one will remove all dist files, be careful with it.
+    tmp:  ["tmp", ".sass-cache"]
+  };
+
+  /////////////////////////
+  // Image Optimisations //
+  /////////////////////////
+  // https://github.com/heldr/grunt-img
+  // If the grunt-img npm module is installed images will be automatically
+  // optimised by this task
+  // Note: this task can take quite a while to run, it's best to leave it to the end
+  // and run it separately when ready to publish. Run with 'grunt img'.
+  if (grunt.file.isDir('node_modules/grunt-img')) {
+    npmTasks.push('grunt-img');
+    tasks.img = {
+      css_files: {
+        src: [destDir + '/css/**/files/*.jpg', destDir + '/css/**/files/*.png', destDir + '/css/**/files/*.jpeg']
       },
-      all: ['Gruntfile.js',
-            'source/core/js/global.js',
-            'source/modules/**/js/*.js',
+      dist_files: {
+        src: [destDir + '/files/*.jpg', destDir + '/files/*.png', destDir + '/files/*.jpeg']
+      }
+    };
+  }//end if
 
-            // Exclusions
-            '!source/libs/**',
-            '!source/modules/**/js/bootstrap*.js',
-            '!source/modules/**/js/*.min.js']
-    },
+  // Project configuration.
+  grunt.initConfig(tasks);
 
-    // Unit tests that require the DOM
-    qunit: {
-      all: [
-        'source/modules/**/tests/*.html',
-        'source/libs/**/tests/*.html'
-      ]
-    },
-
-    // Clean the sass cache & distribution directories
-    clean: {
-      dist: [destDir], // This one will remove all dist files, be careful with it.
-      tmp:  ["tmp"]
-    }
+  // Load the tasks.
+  grunt.loadTasks('tasks');
+  npmTasks.forEach(function(task){
+    grunt.loadNpmTasks(task);
   });
 
-  grunt.loadTasks('tasks');
+  ///////////
+  // Tasks //
+  ///////////
 
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-
-  // Non contrib npm tasks
-  grunt.loadNpmTasks('grunt-replace');
-
-  // Tasks
+  // Reset the generated files.
   grunt.registerTask('reset', ['clean']);
+
+  // Run tests.
   grunt.registerTask('test', ['jshint', 'qunit']);
-  grunt.registerTask('build', ['uglify:custom_plugins', 'module', 'sass', 'copy',
-    'replace', 'plugins', 'clean:tmp']);
+
+  // The main build task. Special attention needs to be paid to the order in
+  // which the tasks are run, many tasks require previously run tasks.
+  grunt.registerTask('build', buildTasks);
+
+  // Default without any arguments
   grunt.registerTask('default', ['test', 'build']);
 
 };
