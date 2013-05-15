@@ -1,5 +1,9 @@
 ;(function($, document){
     $(document).ready(function() {
-        $('.accordion').accordion();
+        var $accordions = $('.accordion');
+        $accordions.each(function(){
+            $('.accordion-group:last', this).addClass('accordion-group-last');
+        });
+        $accordions.accordion();
     });
 }(jQuery, document));
