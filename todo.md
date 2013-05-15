@@ -25,6 +25,7 @@ Necessary:
 
 Nice to haves:
 * Clickable AU map as scalable SVG
+* Lazy Load resources (long pages with images)
 
 Other Features:
 * Check for console.logs in the code, prevent build
@@ -35,3 +36,6 @@ Feedback notes:
 Bugs:
 * Keyboard tab navigation in LTE IE8
 * Nav dropdown/Mega - doesn't seem to have JS delay
+
+Limitations:
+* Doesn't support pushing modules into separate files (e.g. only slideshow appears on the homepage) - requires manual workarounds.
