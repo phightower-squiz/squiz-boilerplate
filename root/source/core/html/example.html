@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>{%= client_name %} - {%= client_project %}</title>
+        <title>Squiz - Internet Site</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="shortcut icon" href="files/favicon.ico">
@@ -18,6 +18,7 @@
         <![endif]-->
 
         <link rel="stylesheet" href="css/print/print.css" media="print" />
+        <link rel="stylesheet" href="css/examples/examples.css" media="all" />
 
         <script src="js/modernizr.min.js"></script>
     </head>
@@ -29,32 +30,54 @@
     <!--<![endif]-->
     <div id="page-wrapper">
     <!--noindex-->
+
+        <!--
+            Each of the module keywords appears in the following format:
+            @@module_[ module directory name ]_[ html file name ]
+
+            The directory name is directly under /source/modules/...
+
+            The html file name is /source/modules/[module name]/html/[file name].html
+
+            Don't forget to leave out the .html from the file name, it's assumed
+        -->
+
         @@module_skip_links--skip-links
+
         <div class="header" role="banner">
             <div class="banner">
                 @@module_header_logo--index
                 @@module_quick_search--index
             </div>
             <div id="main-navigation">
-                @@module_nav_basic--index
+                @@module_nav_dropdown--mega
             </div>
         </div><!-- /.header -->
+
     <!--endnoindex-->
         @@module_breadcrumbs--inline
-        <!-- start main-content -->
-        <div id="main" role="main">
-            <!-- Site main content here -->
-            <h2>Tables</h2>
-            @@module_tables--simple
-            @@module_tables_sortable--index
 
-            <h2>Tabs</h2>
-            @@module_tabs--tabs
+        <div class="main-wrapper">
+            <div class="left-column">
+                @@module_nav_secondary--index
+            </div>
 
-            <h2>Tabs</h2>
-            @@module_slideshow--index
-        </div><!-- /#main -->
-        <!-- end main-content -->
+            <!-- start main-content -->
+            <div id="main" role="main">
+                @@module_slideshow--index
+
+                <h2>Tables</h2>
+                @@module_tables--simple
+                @@module_tables_sortable--index
+
+                <h2>Tabs</h2>
+                @@module_tabs--tabs
+
+                <h2>Accordion</h2>
+                @@module_accordion--index
+            </div><!-- /#main -->
+            <!-- end main-content -->
+        </div>
     <!--noindex-->
         <div class="footer" role="contentinfo">
 

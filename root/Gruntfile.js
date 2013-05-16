@@ -87,6 +87,7 @@ module.exports = function(grunt) {
   //////////
   var extraSassFiles = {};
   extraSassFiles[destDir + '/css/print/print.css'] = 'source/core/css/print.scss';
+  extraSassFiles[destDir + '/css/examples/examples.css'] = 'source/core/css/examples.scss';
 
   tasks.sass = {
 
@@ -106,6 +107,7 @@ module.exports = function(grunt) {
     // This would include things like print CSS, or page specific CSS (e.g. home page).
     extras: {
       options: {
+        style: 'expanded',
         loadPath: ['source/core/css/']
       },
       files: extraSassFiles

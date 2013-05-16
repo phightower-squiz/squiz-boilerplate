@@ -1,0 +1,54 @@
+/**
+ * Some styles that aren't really about the boilerplate itself, but more about making the 
+ * default examples look a little bit nicer. This includes things like padding and layout
+ * for specific examples.
+ */
+
+@import "common/variables";
+@import "common/mixins";
+@import "common/functions";
+@import "common/grid/grid";
+
+body {
+    padding: $default-padding;
+}
+
+// Constrain the maximum width of the examples.
+#page-wrapper {
+    max-width: 1140px;
+}
+
+.header {
+    position: relative;
+}
+
+.header-logo,
+.breadcrumbs,
+.quick-search {
+    margin-bottom: $default-padding/2;
+}
+
+// We need some inline media queries so as not to pollute the actual boilerplate files.
+@media (min-width: 37.5em) {
+
+    .quick-search {
+        width: 50%;
+        position: absolute;
+        top: $default-padding;
+        right: $default-padding;
+    }
+
+    // For more information about the grid system check out /source/core/css/common/grid/grid.scss
+    // It's using the semantic grid system available at: http://semantic.gs
+    .main-wrapper {
+        @include row();
+    }
+
+    .left-column {
+        @include column(3);
+    }
+
+    #main {
+        @include column(9);
+    }
+}
