@@ -19,7 +19,7 @@ $menu-width: 220/$base-font-pixel + em;
 
 .nav-dropdown-sub {
     position: absolute;
-    z-index: 1000;
+    z-index: 2000;
 }
 
 // CSS display fallback with JS disabled.
