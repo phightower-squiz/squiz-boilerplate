@@ -16,6 +16,7 @@ body {
 body {
   margin: 0;
   padding: 0;
-  @include font-size(1);
+  font-size: $base-font-scale + em;
+  line-height: 1.4;
   color: $base-font-colour;
 }
