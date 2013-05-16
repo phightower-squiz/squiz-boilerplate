@@ -83,10 +83,11 @@
 
         // Mouse over with timeout
         $items.on('mouseenter', function() {
-            clearInterval(hideInterval);
-            hideAll();
             // Show this sub.
             if (!isSmallScreen()) {
+                clearInterval(hideInterval);
+                hideAll();
+
                 // Reveal sub
                 showSub($(this).find('.' + options.subMenuClass),
                         $(this).find('.' + options.linkClass));
