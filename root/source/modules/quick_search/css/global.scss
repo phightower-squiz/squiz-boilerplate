@@ -46,15 +46,21 @@
     text-align: center;
 }
 
-.lt-ie9 .quick-search-submit-button-input,
-.lt-ie9 .quick-search-field-input {
-    line-height: inherit;
-}
-
 // Workaround for the IE 8 and older text-indent bug
 .lt-ie9 .quick-search-field-input {
     width: 98%;
-    padding: $default-padding/2 2%;
+    padding: $default-padding/2 1%;
+}
+
+// IE 7 evilness
+// This still doesn't work perfectly with text resizes, but looks fine at default
+// text size and is still readable with font scaling & browser text tool increase
+.lt-ie8 .quick-search-submit-button-input {
+    padding-top: 0;
+    padding-bottom: 0;
+    zoom: 1;
+    height: $default-padding*2 + 0.3em;
+    line-height: $default-padding*2;
 }
 
 .quick-search-submit-button-input:hover,

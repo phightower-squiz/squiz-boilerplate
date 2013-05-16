@@ -1,10 +1,8 @@
-// REM font sizing with pixel fall back
-// This technique will allow external font sizes to be set for html and respected
-// if REMs are supported (everything but IE8 and older).
-// This can be replaced with EMs if necessary, but risks font changes being set relative
-// parent elements.
+// Progressive enhancement font-sizing technique.
+// Start with pixels -> em -> rem
 @mixin font-size($sizeValue: 1){
   font-size: ($sizeValue * $base-font-pixel) + px;
+  font-size: $sizeValue + em;
   font-size: $sizeValue + rem;
 }
 

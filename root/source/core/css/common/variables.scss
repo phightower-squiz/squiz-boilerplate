@@ -1,5 +1,5 @@
 // Base font
-$base-font-size: 1em; // Allow the users default (browser default normally 16px)
+$base-font-scale: 1;  // The font scale multiplier (e.g. 2 = 32px/2em/2rem)
 $base-font-pixel: 16; // Used for font size calculations & conversions
 $base-font-colour: #222;
 
