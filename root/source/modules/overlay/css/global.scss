@@ -17,8 +17,8 @@
 }
 
 .js-enabled .overlay-modal {
-    position: absolute;
-    z-index: 1001;
+    position: fixed;
+    z-index: 2001;
     top: 0;
     left: 0;
     @include transition(all .3s ease);
