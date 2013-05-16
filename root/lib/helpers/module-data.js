@@ -47,8 +47,7 @@ module.exports = (function(){
     data.sassFiles = {};
     data.sassFiles[destDir + '/css/global/global.css'] = 'tmp/global.scss';
     data.sassFiles[destDir + '/css/medium/medium.css'] = 'tmp/medium.scss';
-    data.sassFiles[destDir + '/css/wide/wide.css'] = 'tmp/wide.scss';
-    data.sassFiles[destDir + '/css/print/print.css'] = 'source/core/css/print.scss';
+    data.sassFiles[destDir + '/css/wide/wide.css']     = 'tmp/wide.scss';
 
     // Some keyword replacements that the example generation can append to.
     data.keywordReplacements = {

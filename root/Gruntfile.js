@@ -85,19 +85,30 @@ module.exports = function(grunt) {
   //////////
   // Sass //
   //////////
+  var extraSassFiles = {};
+  extraSassFiles[destDir + '/css/print/print.css'] = 'source/core/css/print.scss';
+
   tasks.sass = {
-    dist: {
+
+    // Core sass files containing module content (global, medium, wide)
+    modules: {
       options: {
         style: 'expanded',
-
-        // We need extra load paths to account for the source being in the modules
-        // tmp folder
         loadPath: [
           'source/core/css/',
           '/'
         ]
       },
       files: moduleData.sassFiles
+    },
+
+    // Extra Sass files to process in addition to those containing module content
+    // This would include things like print CSS, or page specific CSS (e.g. home page).
+    extras: {
+      options: {
+        loadPath: ['source/core/css/']
+      },
+      files: extraSassFiles
     }
   };
 
