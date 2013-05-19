@@ -7,25 +7,22 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Change Log: 20 May 2013 - Altered by Anthony Barnes to control the init() push state behaviour.
  */
 (function($, document, window, undefined) {
 	"use strict";
 
 	var Tabbedcontent = function(tabcontent, options) {
 		var defaults = {
-				links         : tabcontent.prev().find('a').length ? tabcontent.prev().find('a') : '.tabs a', // the tabs itself. By default it selects the links contained in the previous wrapper or the links inside ".tabs a" if there's no previous item
-				errorSelector : '.error-message', // false to disable
-				speed         : false, // speed of the show effect. Set to null or false to disable
-				onSwitch      : false, // onSwitch callback
-				onInit        : false, // onInit callback
-				currentClass  : 'current' // current selected tab class (is set to the <a> element)
+				links          : tabcontent.prev().find('a').length ? tabcontent.prev().find('a') : '.tabs a', // the tabs itself. By default it selects the links contained in the previous wrapper or the links inside ".tabs a" if there's no previous item
+				errorSelector  : '.error-message', // false to disable
+				speed          : false, // speed of the show effect. Set to null or false to disable
+				onSwitch       : false, // onSwitch callback
+				onInit         : false, // onInit callback
+				currentClass   : 'current', // current selected tab class (is set to the <a> element)
+				pushStateOnInit: false // Whether to push the hash state change on init (generally undesirable)
 			},
 			firstTime = true,
 			children = tabcontent.children(),
@@ -53,9 +50,11 @@
 		function onSwitch(tab) {
 			if (firstTime && history !== undefined && ('pushState' in history)) {
 				firstTime = false;
-				window.setTimeout(function() {
-					history.replaceState(null, '', tab);
-				}, 100);
+				if (options.pushStateOnInit) {
+					window.setTimeout(function() {
+						history.replaceState(null, '', tab);
+					}, 100);
+				}
 			}
 			if (options.onSwitch && typeof options.onSwitch === 'function') {
 				options.onSwitch(tab);
