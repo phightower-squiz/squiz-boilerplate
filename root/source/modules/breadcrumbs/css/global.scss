@@ -13,5 +13,5 @@
 .breadcrumbs-separator:after {
     content: "/";
     color: $base-font-colour;
-    padding: 0 $default-padding;
+    padding: 0 $default-padding/2;
 }
