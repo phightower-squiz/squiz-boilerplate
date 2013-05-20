@@ -1,0 +1,20 @@
+// Add this class to give the back to top link a "sticky" position on the page.
+// This style will place the link in a fixed position on the page which will
+// scroll with the user. This is a common pattern with many sites, but not 
+// always desired, and usually only on desktop & tablet devices as positioning
+// the link on a mobile device can interfere with content interaction.
+.back-to-top-sticky {
+    position: fixed;
+    right: $default-padding;
+    bottom: $default-padding;
+}
+
+// Full text hidden on wider screens
+.back-to-top-sticky-fallback,
+.back-to-top-text {
+    @include screen-hide();
+}
+
+.lt-ie8 .back-to-top-sticky-fallback {
+    @include screen-show();
+}
