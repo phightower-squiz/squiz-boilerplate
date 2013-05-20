@@ -64,8 +64,6 @@ body {
 // Frustratingly the styles for IE 7 have to be pulled behind to have them appear
 // in relation to the slide show.
 .lt-ie9 .main-wrapper {
-    position: relative;
-    z-index: -1;
     @include row();
 }
 .lt-ie9 .left-column {

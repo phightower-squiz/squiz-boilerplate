@@ -1,13 +1,3 @@
-// For IE 7 you can inject these rules into the adjacent siblings that come
-// after the drop down menu. This will solve the drop down sub appearing beneath
-// other elements with absolutely positioned elements with a z-index.
-
-// Example
-// .main-wrapper {
-//   position: relative;
-//   z-index: -1;
-// }
-
 .nav-dropdown-list,
 .nav-dropdown-sub {
     @include list-reset();
