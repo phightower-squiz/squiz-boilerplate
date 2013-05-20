@@ -35,7 +35,7 @@ body {
         width: 50%;
         position: absolute;
         top: $default-padding;
-        right: $default-padding;
+        right: 0;
     }
 
     // For more information about the grid system check out /source/core/css/common/grid/grid.scss
@@ -59,7 +59,7 @@ body {
     width: 50%;
     position: absolute;
     top: $default-padding;
-    right: $default-padding;
+    right: 0;
 }
 // Frustratingly the styles for IE 7 have to be pulled behind to have them appear
 // in relation to the slide show.
