@@ -12,15 +12,18 @@
 
 .table-sortable-header-link:hover,
 .table-sortable-header-link:focus,
-.tablesorter-headerAsc  .table-sortable-header-link,
-.tablesorter-headerDesc  .table-sortable-header-link {
+.tablesorter-headerAsc .table-sortable-header-link,
+.tablesorter-headerDesc .table-sortable-header-link {
     background-color: $button-background-hover;
+    text-decoration: none;
 }
 
 .tablesorter-headerAsc  .table-sortable-header-link:after {
-    content: " (ASC)";
+    content: "\2191 "; // Up arrow
+    margin-left: $default-padding;
 }
 
 .tablesorter-headerDesc  .table-sortable-header-link:after {
-    content: " (DESC)";
+    content: "\2193 "; // Down arrow
+    margin-left: $default-padding;
 }
