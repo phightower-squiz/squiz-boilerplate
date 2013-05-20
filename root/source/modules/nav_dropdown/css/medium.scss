@@ -78,6 +78,10 @@ $menu-width: 220/$base-font-pixel + em;
     position: inherit;
 }
 
+.lt-ie8 .nav-dropdown-mega .nav-dropdown-item {
+    position: static;
+}
+
 .nav-dropdown-mega .nav-dropdown-sub {
     left: 0;
 }
