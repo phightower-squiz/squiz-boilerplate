@@ -52,3 +52,21 @@ body {
         @include column(9);
     }
 }
+
+// Handling IE 8 & older. We need this to keep it separate from the actual
+// Boilerplate styles and still handle the layout changes for the IE's
+.lt-ie9 .quick-search {
+    width: 50%;
+    position: absolute;
+    top: $default-padding;
+    right: $default-padding;
+}
+.lt-ie9 .main-wrapper {
+    @include row();
+}
+.lt-ie9 .left-column {
+    @include column(3);
+}
+.lt-ie9 #main {
+    @include column(9);
+}
