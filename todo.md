@@ -11,16 +11,13 @@ The following is a list of core changes to add
 The following is a list of modules that need have solutions created
 
 Necessary:
-* Nav - Mega Menu
-* Nav - Secondary Nav
 * Contact Details (hCard microformat)
 * Pagination (Matrix lists & search)
 * Pagination (Funnelback)
 * Date chooser/picker
 * On/Off Switcher
-* Dictionary Search box
+* Dictionary Search box?
 * Parallax
-* Back to top anchor
 * "Add this" widget
 
 Nice to haves:
