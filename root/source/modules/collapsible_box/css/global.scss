@@ -1,0 +1,61 @@
+.collapsible-box {
+    border: solid 1px $basic-colour;
+}
+
+.collapsible-box-header {
+    display:    block;
+    padding:    $default-padding/2 $default-padding;
+    color:      $highlight-text-colour;
+    background: $highlight-colour;
+    margin:     0;
+    position:   relative;
+}
+
+.js .collapsible-box-header {
+    cursor: pointer;
+}
+
+.collapsible-box-icon,
+.collapsible-box-link {
+    display: block;
+    width: 2.416666667em;
+    width: calc(29em/12);
+    position: absolute;
+}
+
+.collapsible-box-icon {
+    top: .166666667em;
+    bottom: .166666667em;
+    right: .166666667em;
+    border-left: solid .083333333em #fff;
+}
+
+.collapsible-box-link {
+    background: center center no-repeat;
+    @include svg-background("files/arrow");
+    @include rotate(90);
+    @include transition(all 0.3s ease);
+    @include ir();
+    text-indent: -999em;
+
+    top:    0;
+    bottom: 0;
+    right:  0;
+    left:   0; 
+}
+
+.collapsible-box-link:hover,
+.collapsible-box-link:focus {
+    @include ir();
+}
+
+/*
+.no-rgba .collapsible-box-link,
+.no-rgba .collapsible-box-link:hover,
+.no-rgba .collapsible-box-link:focus {
+    text-indent: -999em;
+}
+*/
+.collapsible-box--collapsed .collapsible-box-link {
+    @include rotate(0);
+}

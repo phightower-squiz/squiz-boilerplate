@@ -57,11 +57,15 @@
             transition: $args;
 }
 
-// 2D rotation
+// 2D rotation with IE support
 @mixin rotate($deg) {
-    -webkit-transform: rotate($deg); /* Safari and Chrome */
-        -ms-transform: rotate($deg); /* IE 9 */
-            transform: rotate($deg);
+  $msRotVal: (((360 + $deg) % 360) / 90);   // Modulo lets us handle negative values.
+    -webkit-transform: rotate($deg + deg);  // Chrome, Safari 3.1+
+       -moz-transform: rotate($deg + deg);  // Firefox 3.5-15
+        -ms-transform: rotate($deg + deg);  // IE 9
+         -o-transform: rotate($deg + deg);  // Opera 10.50-12.00
+            transform: rotate($deg + deg);  // Firefox 16+, IE 10+, Opera 12.10+
+    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$msRotVal});
 }
 
 // Inline-block display mixin that works on older IE
@@ -109,4 +113,21 @@
   border-#{$vert}-#{$horz}-radius: $radius;
   -moz-border-radius-#{$vert}#{$horz}: $radius;
   -webkit-border-#{$vert}-#{$horz}-radius: $radius;
+}
+
+// Use an SVG background image (for perfect Retina-rendering) with a PNG fallback.
+@mixin svg-background($suffixless-url) {
+  background-image: url($suffixless-url + ".svg");
+  .no-svg & {
+    background-image: url($suffixless-url + ".png");
+  }
+}
+
+// Image replacement
+@mixin ir() {
+  color: transparent;
+  border: 0;
+  overflow: hidden;
+  
+  .no-rgba & { text-indent: 9999em; }
 }

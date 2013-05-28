@@ -1,7 +1,9 @@
 [
   "accordion",
+  "back_to_top",
   "breadcrumbs",
   "button",
+  "collapsible_box",
   "header_logo",
   "overlay",
   "forms",

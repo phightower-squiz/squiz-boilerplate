@@ -16,11 +16,7 @@
 
 // Image replacement
 .ir {
-    background-color: transparent;
-    border: 0;
-    overflow: hidden;
-    /* IE 6/7 fallback */
-    *text-indent: -9999px;
+    @include ir;
 }
 
 .ir:before {
