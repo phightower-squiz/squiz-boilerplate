@@ -33,7 +33,7 @@ Feedback notes:
 Bugs:
 * Keyboard tab navigation in LTE IE8
 * Nav dropdown/Mega - doesn't seem to have JS delay
-* Tabs auto hash selection is really annoying. Look for a way to stop the default behaviour.
+* Collapsible Box arrow doesn't appear correctly in IE 7
 
 Limitations:
 * Doesn't support pushing modules into separate files (e.g. only slideshow appears on the homepage) - requires manual workarounds.
