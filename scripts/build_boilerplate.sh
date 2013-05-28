@@ -2,6 +2,10 @@
 
 DEST_DIR=/var/www/scaffold4122/data/public/scaffold/releases/squiz_boilerplate;
 DEST_SERVER=scaffold.squiz.net;
+BP_SOURCE_DIR=~/.grunt-init/boilerplate
+
+cd $BP_SOURCE_DIR
+git checkout master
 
 # The temporary directory
 TMP_DIR=~/.tmp/
@@ -9,7 +13,6 @@ if [ ! -d $TMP_DIR ]; then
     mkdir $TMP_DIR
 fi
 cd $TMP_DIR
-
 
 # Clean any existing content
 if [ -d boilerplate_scaffold_build ]; then
@@ -44,3 +47,6 @@ fi
 
 # Copy the file up to the server replacing any existing build
 scp build.tar.gz squiz@$DEST_SERVER:$DEST_DIR/build-latest.tar.gz;
+
+cd $BP_SOURCE_DIR
+git checkout dev
