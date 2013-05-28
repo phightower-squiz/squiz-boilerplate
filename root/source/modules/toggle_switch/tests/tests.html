@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Overlay Tests</title>
+  <!-- Load local QUnit. -->
+  <link rel="stylesheet" href="../../../libs/qunit/qunit.css" media="screen">
+  <script src="../../../libs/qunit/qunit.js"></script>
+  <!-- Load local lib and tests. -->
+  <script src="../../../core/js/jquery.min.js"></script>
+  <script src="../js/toggle.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="spec.js"></script>
+</head>
+<body>
+  <h1 id="qunit-header">Basic Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">
+    <div class="toggle-switch">
+        <label class="toggle-switch-label" for="toggle-switch-listbox">Flip switch:</label>
+        <select name="slider" id="toggle-switch-listbox" class="toggle-switch-listbox">
+            <option value="0" class="toggle-switch-option">Off</option>
+            <option value="1" class="toggle-switch-option">On</option>
+        </select> 
+    </div>
+  </div>
+</body>
+</html>
