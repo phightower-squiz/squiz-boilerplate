@@ -15,7 +15,6 @@ Necessary:
 * Pagination (Matrix lists & search)
 * Pagination (Funnelback)
 * Date chooser/picker
-* On/Off Switcher
 * Dictionary Search box?
 * Parallax
 * "Add this" widget
