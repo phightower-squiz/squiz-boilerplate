@@ -5,7 +5,7 @@ test('The plugin has created the toggle switch ui element', function() {
 
 test('The select function works as expected', function() {
   expect(3);
-  var toggle = $.data($('.toggle-switch').get(0),'toggle_switch');
+  var toggle = $('.toggle-switch').data('toggle_switch');
   equal(typeof(toggle.select), 'function', 'The selection property is a function');
 
   toggle.select(0);
@@ -16,4 +16,3 @@ test('The select function works as expected', function() {
 
   equal($('.toggle-switch-active').length, 1, 'The toggle has activated');
 });
-
