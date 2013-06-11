@@ -1,0 +1,7 @@
+.fb-inline-search-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: default;
+    @include box-shadow();
+}

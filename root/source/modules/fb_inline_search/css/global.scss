@@ -1,0 +1,26 @@
+.fb-inline-search-list {
+    border: 1px solid $base-font-colour;
+}
+
+.fb-inline-search .ui-helper-hidden-accessible {
+    @include screen-hide();
+}
+
+.fb-inline-search-list {
+    @include list-reset();
+}
+
+.fb-inline-search-list-item {
+    margin: 0;
+    padding: $default-padding/4;
+    border-bottom: 1px solid $base-font-colour;
+}
+
+.fb-inline-search-list-item:hover {
+    background: $basic-colour;
+    cursor: pointer;
+}
+
+.fb-inline-search-list-item:last-child {
+    border-bottom: 0;
+}
