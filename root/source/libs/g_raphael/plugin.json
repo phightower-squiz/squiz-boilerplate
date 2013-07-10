@@ -1,0 +1,7 @@
+{
+	"name": "g_raphael",
+	"main": "g.raphael.min.js",
+	"dependencies": [
+		"raphael"
+	]
+}
