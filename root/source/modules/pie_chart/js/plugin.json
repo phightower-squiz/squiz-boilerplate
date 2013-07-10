@@ -1,0 +1,7 @@
+{
+    "name": "pie_chart",
+    "main": "plugin.min.js",
+    "dependencies": [
+    	"g_raphael"
+    ]
+}
