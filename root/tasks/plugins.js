@@ -135,7 +135,9 @@ module.exports = function(grunt) {
 
     var regExp = new RegExp('(\/\/)?' + options.keyword);
     var content = grunt.file.read(this.data.dest);
-    content = content.replace(regExp, pluginContent.join(options.separator));
+    var plugins = pluginContent.join(options.separator)
+    plugins = plugins.replace(/\$([0-9]{1})/g, "$$$$$1");
+    content = content.replace(regExp, plugins);
     grunt.file.write(this.data.dest, content);
     grunt.log.write(this.data.dest.cyan);
 
