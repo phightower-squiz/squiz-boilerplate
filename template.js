@@ -51,7 +51,7 @@ exports.template = function(grunt, init, done) {
     init.prompt('bugs'),
     init.prompt('licenses'),
     init.prompt('author_name'),
-    
+
     init.prompt('author_url'),
     init.prompt('grunt_version'),
     init.prompt('node_version', grunt.package.engines.node)
@@ -89,7 +89,7 @@ exports.template = function(grunt, init, done) {
     // Sort out image files, they need to be separated from the
     // process function
     init.copyAndProcess(files, props, {
-      noProcess: ['*.png', '*.jpg', '*.jpeg', '*.gif', '*.ico']
+      noProcess: ['*.png', '*.jpg', '*.jpeg', '*.gif', '*.ico', '*.ttf', '*.otf', '*.svg', '*.woff', '*.eot']
     });
 
     // Generate package.json file.
