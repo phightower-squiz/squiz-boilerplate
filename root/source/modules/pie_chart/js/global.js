@@ -32,7 +32,8 @@
     // Initiate the pie chart function and supply the data.
     $(document).ready(function(){
         // Example: http://g.raphaeljs.com/piechart2.html
-        var r = Raphael("pie-chart"),
+        // Need .apply() to be used here to avoid jshint complaints
+        var r = Raphael.apply(this,["pie-chart"]),
             pie = r.piechart(
                 320,
                 240,
