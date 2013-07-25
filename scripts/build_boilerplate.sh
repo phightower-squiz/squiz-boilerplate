@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEST_DIR=/var/www/scaffold4122/data/public/scaffold/releases/squiz_boilerplate;
+DEST_DIR=/var/www/scaffold4144/data/public/scaffold/releases/squiz_boilerplate;
 DEST_SERVER=scaffold.squiz.net;
 BP_SOURCE_DIR=~/.grunt-init/boilerplate
 
