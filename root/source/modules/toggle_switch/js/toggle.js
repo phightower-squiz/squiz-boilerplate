@@ -99,10 +99,10 @@
 
     // Expose as a jQuery plugin.
     $.fn.toggle_switch = function(options) {
-        return this.each(function () {
-            if (!$.data(this, 'toggle_switch')) {
-                $.data(this, 'toggle_switch', new Toggle( this, options ));
-            }
+        return this.each(function (){
+            // @todo - sort out instantation and access to the toggle object
+            // via jQuery .data()
+            $(this).data('toggle_switch', new Toggle(this, options));
         });
     };
 }(jQuery, window, document));
