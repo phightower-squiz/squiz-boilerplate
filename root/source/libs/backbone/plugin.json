@@ -1,4 +1,7 @@
 {
     "name": "backbone",
-    "main": "backbone-min.js"
+    "main": "backbone-min.js",
+    "dependencies": [
+        "underscore"
+    ]
 }
