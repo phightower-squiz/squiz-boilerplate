@@ -17,6 +17,7 @@ module.exports = function(grunt) {
     'grunt-contrib-watch',
     'grunt-contrib-clean',
     'grunt-contrib-uglify',
+    'grunt-prettify',
     'grunt-replace'
   ];
 
@@ -28,7 +29,8 @@ module.exports = function(grunt) {
     'copy',
     'replace',
     'plugins',
-    'clean:tmp'
+    'clean:tmp',
+    'prettify'
   ];
 
   // Tasks config list.
@@ -264,6 +266,24 @@ module.exports = function(grunt) {
       }
     };
   }//end if
+
+  ///////////////////////
+  // Pretty Print HTML //
+  ///////////////////////
+  // https://npmjs.org/package/grunt-prettify
+  tasks.prettify = {
+    options: {
+      indent: 4,
+      unformatted: ['a', 'pre', 'code']
+    },
+    all: {
+      expand: true,
+      cwd: destDir,
+      ext: '.html',
+      src: ['*.html'],
+      dest: destDir
+    }
+  };
 
   // Project configuration.
   grunt.initConfig(tasks);
