@@ -1,314 +1,512 @@
 /*global module:false, console:false, require:false*/
-var moduleData = require('./lib/helpers/module-data.js');
-
+var Boilerplate = require('./lib/boilerplate.js');
 module.exports = function(grunt) {
 
-  // The destination directory
-  // Can be overidden by supplying --dest=<dir>
-  var destDir = moduleData.destDir;
+    // Tasks.
+    var tasks = {};
 
-  // Default external NPM tasks to be loaded.
-  var npmTasks = [
-    'grunt-contrib-sass',
-    'grunt-contrib-concat',
-    'grunt-contrib-copy',
-    'grunt-contrib-jshint',
-    'grunt-contrib-qunit',
-    'grunt-contrib-watch',
-    'grunt-contrib-clean',
-    'grunt-contrib-uglify',
-    'grunt-prettify',
-    'grunt-replace'
-  ];
+    //////////////////
+    // Package JSON //
+    //////////////////
+    var pkg = tasks.pkg = grunt.file.readJSON('package.json');
 
-  // Default build tasks.
-  var buildTasks = [
-    'uglify:custom_plugins',
-    'module',
-    'sass',
-    'copy',
-    'replace',
-    'plugins',
-    'clean:tmp',
-    'prettify'
-  ];
+    ///////////////////
+    // Configuration //
+    ///////////////////
+    if (!grunt.file.exists('config.json')) {
+        throw "Missing config.json required file";
+    }//end if
+    var config = grunt.file.readJSON('config.json');
 
-  // Tasks config list.
-  var tasks = {};
+    ////////////////////////////
+    // The Boilerplate Helper //
+    ////////////////////////////
+    var bp = new Boilerplate(config, pkg);
 
-  //////////////////
-  // Package JSON //
-  //////////////////
-  tasks.pkg = grunt.file.readJSON('package.json');
+    // Default external NPM tasks to be loaded.
+    var npmTasks = [
+        'grunt-contrib-sass',
+        'grunt-contrib-concat',
+        'grunt-contrib-copy',
+        'grunt-contrib-jshint',
+        'grunt-contrib-qunit',
+        'grunt-contrib-watch',
+        'grunt-contrib-clean',
+        'grunt-contrib-uglify',
+        'grunt-markdown',
+        'grunt-jsbeautifier',
+        'grunt-prettify',
+        'grunt-replace'
+    ];
 
-  /////////////
-  // Modules //
-  /////////////
-  // Combines known module patterns into prefined output into a temp directory
-  tasks.module = {
-    dist: {
-      // Add and remove module names from this array to decide which modules are
-      // automatically included in the final build. Any associated JS plugins and CSS
-      // will appear in a numbered format in the output.
-      modules: moduleData.modules
-    }
-  };
+    ////////////////
+    // Copy Files //
+    ////////////////
+    tasks.copy = {
 
-  /////////////
-  // Plugins //
-  /////////////
-  // Process plugin dependencies
-  tasks.plugins = {
-    dist: {
-      modules: moduleData.modules,
-      dest: destDir + '/js/plugins.js'
-    }
-  };
+        // Core sass files into the tmp directory
+        core_sass: {
+            files: [
+                {
+                    src: ['*.scss'],
+                    dest: config.temp_dir + '/',
+                    cwd:  config.source.core + 'css/',
+                    expand: true
+                }
+            ]
+        },
 
-  ////////////
-  // Minify //
-  ////////////
-  // Automatic minification for known targets
-  tasks.uglify = {
-    custom_plugins: {
-      options: {
-        banner: "/* Generated: <%= grunt.template.today('yyyy-mm-dd') %> */\n"
-      },
-      files: moduleData.minifyPluginFiles
-    }
-  };
+        // Copy across core HTML files
+        core_html: {
+            files: [
+                {
+                    src: ['*.html'],
+                    dest: config.destination + '/',
+                    cwd:  config.source.core + 'html/',
+                    expand: true
+                }
+            ]
+        },
 
-  //////////////
-  // Keywords //
-  //////////////
-  // Replace keywords in the generated .js files.
-  tasks.replace = moduleData.keywordReplacements;
+        // Copy across core javascripts
+        core_js: {
+            files: [
+                {
+                    src: ['*.js'],
+                    dest: config.destination + '/js/',
+                    cwd:  config.source.core + 'js/',
+                    expand: true
+                }
+            ]
+        },
 
-  //////////
-  // Sass //
-  //////////
-  var extraSassFiles = {};
-  extraSassFiles[destDir + '/css/print/print.css'] = 'source/core/css/print.scss';
-  extraSassFiles[destDir + '/css/examples/examples.css'] = 'source/core/css/examples.scss';
+        // Copy across core files
+        core_files: {
+            files: [
+                {
+                    src: ['*.*'],
+                    dest: config.destination + '/' + config.file_dest + '/',
+                    cwd:  config.source.core + 'files/',
+                    expand: true
+                }
+            ]
+        },
 
-  tasks.sass = {
+        // Get any associated files for module CSS
+        module_css_files: {
+            files: bp.getAssociatedCSSFiles()
+        },
 
-    // Core sass files containing module content (global, medium, wide)
-    modules: {
-      options: {
-        style: 'expanded',
-        loadPath: [
-          'source/core/css/',
-          '/'
-        ]
-      },
-      files: moduleData.sassFiles
-    },
-
-    // Extra Sass files to process in addition to those containing module content
-    // This would include things like print CSS, or page specific CSS (e.g. home page).
-    extras: {
-      options: {
-        style: 'expanded',
-        loadPath: ['source/core/css/']
-      },
-      files: extraSassFiles
-    }
-  };
-
-  ///////////
-  // Watch //
-  ///////////
-  // Watch all source files except minified ones.
-  tasks.watch = {
-      files: ['source/**/*.scss', 'source/**/*.js', 'source/**/*.html',
-              'source/**/*.json', '!source/**/*.min.js'],
-      tasks: 'build'
-  };
-
-  ////////////////
-  // Copy Files //
-  ////////////////
-  tasks.copy = {
-    main: {
-      files: [
-        // Copy any JS files not being concatenated.
-        {src: ['*.js', '!global.js', '!plugin.js'], dest: destDir + '/js/',
-          cwd: 'source/core/js/', expand: true},
-
-        // Copy the JS files from the module tmp folder into distribution
-        {src: ['*.js'], dest: destDir + '/js/', cwd: 'tmp/', expand: true},
-
-        // Copy any HTML files across.
-        {src: ['*.html'], dest: destDir + '/', cwd: 'source/core/html/', expand: true},
-
-        // Copy any core files across.
-        {src: ['*'], dest: destDir + '/files/', cwd: 'source/core/files/', expand: true},
-
-        // Copy any associated css files (images) into the correct location.
-        {src: moduleData.moduleCSSFiles.global,
-          dest: destDir + '/css/global/files/', cwd: 'source/modules/', expand: true, flatten: true},
-        {src: moduleData.moduleCSSFiles.medium,
-          dest: destDir + '/css/medium/files/', cwd: 'source/modules/', expand: true, flatten: true},
-        {src: moduleData.moduleCSSFiles.wide,
-          dest: destDir + '/css/wide/files/', cwd: 'source/modules/', expand: true, flatten: true}
-        ]
-      },
-      // Copy any matrix parse files into relevant example folders
-      matrix: {
-        files: moduleData.exampleMatrixFiles
-      },
-      examples: {
-        files: moduleData.exampleHTMLFiles
-      },
-      // Any associated files from <module>/files/*.*
-      associated: {
-        files: moduleData.exampleAssociatedFiles
-      },
-
-      // Copy associated files into a folder where they will also work outside
-      // of the examples folder
-      associated_publish: {
-        files: [
-          {src: ['**/files/*'], dest: destDir + '/files/', cwd: destDir + '/examples/', expand: true, flatten: true}
-        ]
-      }
+        module_files: {
+            files: [
+                {
+                    src: ['**/files/*.*'],
+                    dest: config.destination + '/' + config.file_dest + '/',
+                    cwd:  config.source.modules,
+                    expand: true,
+                    flatten: true
+                }
+            ]
+        }
     };
 
-  ////////////////
-  // JS Linting //
-  ////////////////
-  tasks.jshint = {
-    options: {
-      curly: true,
-      eqeqeq: true,
-      immed: true,
-      latedef: true,
-      newcap: true,
-      noarg: true,
-      sub: true,
-      undef: true,
-      boss: true,
-      eqnull: true,
-      globals: {
-        "jQuery": true,
-        "document": true,
-        "window": true,
-        "Modernizr": true,
-        "clearInterval": true,
-        "setTimeout": true,
-        "setInterval": true,
-        "$": true
-      }
-    },
-    all: ['Gruntfile.js',
-          'source/core/js/global.js',
-          'source/modules/**/js/*.js',
-
-          // Exclusions
-          '!source/libs/**',
-          '!source/modules/**/js/bootstrap*.js',
-          '!source/modules/**/js/*.min.js']
-  };
-
-  //////////////////
-  // Unit Testing //
-  //////////////////
-  // Unit tests that require the DOM
-  tasks.qunit = {
-    all: [
-      'source/modules/**/tests/*.html',
-      'source/libs/**/tests/*.html'
-    ]
-  };
-
-  //////////////
-  // Clean Up //
-  //////////////
-  // Clean the sass cache & distribution directories
-  tasks.clean = {
-    dist: [destDir], // This one will remove all dist files, be careful with it.
-    tmp:  ["tmp", ".sass-cache"]
-  };
-
-  ///////////////////////
-  // HTML Code Sniffer //
-  ///////////////////////
-  tasks.htmlcs = {
-    dist: {
-      options: {
-        standard: 'WCAG2AA'
-      },
-      files: [
-        // Run HTML CS across examples
-        // {src: destDir + '/examples/**/index.html'},
-        {src: destDir + '/*.html'}
-      ]
-    }
-  };
-
-  /////////////////////////
-  // Image Optimisations //
-  /////////////////////////
-  // https://github.com/heldr/grunt-img
-  // If the grunt-img npm module is installed images will be automatically
-  // optimised by this task
-  // Note: this task can take quite a while to run, it's best to leave it to the end
-  // and run it separately when ready to publish. Run with 'grunt img'.
-  if (grunt.file.isDir('node_modules/grunt-img')) {
-    npmTasks.push('grunt-img');
-    tasks.img = {
-      css_files: {
-        src: [destDir + '/css/**/files/*.jpg', destDir + '/css/**/files/*.png', destDir + '/css/**/files/*.jpeg']
-      },
-      dist_files: {
-        src: [destDir + '/files/*.jpg', destDir + '/files/*.png', destDir + '/files/*.jpeg']
-      }
+    //////////////
+    // Markdown //
+    //////////////
+    // Turn markdown file into source HTML
+    tasks.markdown = {
+        docs: {
+            files: [
+                {
+                    expand: true,
+                    src: '*.md',
+                    dest: config.destination,
+                    ext: '.html'
+                }
+            ]
+        }
     };
-  }//end if
 
-  ///////////////////////
-  // Pretty Print HTML //
-  ///////////////////////
-  // https://npmjs.org/package/grunt-prettify
-  tasks.prettify = {
-    options: {
-      indent: 4,
-      unformatted: ['a', 'pre', 'code']
-    },
-    all: {
-      expand: true,
-      cwd: destDir,
-      ext: '.html',
-      src: ['*.html'],
-      dest: destDir
-    }
-  };
+    ////////////
+    // Concat //
+    ////////////
+    // @todo Remove duplication
+    // @todo Replace module comment with a template
 
-  // Project configuration.
-  grunt.initConfig(tasks);
+    // Table of contents entries
+    tasks.js_toc = {
+        global: [],
+        plugins: []
+    };
 
-  // Load the tasks.
-  grunt.loadTasks('tasks');
-  npmTasks.forEach(function(task){
-    grunt.loadNpmTasks(task);
-  });
+    tasks.concat = {
+        global_js: {
+            options: {
+                process: function(src, filePath) {
+                    var moduleName = bp.getModuleNameFromPath(filePath);
+                    tasks.js_toc.global.push(" *     " + moduleName);
+                    return "\n/*-- " + moduleName + " --*/\n" + src;
+                }
+            },
+            files: bp.getGlobalJS()
+        },
+        plugins_js: {
+            options: {
+                process: function(src, filePath) {
+                    var moduleName = bp.getModuleNameFromPath(filePath);
+                    tasks.js_toc.plugins.push(" *     " + moduleName);
+                    return "\n/*-- " + moduleName + " --*/\n" + src;
+                }
+            },
+            files: bp.getPluginsJS()
+        }
+    };
 
-  ///////////
-  // Tasks //
-  ///////////
+    /////////////
+    // Plugins //
+    /////////////
+    // Process plugin dependencies
+    tasks.plugins = {
+        dist: {
+            modules: config.modules,
+            dest: config.destination + '/js/plugins.js',
+            libPath: config.source.libs,
+            modulePath: config.source.modules
+        }
+    };
 
-  // Reset the generated files.
-  grunt.registerTask('reset', ['clean']);
+    /////////////////
+    // JS Beautify //
+    /////////////////
+    tasks.jsbeautifier = {
+        files : [config.destination + "/js/global.js"],
+        options : {
+            braceStyle: "collapse",
+            breakChainedMethods: true,
+            e4x: false,
+            evalCode: false,
+            indentChar: " ",
+            indentLevel: 0,
+            indentSize: 4,
+            indentWithTabs: false,
+            jslintHappy: false,
+            keepArrayIndentation: false,
+            keepFunctionIndentation: false,
+            maxPreserveNewlines: 10,
+            preserveNewlines: true,
+            spaceBeforeConditional: true,
+            spaceInParen: false,
+            unescapeStrings: false,
+            wrapLineLength: 80
+        }
+    };
 
-  // Run tests.
-  grunt.registerTask('test', ['jshint', 'qunit', 'htmlcs']);
+    //////////
+    // Sass //
+    //////////
+    tasks.sass = {
 
-  // The main build task. Special attention needs to be paid to the order in
-  // which the tasks are run, many tasks require previously run tasks.
-  grunt.registerTask('build', buildTasks);
+        // Core sass files containing module content (global, medium, wide)
+        main: {
+            options: {
+                style: 'expanded',
+                loadPath: [
+                    'source/core/css/',
+                    '/'
+                ]
+            },
+            files: bp.getSassTaskFileList()
+        }
+    };
 
-  // Default without any arguments
-  grunt.registerTask('default', ['test', 'build']);
+    ///////////
+    // Watch //
+    ///////////
+    // Watch all source files for changes and trigger appropriate
+    // build tasks.
+    tasks.watch = {
+        sass: {
+            files: ['source/**/*.scss'],
+            tasks: 'build_sass'
+        },
+        html: {
+            files: ['source/**/*.html'],
+            tasks: 'build_html'
+        },
+        javascript: {
+            files: ['source/**/*.js', 'source/**/*.json', '!source/**/*.min.js'],
+            tasks: 'build_js'
+        },
+        config: {
+            files: ['*.json'],
+            tasks: 'build'
+        },
+        docs: {
+            files: ['*.md'],
+            tasks: 'build_docs'
+        }
+    };
 
+    //////////////
+    // Clean Up //
+    //////////////
+    // Clean the sass cache & distribution directories
+    tasks.clean = {
+        dist: [config.destination], // This one will remove all dist files, be careful with it.
+        tmp:  [config.temp_dir, ".sass-cache"]
+    };
+
+    ///////////////////////
+    // Pretty Print HTML //
+    ///////////////////////
+    // https://npmjs.org/package/grunt-prettify
+    tasks.prettify = {
+        options: {
+            indent: 4,
+            unformatted: ['a', 'pre', 'code']
+        },
+        all: {
+            expand: true,
+            cwd: config.destination,
+            ext: '.html',
+            src: ['*.html'],
+            dest: config.destination
+        }
+    };
+
+    ////////////
+    // Minify //
+    ////////////
+    // Automatic minification for known targets
+    tasks.uglify = {
+        plugins: {
+            options: {
+                banner: "/* Generated: <%= grunt.template.today('yyyy-mm-dd') %> */\n"
+            },
+            files: bp.getFilesToMinify()
+        }
+    };
+
+    //////////////
+    // Keywords //
+    //////////////
+    tasks.replace = {
+        sass:    bp.getSassModuleReplacements(),
+        html:    bp.getHTMLModuleReplacements(),
+        css_tags:     {
+            options: {
+                variables: {
+                    css: bp.buildCSSTags()
+                }
+            },
+            files: [
+                {
+                    src: ['*.html'],
+                    expand: true,
+                    cwd: config.destination,
+                    dest: config.destination
+                }
+            ]
+        },
+        javascript: {
+            options: {
+                variables: {
+                    version: '<%= pkg.version %>',
+                    date:    '<%= grunt.template.today() %>',
+                    global_js_toc: '<%= js_toc.global.join("\\n") %>',
+                    plugins_js_toc: '<%= js_toc.plugins.join("\\n") %>'
+                }
+            },
+            files: [
+                {
+                    src: ['*.js'],
+                    expand: true,
+                    cwd: config.destination + '/js/',
+                    dest: config.destination + '/js/'
+                }
+            ]
+        },
+        module_js: {
+            options: {
+                prefix: '//@@',
+                variables: {
+                    global_modules: "<%= grunt.file.read('" + config.temp_dir + "/global.js') %>",
+                    plugin_modules: "<%= grunt.file.read('" + config.temp_dir + "/plugins.js') %>"
+                }
+            },
+            files: [
+                {
+                    src: ['*.js'],
+                    expand: true,
+                    cwd:  config.destination + '/js/',
+                    dest: config.destination + '/js/'
+                }
+            ]
+        },
+        files_location: {
+            options: {
+                variables: {
+                    files: config.file_dest
+                }
+            },
+            files: [
+                {
+                    src: ['*.html', 'css/**/*.css'],
+                    expand: true,
+                    cwd:  config.destination + '/',
+                    dest: config.destination + '/'
+                }
+            ]
+        }
+    };
+
+    ////////////////
+    // JS Linting //
+    ////////////////
+    tasks.jshint = {
+        options: {
+            curly: true,
+            eqeqeq: true,
+            immed: true,
+            latedef: true,
+            newcap: true,
+            noarg: true,
+            sub: true,
+            undef: true,
+            boss: true,
+            eqnull: true,
+            globals: {
+                "jQuery": true,
+                "document": true,
+                "window": true,
+                "Modernizr": true,
+                "clearInterval": true,
+                "setTimeout": true,
+                "setInterval": true,
+                "$": true
+            }
+        },
+        all: [
+            'Gruntfile.js',
+            '*.json',
+            (config.destination + '/js/global.js'),
+            (config.source.modules + '/**/js/*.js'),
+
+            // Exclusions
+            '!' + config.source.libs + '/**',
+            '!' + config.source.modules + '/**/js/bootstrap*.js',
+            '!' + config.source.modules + '/**/js/*.min.js'
+        ]
+    };
+
+    //////////////////
+    // Unit Testing //
+    //////////////////
+    // Unit tests that require the DOM
+    tasks.qunit = {
+        all: [
+            config.source.modules + '/**/tests/*.html',
+            config.source.libs + '/**/tests/*.html'
+        ]
+    };
+
+    ///////////////////////
+    // HTML Code Sniffer //
+    ///////////////////////
+    tasks.htmlcs = {
+        dist: {
+            options: {
+                standard: 'WCAG2AA'
+            },
+            files: [
+                // Run HTML CS across examples
+                // {src: config.destination + '/examples/**/index.html'},
+                {
+                    src: config.destination + '/*.html'
+                }
+            ]
+        }
+    };
+
+    /////////////////////////
+    // Image Optimisations //
+    /////////////////////////
+    // https://github.com/heldr/grunt-img
+    // If the grunt-img npm module is installed images will be automatically
+    // optimised by this task
+    // Note: this task can take quite a while to run, it's best to leave it to the end
+    // and run it separately when ready to publish. Run with 'grunt img'.
+    if (grunt.file.isDir('node_modules/grunt-img')) {
+        npmTasks.push('grunt-img');
+        tasks.img = {
+            css_files: {
+                src: [config.destination + '/css/**/**/*.jpg',
+                      config.destination + '/css/**/**/*.png',
+                      config.destination + '/css/**/**/*.jpeg']
+            },
+            dist_files: {
+                src: [config.destination + '/files/*.jpg',
+                      config.destination + '/files/*.png',
+                      config.destination + '/files/*.jpeg']
+            }
+        };
+    }//end if
+
+    // Project configuration.
+    grunt.initConfig(tasks);
+
+    // Load the tasks.
+    grunt.loadTasks('tasks');
+    npmTasks.forEach(function(task){
+        grunt.loadNpmTasks(task);
+    });
+
+    ///////////
+    // Tasks //
+    ///////////
+
+    // Reset the generated files.
+    // Alias to 'clean'
+    grunt.registerTask('reset', ['clean']);
+
+    ////////////////
+    // Test Tasks //
+    ////////////////
+    grunt.registerTask('test', ['jshint', 'qunit', 'htmlcs']);
+
+    /////////////////
+    // Build tasks //
+    /////////////////
+
+    // Build CSS from Sass source
+    grunt.registerTask('build_css',
+        ['copy:core_sass', 'replace:sass', 'sass',
+         'replace:files_location', 'clean:tmp']);
+
+    // Build HTML from source core and module files
+    grunt.registerTask('build_html',
+        ['copy:core_html', 'replace:html', 'replace:css_tags',
+         'replace:files_location', 'prettify']);
+
+    // Build JavaScript //
+    grunt.registerTask('build_js',
+        ['copy:core_js', 'concat:global_js', 'uglify:plugins',
+         'concat:plugins_js', 'plugins', 'replace:module_js',
+         'replace:javascript', 'jsbeautifier', 'clean:tmp']);
+
+    // Build any associated binary files
+    grunt.registerTask('build_files',
+        ['copy:core_files', 'copy:module_files', 'copy:module_css_files']);
+
+    // Build documents from markdown into html and inject it into any HTML document
+    // that contains the document keyword replacements.
+    grunt.registerTask('build_docs', ['markdown:docs', 'prettify']);
+
+    // The main build task. Special attention needs to be paid to the order in
+    // which the tasks are run, many tasks require previously run tasks.
+    grunt.registerTask('build',
+        ['build_css', 'build_html', 'build_js', 'build_files', 'build_docs']);
+
+    // Default without any arguments
+    grunt.registerTask('default', ['build']);
 };
