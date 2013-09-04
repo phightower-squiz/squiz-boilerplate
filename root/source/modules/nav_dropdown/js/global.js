@@ -1,5 +1,5 @@
 /*global setTimeout: false, clearInterval: false*/
-;(function($, undefined){
+(function($, undefined){
     var options = {
         // Set this to false to stop any JS behaviour overriding CSS defaults.
         jsNavEnhancementEnabled: true,

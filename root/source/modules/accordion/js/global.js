@@ -1,4 +1,4 @@
-;(function($, document){
+(function($, document){
     $(document).ready(function() {
         var $accordions = $('.accordion');
         $accordions.each(function(){

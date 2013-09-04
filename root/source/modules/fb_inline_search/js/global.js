@@ -1,4 +1,4 @@
-;(function($, undefined){
+(function($, undefined){
 
     // JSON P connection to a funnelback JSON service.
 

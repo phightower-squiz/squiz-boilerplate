@@ -1,5 +1,5 @@
 /* global Raphael:false */
-;(function($, undefined){
+(function($, undefined){
     "use strict";
 
     var $data = $('#pie-chart-data .pie-chart-data-item');

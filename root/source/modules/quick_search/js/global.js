@@ -1,4 +1,4 @@
-;(function($){
+(function($){
     var $searchInput = $('#quick-search-query');
     // Mimick placeholder support where it is not available.
     // Credit: http://webdesignerwall.com/tutorials/cross-browser-html5-placeholder-text

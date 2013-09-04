@@ -1,4 +1,4 @@
-;(function($, document, undefined){
+(function($, document, undefined){
     $(document).ready(function(){
         // Editable options for flexslider
         var options = {

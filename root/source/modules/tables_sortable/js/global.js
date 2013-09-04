@@ -1,4 +1,4 @@
-;(function($){
+(function($){
     'use strict';
     // Add a link wrapping in the table header
     var addHeaderLink = function($th) {

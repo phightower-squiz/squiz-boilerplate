@@ -1,4 +1,4 @@
-;(function($){
+(function($){
     var options = {
         // Classes
         menuToggleClass:   'nav-basic-list-menu-toggle-inactive',
@@ -14,7 +14,7 @@
     $('.nav-basic').each(function(){
         var $nav = $(this);
         var $toggle = $('<a class="' + options.buttonClass + '" ' +
-                        'role="button" href="#" title="' + options.title + 
+                        'role="button" href="#" title="' + options.title +
                         '">' + options.content + '</a>');
         var $menu = $('.nav-basic-list', $nav);
 

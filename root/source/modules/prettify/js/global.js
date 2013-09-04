@@ -1,5 +1,5 @@
 /*global prettyPrint:false*/
-;(function($){
+(function($){
     $(document).ready(function(){
         if (typeof(prettyPrint) === 'function') {
             prettyPrint();

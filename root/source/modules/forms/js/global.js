@@ -1,4 +1,4 @@
-;(function($){
+(function($){
     var getContainerForInput = function(elem) {
         var $container = $(elem).parents('.sq-form-question');
         return $container;

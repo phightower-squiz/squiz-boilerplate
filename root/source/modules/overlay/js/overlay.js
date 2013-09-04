@@ -1,4 +1,4 @@
-;(function($, window, document, undefined){
+(function($, window, document, undefined){
 
     // Vertical center alignment helper
     var interval = null;
