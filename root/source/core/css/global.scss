@@ -15,8 +15,8 @@
  * 1. Reset
  * 2. Utilities
  * 3. General
- * 4. Modules
-@@toc
+ * Modules
+@@global_toc
  */
 
 @import "common/variables.scss";
@@ -51,9 +51,9 @@
 
 /*
 --------------------
-4. Modules
+Modules
 --------------------
 */
 
 // The modules keyword will get replaced by automated, numbered module CSS output
-//@@modules
+@@global_modules
