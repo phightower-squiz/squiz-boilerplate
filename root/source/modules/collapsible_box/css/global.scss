@@ -32,7 +32,7 @@
 
 .collapsible-box-link {
     background: center center no-repeat;
-    @include svg-background("files/arrow");
+    @include svg-background("@@files/arrow");
     @include rotate(90);
     @include transition(all 0.3s ease);
     @include ir();
@@ -41,7 +41,7 @@
     top:    0;
     bottom: 0;
     right:  0;
-    left:   0; 
+    left:   0;
 }
 
 .collapsible-box-link:hover,
