@@ -41,29 +41,72 @@ git clone username@cvs.squiz.net:/data/git/squiz-boilerplate.git ~/.grunt-init/b
 mkdir new_project && cd new_project
 grunt-init boilerplate
 npm install
+grunt
 ```
 
 These commands will create a new directory, initialise the boilerplate
 with all of the necessary files. The grunt-init command will ask you a series of
 questions which will help setting up the initial choices for the build.
-Subsequent changes can be made to the projects Gruntfile.js which can be edited
-and tweaked.
+Subsequent changes can be made to the projects Gruntfile.js which can be tweaked for any custom
+build options that the boilerplate doesn't already offer.
 
-# Building the HTML, CSS & JS
+Running the initial `grunt` without any parameters will give you a basic build and confirm that all
+of the pre-requisites have been installed correctly.
 
-In the project directory
+# Tasks
+
+To call a specific task the syntax is as follows:
+```Shell
+grunt [task name]
+```
+
+***
+
 ```Shell
 grunt
 ```
+This is the default "build" task for the boilerplate and will read all source files and create a new directory. The destination directory is defined by the `config.json` "destination" property (defaults to `dist`).
 
-This command will execute the default task for grunt and build all the required
-code into a /dist directory.
+```Shell
+grunt build_js
+grunt build_html
+grunt build_css
+grunt build_files
+grunt build_docs
+```
+Each task can be broken down into individual components. If a change has been made to a smaller part of the boilerplate source then running an individual component task can save some time. This is used behind the scenes to perform different tasks when the file system is watched for changes.
+
+***
+
+```Shell
+grunt watch
+```
+Watch the file system for changes and perform any builds based on the file type that was changed. For example editing a html file will only trigger the build_html task.
+
+***
+
+```Shell
+grunt test
+```
+Run all associated tests for the Boilerplate including jshint, qunit and htmlcs. Each of these tasks can be run individually by using `grunt jshint`, `grunt qunit` or `grunt htmlcs`.
+
+***
+
+```Shell
+grunt clean
+```
+This will remove any content output in the destination directory. Useful for purging the directory before a rebuild.
+
+Note: this will remove the entire directory.
 
 # Revision History
 
 ## `0.9a` - Alpha release
+
 * Added new HTML prettify task
+
 ## `1.0`  - First verion release
+
 * New configuration file `config.json` that replaces `modules.json`.
 * Grunt tasks split into separate css, html, css, files and documentation to improve performance of the watch task
 * New dynamic file location replacements with the `@@files` variable in CSS and HTML files. Default is `mysource_files` instead of `files`
