@@ -1,21 +1,21 @@
 /*global jQuery:false*/
 /**
- * {%= client_name %} - {%= client_project %}
+ * Squiz - Internet Site
  * Global JavaScript
  *
  * version: @@version
  * file:    global.js
  * author:  Squiz Australia
- * change log: 
- *     {%= author_email %} - @@date - First revision
+ * change log:
+ *     <name>@squiz.com.au - @@date - First revision
  */
 
 /*
  * Table of Contents
  * 1. Global
  *     1.1. Core Init Functions
- * 2. Modules
-@@toc
+ * Modules
+@@global_js_toc
  */
 
 /*
@@ -37,8 +37,7 @@
 
 /*
 --------------------
-2. Modules
+Modules
 --------------------
 */
-
-//@@modules
+//@@global_modules

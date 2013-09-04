@@ -6,15 +6,15 @@
  * version: @@version
  * file:    plugins.js
  * author:  Squiz Australia
- * change log: 
+ * change log:
  *     <name>@squiz.com.au - @@date - First revision
  */
 
 /*
  * Table of Contents
  * 1. Core
- * 2. Modules
-@@toc
+ * Modules
+@@plugins_js_toc
  */
 
 
@@ -28,8 +28,7 @@
 
 /*
 --------------------
-2. Modules
+Modules
 --------------------
 */
-
-//@@modules
+//@@plugin_modules
