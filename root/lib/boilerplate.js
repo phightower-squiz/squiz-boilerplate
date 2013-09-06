@@ -41,12 +41,12 @@ var Boilerplate = function(config, pkg) {
     }//end if
 
     // Only use valid module names (alpha sorted)
-    this.modules = this.modules.map(function(name){
+    this.modules = _.compact(this.modules.map(function(name){
         var dir = self.config.source.modules + name;
         if (grunt.file.isDir(dir)) {
             return new Module(name, dir);
         }//end if
-    }).sort();
+    }).sort());
 
 };//end constructor
 
