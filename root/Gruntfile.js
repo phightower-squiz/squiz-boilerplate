@@ -227,7 +227,7 @@ module.exports = function(grunt) {
     tasks.watch = {
         sass: {
             files: ['source/**/*.scss'],
-            tasks: 'build_sass'
+            tasks: 'build_css'
         },
         html: {
             files: ['source/**/*.html'],
@@ -422,7 +422,9 @@ module.exports = function(grunt) {
                 // Run HTML CS across examples
                 // {src: config.destination + '/examples/**/index.html'},
                 {
-                    src: config.destination + '/*.html'
+                    src: [config.destination + '/*.html',
+                          '!' + config.destination +  '/*parse.html'],
+                    expand: true
                 }
             ]
         }
