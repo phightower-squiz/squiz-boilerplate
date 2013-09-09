@@ -1,0 +1,7 @@
+{
+    "name": "chart",
+    "main": "plugin.min.js",
+    "minify": {
+        "plugin.min.js": ["plugin.js"]
+    }
+}
