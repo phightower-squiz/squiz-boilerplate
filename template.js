@@ -72,6 +72,7 @@ exports.template = function(grunt, init, done) {
       'grunt-contrib-qunit': '*',
       'grunt-contrib-sass': '*',
       'grunt-contrib-uglify': '*',
+      'grunt-html-validation': '*',
       'grunt-lib-phantomjs': '*',
       "grunt-jsbeautifier": "*",
       "grunt-markdown": "*",

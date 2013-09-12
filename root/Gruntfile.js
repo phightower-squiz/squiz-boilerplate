@@ -33,6 +33,7 @@ module.exports = function(grunt) {
         'grunt-contrib-watch',
         'grunt-contrib-clean',
         'grunt-contrib-uglify',
+        'grunt-html-validation',
         'grunt-markdown',
         'grunt-jsbeautifier',
         'grunt-prettify',
@@ -422,11 +423,32 @@ module.exports = function(grunt) {
                 // Run HTML CS across examples
                 // {src: config.destination + '/examples/**/index.html'},
                 {
-                    src: [config.destination + '/*.html',
-                          '!' + config.destination +  '/*parse.html'],
+                    src: ['*.html',
+                          '!*parse.html',
+                          '!parse*',
+                          '!README.html'],
+                    cwd: config.destination,
                     expand: true
                 }
             ]
+        }
+    };
+
+    /////////////////////
+    // HTML Validation //
+    /////////////////////
+    // W3C Validator checks - not to be confused with HTMLCS
+    tasks.validation = {
+        options: {
+
+        },
+        files: {
+            src: ['*.html',
+                  '!*parse.html',
+                  '!parse*',
+                  '!README.html'],
+            cwd: config.destination,
+            expand: true
         }
     };
 
@@ -474,7 +496,7 @@ module.exports = function(grunt) {
     ////////////////
     // Test Tasks //
     ////////////////
-    grunt.registerTask('test', ['jshint', 'qunit', 'htmlcs']);
+    grunt.registerTask('test', ['jshint', 'qunit', 'htmlcs', 'validation']);
 
     /////////////////
     // Build tasks //
