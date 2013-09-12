@@ -79,7 +79,7 @@ module.exports = function(grunt) {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
             // Default PhantomJS timeout.
-            timeout: 5000,
+            timeout: 15000,
 
             inject: 'lib/htmlcs/htmlcs_combined.js',
 
@@ -119,9 +119,23 @@ module.exports = function(grunt) {
                             grunt.log.ok();
                         } else {
                             grunt.log.fail();
+
+                            // Count colour contrast issues since they are likely to spam the
+                            // error log
+                            var contrast = 0;
+
                             errors.error.forEach(function(error){
-                                grunt.log.error("\n" + error.msg.red + "[" + error.code + "]\n");
+                                if (error.msg.indexOf('insufficient contrast') !== -1) {
+                                    contrast += 1;
+                                } else {
+                                    grunt.log.writeln("    " + error.msg.red);
+                                }//end if
                             });
+
+                            if (contrast !== 0) {
+                                grunt.log.writeln(("    There were (" + contrast +
+                                 ") colour contrast issues.").red);
+                            }//end if
                         }//end if
 
                         next();
