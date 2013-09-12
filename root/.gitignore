@@ -6,6 +6,7 @@ node_modules/
 tmp/
 .sass-cache/
 *plugin.min.js
+validation-status.json
 
 # OS generated files #
 ######################
