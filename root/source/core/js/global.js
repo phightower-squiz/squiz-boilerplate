@@ -24,7 +24,7 @@
 --------------------
 */
 
-;(function($){
+(function($){
     'use strict';
 
     /*-- 1.1 Core Init Functions --*/

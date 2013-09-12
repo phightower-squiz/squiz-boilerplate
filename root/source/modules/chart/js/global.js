@@ -1,3 +1,4 @@
+/*global google:false*/
 (function($) {
     var options = {
         chartClass: 'chart'
