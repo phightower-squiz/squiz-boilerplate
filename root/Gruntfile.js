@@ -296,9 +296,12 @@ module.exports = function(grunt) {
         html:    bp.getHTMLModuleReplacements(),
         css_tags:     {
             options: {
-                variables: {
-                    css: bp.buildCSSTags()
-                }
+                patterns: [
+                    {
+                    match: 'css',
+                    replacement: bp.buildCSSTags()
+                    }
+                ]
             },
             files: [
                 {
@@ -311,12 +314,24 @@ module.exports = function(grunt) {
         },
         javascript: {
             options: {
-                variables: {
-                    version: '<%= pkg.version %>',
-                    date:    '<%= grunt.template.today() %>',
-                    global_js_toc: '<%= js_toc.global.join("\\n") %>',
-                    plugins_js_toc: '<%= js_toc.plugins.join("\\n") %>'
-                }
+                patterns: [
+                    {
+                        match: 'version',
+                        replacement: '<%= pkg.version %>'
+                    },
+                    {
+                        match: 'date',
+                        replacement: '<%= grunt.template.today() %>'
+                    },
+                    {
+                        match: 'global_js_toc',
+                        replacement: '<%= js_toc.global.join("\\n") %>'
+                    },
+                    {
+                        match: 'plugins_js_toc',
+                        replacement: '<%= js_toc.plugins.join("\\n") %>'
+                    }
+                ]
             },
             files: [
                 {
@@ -330,10 +345,16 @@ module.exports = function(grunt) {
         module_js: {
             options: {
                 prefix: '//@@',
-                variables: {
-                    global_modules: "<%= grunt.file.read('" + config.temp_dir + "/global.js') %>",
-                    plugin_modules: "<%= grunt.file.read('" + config.temp_dir + "/plugins.js') %>"
-                }
+                patterns: [
+                    {
+                        match: 'global_modules',
+                        replacement: "<%= grunt.file.read('" + config.temp_dir + "/global.js') %>"
+                    },
+                    {
+                        match: 'plugin_modules',
+                        replacement: "<%= grunt.file.read('" + config.temp_dir + "/plugins.js') %>"
+                    }
+                ]
             },
             files: [
                 {
@@ -346,9 +367,12 @@ module.exports = function(grunt) {
         },
         files_location: {
             options: {
-                variables: {
-                    files: config.file_dest
-                }
+                patterns: [
+                    {
+                        match: 'files',
+                        replacement: config.file_dest
+                    }
+                ]
             },
             files: [
                 {

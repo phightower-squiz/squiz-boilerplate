@@ -7,6 +7,24 @@ var grunt  = require('grunt'),
     _      = require('underscore'),
     Module = require('./module');
 
+// Function to replace the keyword arguments with the
+// new format of 'patterns' instead of 'variables'
+function convertReplaceKeywordsArguments(args) {
+    if (args.hasOwnProperty('variables')) {
+        var variables = args.variables;
+        delete args.variables;
+        args.patterns = [];
+
+        for (var key in variables) {
+            args.patterns.push({
+                match: key,
+                replacement: variables[key]
+            });
+        }//end for
+    }//end if
+    return args;
+}//end convertReplaceKeywordsArguments()
+
 var Boilerplate = function(config, pkg) {
     'use strict';
 
@@ -179,6 +197,8 @@ Boilerplate.prototype = {
             }//end if
         }//end for
 
+        data.options = convertReplaceKeywordsArguments(data.options);
+
         return data;
     },//end getSassModuleKeywordReplacements()
 
@@ -207,6 +227,8 @@ Boilerplate.prototype = {
                 data.options.variables['module_' + key + '--' + fileName] = content;
             });
         });
+
+        data.options = convertReplaceKeywordsArguments(data.options);
 
         return data;
     },//end getSassModuleReplacements()
