@@ -7,3 +7,8 @@
 @function pxToRem($pixel) {
   @return $pixel/$base-font-pixel + rem;
 }
+
+// Strip unit taken from foundation
+@function stripUnit($num) {
+  @return $num / ($num * 0 + 1);
+}
