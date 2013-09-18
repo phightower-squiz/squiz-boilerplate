@@ -63,22 +63,22 @@ exports.template = function(grunt, init, done) {
     props.npm_test = 'grunt test';
     props.keywords = ['gruntplugin'];
     props.devDependencies = {
-      'sass': '*',
-      'grunt-contrib-copy': '*',
-      'grunt-contrib-concat': '*',
-      'grunt-contrib-clean': '*',
-      'grunt-contrib-jshint': '*',
-      'grunt-contrib-watch': '*',
-      'grunt-contrib-qunit': '*',
-      'grunt-contrib-sass': '*',
-      'grunt-contrib-uglify': '*',
-      'grunt-html-validation': '*',
-      'grunt-lib-phantomjs': '*',
-      "grunt-jsbeautifier": "*",
-      "grunt-markdown": "*",
-      'grunt-prettify': '*',
-      'grunt-replace': '*',
-      'underscore': '~1.4.4'
+      'sass':                   '~0.5.0',
+      'underscore':             '~1.4.4',
+      'grunt-contrib-copy':     '0.4.x',
+      'grunt-contrib-concat':   '0.3.x',
+      'grunt-contrib-clean':    '0.5.x',
+      'grunt-contrib-jshint':   '0.6.x',
+      'grunt-contrib-watch':    '0.5.x',
+      'grunt-contrib-qunit':    '0.2.x',
+      'grunt-contrib-sass':     '0.5.x',
+      'grunt-contrib-uglify':   '0.2.x',
+      'grunt-html-validation':  '~0.1.5',
+      'grunt-jsbeautifier':     '0.2.x',
+      'grunt-markdown':         '0.4.x',
+      'grunt-prettify':         '0.2.x',
+      'grunt-replace':          '0.5.x',
+      'grunt-lib-phantomjs':    '0.4.0'
     };
     props.peerDependencies = {
       'grunt': props.grunt_version
