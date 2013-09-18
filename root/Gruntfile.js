@@ -419,6 +419,7 @@ module.exports = function(grunt) {
 
             // Exclusions
             '!' + config.source.libs + '/**',
+            '!' + config.source.modules + '/**/js/jquery.*.js', // 3rd party jQuery plugins
             '!' + config.source.modules + '/**/js/bootstrap*.js',
             '!' + config.source.modules + '/**/js/*.min.js'
         ]
