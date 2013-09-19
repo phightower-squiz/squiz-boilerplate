@@ -1,14 +1,4 @@
-# Overview
+The Squiz Boilerplate is a modular, scalable starting point for new design cutups. It uses a modern tool set with Grunt & Sass to automate builds of HTML design templates.
 
-Store this repository in your grunt-init path. In 0.4.x this is in the user profile
-path of ~/.grunt-init/
-
-If you store it as:
-```
-~/.grunt-init/boileplate/
-```
-
-Then it can be used with:
-```
-grunt-init boilerplate
-```
+Read the documentation on Central for more information:
+https://central.squiz.net/imp/squiz-boilerplate
