@@ -36,3 +36,46 @@
 .invisible {
     visibility: hidden;
 }
+
+/* Flex input groups with Modernizr prefixes and No JS fallback */
+// Uses Modernizr class to prefix solution for flexible inputs and input addons
+// Falls back to the table method for elements ajoined to an input (e.g. twitter bootstrap)
+.input-group {
+    @include border-box;
+    .flexbox & {
+        @include display-flex;
+    }
+    .no-js &,
+    .no-flexbox & {
+        display: table;
+    }
+}
+
+.input-field {
+    @include border-box;
+    .flexbox & {
+        -moz-box-flex: 1;
+        flex: 1;
+    }
+    .no-js &,
+    .no-flexbox & {
+        width: 100%;
+        display: table-cell;
+    }
+}
+
+// Make sure that when you apply this class it's an inline element like a span tag
+// Applying it directly to a form element may result in some margins that are
+// difficult to remove, the span container element makes it easy.
+.input-addon {
+    @include border-box;
+    .flexbox & {
+        // No need for anything else here
+    }
+    .no-js &,
+    .no-flexbox & {
+        // Will adjust to fit whatever the content because of the table cell
+        width: 1%;
+        display: table-cell;
+    }
+}

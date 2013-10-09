@@ -1,69 +1,38 @@
-.quick-search {
-    width: 100%;
-    position: relative;
-}
-
 .quick-search-form {
     margin: 0;
     padding: 0;
-    border: 1px solid $basic-colour;
-    @include clearfix();
 }
 
-// Search field
-.quick-search-field {
-    width: 100%;
-    float: left;
-}
-
-.quick-search-field-input {
-    border: 0;
-    text-indent: $default-padding/2;
+.quick-search-input {
+    vertical-align: middle;
+    white-space: nowrap;
     color: lighten($base-font-colour, 20%);
-    display: block;
-    padding: $default-padding/2 0;
-    width: 100%;
-}
-
-.quick-search-field-input:focus {
-    color: darken($base-font-colour, 20%);
-    background-color: lighten($basic-colour, 20%);
-}
-
-// Submit Button
-.quick-search-submit-button {
-    right: 0; // Accounts for the border
-    top: 0;
-    position: absolute;
-}
-
-.quick-search-submit-button-input {
-    display: block;
+    border: 1px solid $base-border-colour;
     padding: $default-padding/2 $default-padding;
-    background: $highlight-colour;
-    border: 1px solid $highlight-colour;
+    border-right: 0;
+    margin: 0;
+}
+
+.quick-search-input:focus {
+    color: darken($base-font-colour, 20%);
+    background-color: lighten($highlight-colour, 45%);
+}
+
+.quick-search-submit {
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: $default-padding/2 $default-padding;
+    background-color: $highlight-colour;
     color: $highlight-text-colour;
     text-align: center;
+    border: 1px solid $highlight-colour;
+    margin: 0;
+    &:hover {
+        background-color: lighten($highlight-colour, 10%);
+    }
 }
 
-// Workaround for the IE 8 and older text-indent bug
-.lt-ie9 .quick-search-field-input {
-    width: 98%;
-    padding: $default-padding/2 1%;
-}
-
-// IE 7 evilness
-// This still doesn't work perfectly with text resizes, but looks fine at default
-// text size and is still readable with font scaling & browser text tool increase
-.lt-ie8 .quick-search-submit-button-input {
-    padding-top: 0;
-    padding-bottom: 0;
-    zoom: 1;
-    height: $default-padding*2 + 0.3em;
-    line-height: $default-padding*2;
-}
-
-.quick-search-submit-button-input:hover,
-.quick-search-submit-button-input:focus {
-    background: darken($highlight-colour, 10%);
+// If there is an icon applied, hide the text
+.quick-search-submit[class^="icon-"] .quick-search-submit-text {
+    @include screen-hide;
 }

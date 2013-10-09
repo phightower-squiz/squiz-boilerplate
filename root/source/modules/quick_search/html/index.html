@@ -1,11 +1,9 @@
 <div class="quick-search">
-    <form class="quick-search-form" role="search" method="get" action="/search" novalidate="novalidate">
+    <form class="quick-search-form input-group" role="search" method="get" action="/search" novalidate="novalidate">
         <label for="quick-search-query" class="quick-search-label visuallyhidden">Search</label>
-        <div class="quick-search-field">
-            <input type="search" autocomplete="off" placeholder="Search this site" name="query" id="quick-search-query" class="quick-search-field-input" />
-        </div>
-        <div class="quick-search-submit-button">
-            <input class="quick-search-submit-button-input" type="submit" value="Search" title="Search" />
-        </div>
+        <input type="text" autocomplete="off" placeholder="Enter search terms" name="query" id="quick-search-query" class="quick-search-input input-field" />
+        <span class="input-addon">
+            <button type="submit" class="icon-search quick-search-submit"><span class="quick-search-submit-text">Start Search</span></button>
+        </span>
     </form>
 </div><!-- /.quick-search -->
