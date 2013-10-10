@@ -1,0 +1,7 @@
+{
+    "name": "google_analytics",
+    "main": "plugin.min.js",
+    "minify": {
+        "plugin.min.js": ["plugin.js"]
+    }
+}
