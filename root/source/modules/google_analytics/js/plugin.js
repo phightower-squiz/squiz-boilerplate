@@ -2,7 +2,8 @@
 // Inspire By: http://www.blastam.com/blog/index.php/2013/03/how-to-track-downloads-in-google-analytics-v2/
 // @author abarnes @ Squiz Australia
 /*global _gaq:false, location:false*/
-(function($, _gaq, undefined) {
+window._gaq = (window._gaq) ? window._gaq : [];
+(function($, undefined) {
     if ($ === undefined) {
         return false;
     }//end if
@@ -107,4 +108,4 @@
             }//end if
         });
      });
-}(jQuery, _gaq));
+}(jQuery));
