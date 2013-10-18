@@ -12,7 +12,7 @@ There are 2 ways that the chart configuration options can be supplied, via the j
 
 See all the parameters you can pass here: https://developers.google.com/chart/interactive/docs/customizing_charts
 
-## Javascript
+### Javascript
 
 ```javascript
 $('.chart').google_chart({
@@ -22,7 +22,7 @@ $('.chart').google_chart({
 });
 ```
 
-## HTML
+### HTML
 
 ```html
 <div class="chart" data-chart-type="Gauge" data-options='{
@@ -39,12 +39,12 @@ Data Source
 
 The source for the data is a HTML table in the DOM. It should be well formatted and requires <thead> and <tbody> wrappers around the head and body of the table so that the plugin can determine which cells represent column headings and which cells represet content.
 
-## Limitations
+### Limitations
 
 * Do not use cell merging, the cells must be the same number as the specified columns
 * Only supports a single horizontal heading level to label columns
 
-## Example
+### Example
 
 ```html
 <div class="chart" data-chart-type="PieChart" data-options='{
@@ -88,7 +88,7 @@ HTML Data attributes
 
 HTML data attributes are sourced to allow the plugin to understand the requirements of the display of the chart. Here are a few of the data attributes available.
 
-## Chart container element
+### Chart container element
 
 The main chart container element supports the following data attributes:
 
@@ -104,7 +104,7 @@ Supports valid JSON definition of the Google chart options supplied when renderi
 
 An optional title to pass through to any generated HTML by the default chart outputter function.
 
-## TH
+### TH
 
 The table header supports the following data attributes:
 
@@ -112,7 +112,7 @@ The table header supports the following data attributes:
 
 The type of data contained in the column. This corresponds to the supported google dataTable data types and includes things like 'number', 'string', and 'date'.
 
-## TD
+### TD
 
 The data cell supports the following attributes:
 
@@ -125,15 +125,15 @@ CSS Classes
 
 The following classes are available to help control the display and rendering of the chart:
 
-## Chart container element (default: `chart`)
+### Chart container element (default: `chart`)
 
 `chart-loaded` - Applied once the chart has successfully been loaded into the DOM
 
-## The output element (default: `chart-output`)
+### The output element (default: `chart-output`)
 
 `chart-error`  - If an error has been detected this will be applied to the output class to assist with styling.
 
-## TH, TD, TR
+### TH, TD, TR
 
 `chart-ignore` - Rows and Cells in the data table can be skipped during the data load phase by applying this class.
 
