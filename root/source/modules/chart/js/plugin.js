@@ -124,8 +124,21 @@
         draw: function() {
             var type = this.$elem.data('chart-type') || 'PieChart';
             var $output = $('.' + this.settings.classes.output, this.$elem);
-            console.log('draw', $output);
-            var options = this.settings.chart;
+
+            // Read any options from the dom if present
+            var dataOptions = {};
+            var optionAttr = this.$elem.data('options');
+            try {
+                if (typeof(optionAttr) === 'string') {
+                    dataOptions = $.parseJSON(optionAttr);
+                } else if (typeof(optionAttr) !== 'undefined') {
+                    dataOptions = optionAttr;
+                }//end if
+            } catch(e) {
+                alert(e.message);
+            }//end try
+
+            var options = $.extend({}, dataOptions, this.settings.chart);
             if (typeof(this.dataTable) !== 'undefined' &&
                 window.google.visualization.hasOwnProperty(type) &&
                 $output.length) {
