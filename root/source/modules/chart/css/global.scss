@@ -1,3 +1,15 @@
+.chart-loaded .chart-data {
+    @include screen-hide;
+}
+
+.no-js .chart-figure {
+    display: none;
+}
+
 .chart-output {
     width: 300px;
+}
+
+.chart-caption {
+    @include font-size(0.8);
 }
