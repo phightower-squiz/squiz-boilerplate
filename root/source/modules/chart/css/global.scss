@@ -13,3 +13,10 @@
 .chart-caption {
     @include font-size(0.8);
 }
+
+.chart-error {
+    color: #ff0000;
+    &:before {
+        content: "Error: ";
+    }
+}

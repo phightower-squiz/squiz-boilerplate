@@ -7,11 +7,10 @@
 
     var callbackName = '__loadCharts';
 
-    var isLoadCalled = false;
-
     // Default configuration
     var defaults = {
         classes: {
+            error:  'chart-error',
             ignore: 'chart-ignore',
             output: 'chart-output',
             loaded: 'chart-loaded',
@@ -20,17 +19,21 @@
         loaded: function() {}
     };
 
-    var instantiatedCharts = [];
+    // An array of initial callbacks to be queued before the google JS API
+    // has successfully loaded.
+    var initialCallbacks = [];
 
     // Be a good citizen and allow restoration of the old chart function if
     // present.
     var oldLoader = window[callbackName];
     var loadCharts = window[callbackName] = function() {
         if (window.google) {
-            window.google.load('visualization', '1', {'callback':'', 'packages':['corechart']});
+            window.google.load('visualization', '1', {'callback':'', 'packages':
+                ['corechart', 'timeline', 'gauge']
+            });
             window.google.setOnLoadCallback(function() {
-                for (var i = 0, l = instantiatedCharts.length; i<l; i++) {
-                    instantiatedCharts[i].init();
+                for (var i = 0, l = initialCallbacks.length; i<l; i++) {
+                    initialCallbacks[i].call(this);
                 }//end for
             });
         }//end if
@@ -41,25 +44,34 @@
     ///////////////////////
 
     // Load the Google JS API, but only load it once
-    function loadGoogleJSAPI() {
-        if (!window.google && !isLoadCalled) {
+    var loaderCalled = false;
+    function loadGoogleJSAPI(callback) {
+        if (!window.google && !loaderCalled) {
             var script = document.createElement("script");
             script.src = "https://www.google.com/jsapi?callback=" + callbackName;
             script.type = "text/javascript";
             document.getElementsByTagName("head")[0].appendChild(script);
-            isLoadCalled = true;
+            loaderCalled = true;
+            initialCallbacks.push(callback);
+        } else if (window.google) {
+            // Call it straight away
+            callback.call();
+        } else {
+            initialCallbacks.push(callback);
         }//end if
     }//end loadGoogleJSAPI()
 
     // Constructor
     var GoogleChart = function(elem, options) {
+        var self = this;
         this.settings = $.extend({}, defaults, options, true);
         this.elem     = elem;
         this.$elem    = $(elem);
 
-        // Add the chart to an internal list ready to init after load
-        instantiatedCharts.push(this);
-        loadGoogleJSAPI();
+        // Need to make sure the JS API is available
+        loadGoogleJSAPI(function(){
+            self.init();
+        });
     };
 
     //////////////////////
@@ -74,8 +86,6 @@
         init: function() {
             this.loadData();
             this.draw();
-            this.$elem.addClass(this.settings.classes.loaded);
-            this.$elem.trigger('google-chart:loaded');
         },
 
         /**
@@ -102,7 +112,10 @@
                 if (!$(this).hasClass(self.settings.classes.ignore)) {
                     var $cells = $('td', this);
                     var row = $.map($cells, function(cell, i) {
-                        var cellValue = $(cell).text();
+                        var cellValue = $(cell).data('value');
+                        if (typeof(cellValue) === 'undefined') {
+                            cellValue = $(cell).text();
+                        }//end if
                         switch(columns[i]) {
                             case 'number':
                                 cellValue = parseFloat(cellValue);
@@ -126,6 +139,8 @@
             var $output = $('.' + this.settings.classes.output, this.$elem);
 
             // Read any options from the dom if present
+            // jQuery automatically turns this into valid JSON, the parser
+            // itself may not work if JSON string is malformed.
             var dataOptions = {};
             var optionAttr = this.$elem.data('options');
             try {
@@ -135,17 +150,26 @@
                     dataOptions = optionAttr;
                 }//end if
             } catch(e) {
-                alert(e.message);
+                $output.html(e.message)
+                    .addClass(this.settings.classes.error);
             }//end try
 
+            // Draw the chart and pass an options object to it.
             var options = $.extend({}, dataOptions, this.settings.chart);
             if (typeof(this.dataTable) !== 'undefined' &&
                 window.google.visualization.hasOwnProperty(type) &&
                 $output.length) {
                 var chart = new window.google.visualization[type]($output.get(0));
                 chart.draw(this.dataTable, options);
+
+                // We're done, fire the callback
+                this.settings.loaded.call(this);
+                this.$elem.addClass(this.settings.classes.loaded);
+                this.$elem.trigger('google-chart:loaded');
+            } else {
+                $output.html('Unable to draw chart, there is a configuration issue with the HTML data.')
+                    .addClass(this.settings.classes.error);
             }//end if
-            this.settings.loaded.call(this);
         },//end draw()
 
         /**
