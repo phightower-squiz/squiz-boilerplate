@@ -9,6 +9,9 @@
 
     // Default configuration
     var defaults = {
+
+        // Classes that are used to apply status and searching for
+        // dom elements within the parent container.
         classes: {
             error:  'chart-error',
             ignore: 'chart-ignore',
@@ -16,6 +19,34 @@
             loaded: 'chart-loaded',
             data:   'chart-data'
         },
+
+        /**
+         * Outputter function that generates HTML for the resulting
+         * chart. Can be overridden.
+         *
+         * @return {object} Must return a jQuery object
+         */
+        outputter: function() {
+            var title = this.$elem.data('title') || '';
+            return $('<figure />')
+                .addClass('chart-figure')
+                .append(
+                    $('<div />')
+                        .addClass(this.settings.classes.output)
+                        .attr('role', 'img')
+                        .attr('title', title)
+                )
+                .append(
+                    $('<figcaption />')
+                        .addClass('chart-caption')
+                        .html(title)
+                )
+                .appendTo(this.$elem)
+                .find('.' + this.settings.classes.output);
+        },
+
+        // Loaded callback that is triggered once the chart has finished loading
+        // Note: Not triggered on error.
         loaded: function() {}
     };
 
@@ -112,19 +143,21 @@
                 if (!$(this).hasClass(self.settings.classes.ignore)) {
                     var $cells = $('td', this);
                     var row = $.map($cells, function(cell, i) {
-                        var cellValue = $(cell).data('value');
-                        if (typeof(cellValue) === 'undefined') {
-                            cellValue = $(cell).text();
-                        }//end if
-                        switch(columns[i]) {
-                            case 'number':
-                                cellValue = parseFloat(cellValue);
-                            break;
-                            case 'date':
-                                cellValue = new Date(cellValue);
-                            break;
-                        }//end switch
-                        return cellValue;
+                        if (!$(cell).hasClass(self.settings.classes.ignore)) {
+                            var cellValue = $(cell).data('value');
+                            if (typeof(cellValue) === 'undefined') {
+                                cellValue = $(cell).text();
+                            }//end if
+                            switch(columns[i]) {
+                                case 'number':
+                                    cellValue = parseFloat(cellValue);
+                                break;
+                                case 'date':
+                                    cellValue = new Date(cellValue);
+                                break;
+                            }//end switch
+                            return cellValue;
+                        }
                     });
                     self.dataTable.addRow(row);
                 }//end if
@@ -136,7 +169,8 @@
          */
         draw: function() {
             var type = this.$elem.data('chart-type') || 'PieChart';
-            var $output = $('.' + this.settings.classes.output, this.$elem);
+
+            var $output = this.settings.outputter.call(this);
 
             // Read any options from the dom if present
             // jQuery automatically turns this into valid JSON, the parser
