@@ -1,4 +1,7 @@
 {
     "name": "overlay",
-    "main": "plugin.min.js"
+    "main": "plugin.min.js",
+    "minify": {
+        "plugin.min.js": ["jquery.magnific-popup.js"]
+    }
 }
