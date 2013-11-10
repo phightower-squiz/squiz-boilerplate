@@ -43,7 +43,7 @@
 .input-group {
     @include border-box;
     .flexbox & {
-        @include display-flex;
+        @include flexbox;
     }
     .no-js &,
     .no-flexbox & {
@@ -54,8 +54,7 @@
 .input-field {
     @include border-box;
     .flexbox & {
-        -moz-box-flex: 1;
-        flex: 1;
+        @include flex(1);
     }
     .no-js &,
     .no-flexbox & {
