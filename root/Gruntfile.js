@@ -408,6 +408,8 @@ module.exports = function(grunt) {
                 "clearInterval": true,
                 "setTimeout": true,
                 "setInterval": true,
+                "navigator": true,
+                "alert": true,
                 "$": true
             }
         },
