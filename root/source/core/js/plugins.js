@@ -24,6 +24,15 @@
 --------------------
 */
 
+// Fallback for inadvertant console statements
+if (!window.console) {
+    window.console = {
+        log: function(){},
+        warn: function(){},
+        error: function(){}
+    };
+}
+
 //@@dependencies
 
 /*
