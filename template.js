@@ -74,9 +74,9 @@ exports.template = function(grunt, init, done) {
       'grunt-contrib-sass':     '0.5.x',
       'grunt-contrib-uglify':   '0.2.x',
       'grunt-html-validation':  '~0.1.5',
-      'grunt-jsbeautifier':     '~0.3.1',
+      'grunt-jsbeautifier':     '0.2.3',
       'grunt-markdown':         '0.4.x',
-      'grunt-prettify':         '0.2.x',
+      'grunt-prettify':         '0.3.x',
       'grunt-replace':          '0.5.x',
       'grunt-lib-phantomjs':    '0.4.0'
     };
