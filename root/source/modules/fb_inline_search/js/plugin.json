@@ -1,7 +1,0 @@
-{
-    "name": "fb_inline_search",
-    "dependencies": [
-        "jqueryui",
-        "jqueryui_autocomplete"
-    ]
-}
