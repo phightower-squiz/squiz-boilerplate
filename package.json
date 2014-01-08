@@ -3,11 +3,14 @@
 
   "description": "The boilerplate grunt init plugin",
 
-  "version": "0.1.0",
+  "version": "0.1.1",
 
   "maintainers": [{
     "name": "Anthony Barnes",
     "email": "abarnes@squiz.com.au"
+  }, {
+    "name": "Dianne Castillo",
+    "email": "dcastillo@fictrix.net"
   }],
 
   "dependencies": {
