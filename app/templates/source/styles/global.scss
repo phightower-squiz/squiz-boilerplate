@@ -1,0 +1,81 @@
+/**
+ * {{name}}
+ * Global CSS
+ *
+ * version: {{version}}
+ * file:    {{file}}
+ * author:  Squiz Australia
+ * change log:
+ *     {{date}} - First revision
+ */
+
+/*
+ * Table of Contents
+ *
+ * 1. Reset
+ * 2. Utilities
+ * 3. General
+ * 4. Modules
+{{toc}}
+ */
+
+// These imports have no CSS output, but provide variables, mixins and helpers to aid in construction of
+// a design cutup.
+@import "boilerplate.scss";
+
+/*
+--------------------
+1. Reset (Normalize.css)
+--------------------
+*/
+
+@import "normalize.scss";
+
+/*
+--------------------
+2. Utilities
+--------------------
+*/
+
+@import "utilities.scss";
+
+/*
+--------------------
+3. General
+--------------------
+*/
+
+// Taken from HTML 5 BP
+::-moz-selection {
+    background: $content-selection-highlight;
+    text-shadow: none;
+}
+
+::selection {
+    background: $content-selection-highlight;
+    text-shadow: none;
+}
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-size: $base-font-scale + em;
+    line-height: 1.4;
+}
+
+// IE10 Metro responsive
+// Required for Windows 8 Metro split-screen snapping with IE10
+// Source: http://timkadlec.com/2012/10/ie10-snap-mode-and-responsive-design/
+@-ms-viewport{
+    width: device-width;
+}
+
+/*
+--------------------
+4. Modules
+--------------------
+*/

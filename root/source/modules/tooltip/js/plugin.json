@@ -1,7 +1,0 @@
-{
-    "name": "tooltip",
-    "main": "plugin.min.js",
-    "minify": {
-        "plugin.min.js": ["bootstrap-tooltip.js"]
-    }
-}
