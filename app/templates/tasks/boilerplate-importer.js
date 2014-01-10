@@ -68,9 +68,16 @@ module.exports = function (grunt) {
         // query that is attached to the template, it's ideal when all resulting css may
         // be combined into a single CSS file rendering media attributes useless
         sass_wrapped: function (path, template) {
-            var match = (/media="([^"]+)"/gi).exec(template);
-            var mq    = (match !== null) ? match[1] : 'screen';
-            return types.sass(path, template, mq);
+            var media  = /\s*media="([^"]+)"\s*/gi;
+            var match  = media.exec(template);
+            var mq     = (match !== null) ? match[1] : 'screen';
+
+            // Modify the output of the result to remove any media attributes
+            // being wrapped they are now in the content of the css.
+            var output = types.sass(path, template, mq);
+            output = output.replace(media, '');
+
+            return output;
         },//end sass_wrapped()
 
         // Sass combinators (triggers other grunt tasks to compile)
@@ -113,16 +120,19 @@ module.exports = function (grunt) {
                     }]
             };
 
+            // Merge all temporary files together (includes merged module sass, variables and base sass)
             var singleFileMerge = {};
             singleFileMerge['sass_importer_merge_' + baseName] = {
                 options: {
                     process: function (src, filePath) {
-                        // Determine whether there is a media query to wrap
-                        // and whether the file contents should be wrapped
-                        if (filePath.indexOf('/styles/' + baseFile) === -1 &&
-                            filePath.indexOf('variables.scss') === -1 && mq) {
-
-                            src = "@media " + mq + " {\n" + src + "\n}";
+                        var useMq = (typeof(mq) !== 'undefined');
+                        // Wrap the content properly
+                        if (filePath.indexOf('styles/' + baseFile) !== -1 && useMq) {
+                            // Start mq tag goes before base content
+                            src = "@media " + mq + " {\n" + src;
+                        } else if (filePath.indexOf('modules/' + baseFile) !== -1 && useMq) {
+                            // End mq tag goes after module content
+                            src = src + "\n}";
                         }//end if
 
                         return src;
@@ -216,7 +226,7 @@ module.exports = function (grunt) {
                 } else {
                     files = grunt.file.expand({dot: true}, filePattern);
                 }//end if
-console.log('files before', files);
+
                 // Sort files in alpha
                 if (moduleAlphaSort) {
                     files.sort(function (a, b) {
@@ -227,7 +237,7 @@ console.log('files before', files);
                         return 0;
                     });
                 }//end if
-console.log('files after', files);
+
                 if (files.length >= 1) {
                     grunt.log.writeln('Import: ' + type.cyan + ' '  + filePattern.green +
                         ' (' + files.length + ' file' + ((files.length>1) ? 's' : '') + ' found)');

@@ -15,39 +15,28 @@ to install the Sass compiler:
 gem install sass
 ```
 
-## Install Grunt
+## Install Yeoman
 
-Grunt is a task based build tool well suiting to web projects. Grunt has been
-used here to help automate the construction of HTML, CSS and JS fit for
-distribute from a series of source files.
-http://gruntjs.com/
+Yeoman is used to provide the boilerplate with automated generation and workflow tools in conjunction with Grunt and Bower.
 
 ```Shell
-npm install -g grunt
-npm install -g grunt-init
+npm install -g yo
 ```
 
-After the prerequites are sorted it's time to get the package and install it into
-the path of user profile ~/.grunt-init/
+After the prerequites are sorted it's time to get the install the boilerplate generator:
 
-Replace 'username' with your Squiz network username.
 ```Shell
-git clone username@cvs.squiz.net:/data/git/squiz-boilerplate.git ~/.grunt-init/boilerplate
+npm install -g git+https://gitlab.squiz.net/boilerplate/generator-squiz-boilerplate.git
 ```
 
 # Starting a new cutup
 
 ```Shell
 mkdir new_project && cd new_project
-grunt-init boilerplate
-npm install
-grunt
+yo squiz-boilerplate
 ```
 
-These commands will create a new directory, initialise the boilerplate
-with all of the necessary files. The grunt-init command will ask you a series of
-questions which will help setting up the initial choices for the build.
-Subsequent changes can be made to the projects Gruntfile.js which can be tweaked for any custom
+These commands will create a new directory, initialise the boilerplate with all of the necessary files. This command will ask you a series of questions which will help setting up the initial choices for the build. Subsequent changes can be made to the projects Gruntfile.js which can be tweaked for any custom
 build options that the boilerplate doesn't already offer.
 
 Running the initial `grunt` without any parameters will give you a basic build and confirm that all

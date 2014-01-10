@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     // Configuration //
     ///////////////////
     tasks.config  = grunt.file.readJSON('config.json');
-    tasks.bower   = grunt.file.readJSON('bower.json');
+    tasks.bower   = grunt.file.readJSON('.bower.json');
     tasks.bowerrc = grunt.file.readJSON('.bowerrc');
     tasks.pkg     = grunt.file.readJSON('package.json');
 
@@ -145,7 +145,7 @@ module.exports = function (grunt) {
             flow: {
                 html: {
                     // Only allow concatenation
-                    steps: {'js':  ['concat']},
+                    steps: {'js':  ['concat'], 'css': ['concat']},
                     post: {}
                 }
             }
@@ -175,6 +175,19 @@ module.exports = function (grunt) {
                 expand: true,
                 cwd: '<%= config.dest %>',
                 src: ['*.html', 'styles/**.css', '**/*.js'],
+                dest: '<%= config.dest %>'
+            }]
+        },
+        html: {
+            options: {
+                replacements: _.extend(tasks.config, tasks.pkg, {
+                    date: grunt.template.today('dd-mm-yyyy')
+                })
+            },
+            files: [{
+                expand: true,
+                cwd: '<%= config.dest %>',
+                src: ['*.html'],
                 dest: '<%= config.dest %>'
             }]
         }
@@ -264,7 +277,7 @@ module.exports = function (grunt) {
                 cwd: '<%= config.dest %>/<%= config.file_dest %>',
                 src: '{,*/}*.{gif,jpeg,jpg,png}',
                 dest: '<%= config.dest %>/<%= config.file_dest %>'
-            },{
+            }, {
                 expand: true,
                 cwd: '<%= config.dest %>/styles/<%= config.file_dest %>',
                 src: '{,*/}*.{gif,jpeg,jpg,png}',
@@ -487,34 +500,34 @@ module.exports = function (grunt) {
     grunt.registerTask('build_js', [
         'jshint',
         'boilerplate-importer',
+        'substitute:html',
         'useminPrepare',
         'add_module_banners',
         'concat',
-        'usemin',
-        'substitute'
+        'substitute',
+        'usemin'
     ]);
 
     // Build only the tasks necessary when Sass is edited
-    grunt.registerTask('build_sass', [
-        'boilerplate-importer',
-        'useminPrepare',
-        'concat',
-        'sass',
-        'usemin',
-        'substitute'
-    ]);
+    grunt.registerTask('build_sass', ['build']);
 
     // Build tasks
     grunt.registerTask('build', [
-        'clean',
+        //'clean',
         'boilerplate-importer',
         'copy',
+        'substitute:html',
         'useminPrepare',
         'add_module_banners',
         'concat',
+
+        // Compile the stylesheets
+        // Note: when this happens we need to run concat:generated a second time to make sure we
+        // concatenate any results from the sass preprocessor
         'sass',
-        'usemin',
-        'substitute'
+        'substitute',
+        'concat:generated',
+        'usemin'
     ]);
 
     // Run the whole lot

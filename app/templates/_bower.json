@@ -1,10 +1,12 @@
 {
-  "name": "boilerplate-yeoman",
-  "version": "0.0.0",
+  "name": "<%= _.slugify(name) %>",
+  "version": "<%= version %>",
   "dependencies": {
+    <% if (modules.length >= 1) {
+        _.each(modules, function (module) {
+    %>"<%= module.name %>": "<%= module.repository %>",
+    <% })} %>
     "modernizr": "~2.6.2",
-    "jquery": "~1.10.2",
-
-    "module-test": "/Users/abarnes/Documents/Code/tmp/bower-test-component.git"
+    "jquery": "<%= jqueryVersion %>"
   }
 }

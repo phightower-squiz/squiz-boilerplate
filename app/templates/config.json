@@ -2,5 +2,5 @@
     "source":        "source",
     "dest":          "dist",
     "tmp":           ".tmp",
-    "file_dest":     "mysource_files"
+    "file_dest":     "<% if (matrix) { %>mysource_<% } %>files"
 }

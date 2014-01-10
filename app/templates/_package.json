@@ -1,12 +1,15 @@
 {
-  "name": "boilerplate-yeoman",
-  "version": "0.0.0",
-  "dependencies": {},
-  "devDependencies": {
+  "name": "<%= _.slugify(name) %>",
+  "version": "<%= version %>",
+  "description": "<%= description %>",
+  "authors": [
+    "<%= email %>"
+  ],
+  "private": true,
+  "dependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-coffee": "~0.7.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-compass": "~0.7.0",
     "grunt-contrib-jshint": "~0.7.0",
@@ -26,7 +29,6 @@
     "time-grunt": "~0.2.0",
     "jshint-stylish": "~0.1.3",
     "grunt-contrib-sass": "0.5.x",
-    "grunt-replace": "0.5.x",
     "grunt-html-validation": "~0.1.5",
     "grunt-jsbeautifier": "0.2.3",
     "grunt-prettify": "0.3.x",
