@@ -158,6 +158,9 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
         this.template('js/global.js', this.dir + '/js/global.js');
         if (this.jqueryPlugin) {
             this.template('js/plugin.js', this.dir + '/js/plugin.js');
+            this.mkdir(this.dir + '/tests');
+            this.template('tests/spec.html', this.dir + '/tests/spec.html');
+            this.template('tests/spec.js', this.dir + '/tests/spec.js');
         }//end if
     }//end if
 
