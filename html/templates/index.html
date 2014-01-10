@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+        <title>{{name}} - (version {{version}})</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="shortcut icon" href="{{file_dest}}/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" href="{{file_dest}}/logo-144x144.png">
+
+<% if (singleCSS) { %>
+        <!-- build:css(dist) styles/main.css -->
+        <% } %><!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
+        <!-- import:sass<% if (singleCSS) { %>_wrapped<% } %> source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
+        <!-- 600px or higher (with font size set @ 16px) -->
+        <!-- import:sass<% if (singleCSS) { %>_wrapped<% } %> source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
+        <!-- 960px or higher (with font size set @ 16px) --><% if (ie8 && !singleCSS) { %>
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="styles/medium.css" />
+            <link rel="stylesheet" href="styles/wide.css" />
+        <![endif]--><% } %>
+        <!-- import:sass<% if (singleCSS) { %>_wrapped<% } %> source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] --><% if (singleCSS) { %>
+        <!-- endbuild --><% } %>
+
+        <!-- build:js js/vendor/modernizr.min.js -->
+        <!-- import:js source/bower_components/modernizr/modernizr.js -->
+        <!-- endbuild -->
+    </head>
+    <% if (ieConditionals) { %><!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+    <!--[if IE 7]><body class="no-js lt-ie9 lt-ie8"><![endif]-->
+    <!--[if IE 8]><body class="no-js lt-ie9"><![endif]-->
+    <!--[if gt IE 8]><!--><% } %>
+    <body class="no-js">
+    <% if (ieConditionals) { %><!--<![endif]--><% } %>
+    <div id="page-wrapper">
+    <!--noindex-->
+        <!-- import:content module:squiz-module-skip-links/html/index.html -->
+        <div class="header" role="banner">
+
+        </div><!-- /.header -->
+    <!--endnoindex-->
+            <!-- start main-content -->
+            <div id="main" role="main">
+
+            </div><!-- /#main -->
+            <!-- end main-content -->
+    <!--noindex-->
+        <div class="footer" role="contentinfo">
+
+        </div><!-- /.footer -->
+    <!--endnoindex-->
+    </div><!-- /#page-wrapper -->
+    
+    <!-- build:js js/vendor/jquery.min.js -->
+    <!-- import:js source/bower_components/jquery/jquery.js -->
+    <!-- endbuild -->
+
+    <!-- build:js js/plugins.min.js -->
+    <!-- import:js source/js/plugins.js -->
+    <!-- import:bower_deps module:squiz-module-*/.bower.json -->
+    <!-- import:js module:**/js/plugin.js -->
+    <!-- endbuild -->
+
+    <!-- build:js js/global.js -->
+    <!-- import:js source/js/global.js -->
+    <!-- import:js module:squiz-module-*/js/global.js -->
+    <!-- import:js module:**/js/global.js -->
+    <!-- endbuild -->
+
+    </body>
+</html>
