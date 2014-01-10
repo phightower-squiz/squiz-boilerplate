@@ -375,6 +375,9 @@ module.exports = function (grunt) {
 
     // Unit tests that require the DOM
     tasks.qunit = {
+        option: {
+            timeout: 10000
+        },
         all: [
             '<%= config.source %>/modules/**/tests/*.html',
             '<%= bowerrc.directory %>/squiz-module-*/tests/*.html'
