@@ -1,0 +1,19 @@
+// Single line comments will be removed by the CSS preprocessor
+// Hint: go nuts commenting your Sass
+
+// Multiline comments will be preserved, use them when you need to send comments
+// back out to the resulting .css file.
+
+.<%= cssName %> {
+    // Your styles here
+}
+
+.<%= cssName %>__item {
+    // Example element inside a module block
+    // Hint: You can remove this
+}
+
+.<%= cssName %>__link {
+    // Example element inside a module block
+    // Hint: You can remove this
+}

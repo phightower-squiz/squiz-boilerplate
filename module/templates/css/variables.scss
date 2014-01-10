@@ -1,0 +1,8 @@
+// Use the same CSS naming conventions for your variables, this will make it easier to manage
+// them in a modular way and make sure that you aren't creating something that conflicts.
+// We use !default so you can override these variables by including them higher up in the flow
+// of the sass pre-processor (e.g the core variables.scss file).
+
+// Examples:
+// $<%= cssName %>__background: #000 !default;
+// $<%= cssName %>__text: #fff !default;
