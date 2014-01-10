@@ -1,0 +1,10 @@
+{
+    "squiz-module-skip-links": {
+        "name": "Accessible skip links",
+        "repository": "/Users/abarnes/Documents/Code/tmp/bower-test-component.git"
+    },
+    "squiz-module-slideshow": {
+        "name": "Flexslider",
+        "repository": "/Users/abarnes/Documents/Code/tmp/bower-test-component.git"
+    }
+}
