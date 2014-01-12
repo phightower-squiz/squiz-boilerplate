@@ -61,6 +61,10 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         },
         default: '0.0.0'
     },{
+        type: 'input',
+        name: 'description',
+        message: 'Give this module a short description'
+    },{
         type: 'confirm',
         name: 'javascript',
         message: 'Will this module include any javascript?',
@@ -70,7 +74,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'jqueryPlugin',
         message: 'Do you require jQuery plugin scaffolding?',
         when: function(props) {
-            return !this.javascript;
+            return props.javascript;
         }.bind(this),
         confirm: false
     },{
@@ -78,7 +82,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'pluginName',
         message: 'What name would you like to give your plugin? (this will appear in jQuery.fn.[pluginName])',
         when: function(props) {
-            return !this.jqueryPlugin;
+            return props.jqueryPlugin;
         }.bind(this),
         default: function(props) {
             return lingo.camelcase(props.name);
@@ -127,6 +131,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
 
     this.prompt(prompts, function (props) {
         this.name = props.name;
+        this.description = props.description;
         this.dir  = dest + _.slugify(props.name);
         this.javascript = props.javascript;
         this.jqueryPlugin = props.jqueryPlugin;
