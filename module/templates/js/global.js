@@ -6,4 +6,4 @@
         optionOne: '...',
         optionTwo: '...'
     });<% } %>
-}(jQuery))
+}(jQuery));
