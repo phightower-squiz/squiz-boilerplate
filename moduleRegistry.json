@@ -2,5 +2,9 @@
     "squiz-module-skip-links": {
         "name": "Accessible skip links",
         "repository": "git@gitlab.squiz.net:boilerplate/squiz-module-skip-links.git"
+    },
+    "squiz-module-bootstrap": {
+        "name": "Twitter Bootstrap Components",
+        "repository": "git@gitlab.squiz.net:boilerplate/squiz-module-bootstrap.git"
     }
 }
