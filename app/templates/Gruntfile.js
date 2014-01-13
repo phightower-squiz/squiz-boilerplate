@@ -76,21 +76,33 @@ module.exports = function (grunt) {
 
     tasks.copy = {
         files: {
-            files: [
-                {
+            files: [{
                     src: ['*.*'],
                     dest: '<%= config.dest %>/<%= config.file_dest %>/',
                     cwd:  '<%= config.source %>/files/',
                     expand: true
-                }
-            ]
+                }]
+        },
+
+        moduleFonts: {
+            files: [{
+                    src: [
+                        // If we have bower modules that contain fonts we need to copy
+                        // them into the destination CSS directory
+                        '**/fonts/*.*'
+                    ],
+                    dest: '<%= config.dest %>/styles/<%= config.file_dest %>/',
+                    cwd:  '<%= bowerrc.directory %>/',
+                    flatten: true,
+                    expand: true
+                }]
         },
 
         moduleCSSFiles: {
             files: [{
                 src: [
                     '<%= config.source %>/modules/**/css/files/*.*',
-                    '<%= bowerrc.source %>/squiz-module-*/css/files/*.*'
+                    '<%= bowerrc.directory %>/squiz-module-*/css/files/*.*'
                 ],
                 expand: true,
                 flatten: true,
