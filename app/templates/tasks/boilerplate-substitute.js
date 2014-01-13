@@ -70,7 +70,7 @@ module.exports = function (grunt) {
                 options.replacements.toc = buildTOC(content);
 
                 _.each(options.replacements, function (replacement, name) {
-                    var regex = new RegExp(quote(options.startTag + name + options.endTag));
+                    var regex = new RegExp(quote(options.startTag + name + options.endTag), 'gm');
                     content = content.replace(regex, replacement);
                 });
 
