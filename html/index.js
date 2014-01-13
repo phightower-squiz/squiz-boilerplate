@@ -53,6 +53,11 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             // CSS will result in @media queries
             return !props.ie8;
         }.bind(this)
+    },{
+        type: 'confirm',
+        name: 'bootstrap',
+        message: 'Are twitter bootstrap plugins required? (Will automatically reference plugins for you)',
+        default: true
     }];
 
     this.prompt(prompts, function (props) {
@@ -60,6 +65,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.ie8 = props.ie8;
         this.singleCSS = props.singleCSS;
         this.ieConditionals = props.ieConditionals;
+        this.bootstrap = props.bootstrap;
         cb();
     }.bind(this));
 };
