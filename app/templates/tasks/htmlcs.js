@@ -2,10 +2,11 @@
  * Automated HTML CS sniffs on HTML
  */
 
+var path      = require('path');
+var phantomjs = require('grunt-lib-phantomjs').init(grunt);
+
 module.exports = function(grunt) {
     'use strict';
-    var path      = require('path');
-    var phantomjs = require('grunt-lib-phantomjs').init(grunt);
 
     var errors = {};
 
