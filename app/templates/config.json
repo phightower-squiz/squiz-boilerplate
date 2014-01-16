@@ -2,5 +2,6 @@
     "source":        "source",
     "dest":          "dist",
     "tmp":           ".tmp",
-    "file_dest":     "<% if (matrix) { %>mysource_<% } %>files"
+    "file_dest":     "<% if (matrix) { %>mysource_<% } %>files",
+    "module_prefix": "squiz-module-"
 }

@@ -5,7 +5,6 @@
  * version: {{version}}
  * file:    {{file}}
  * modules: {{modules}}
- * libs:    {{deps}}
  * author:  Squiz Australia
  * modified: {{date}}
  * @preserve

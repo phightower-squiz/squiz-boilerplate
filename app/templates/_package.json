@@ -7,7 +7,7 @@
   ],
   "private": true,
   "dependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-uglify": "~0.2.0",
@@ -33,7 +33,10 @@
     "grunt-jsbeautifier": "0.2.3",
     "grunt-prettify": "0.3.x",
     "grunt-lib-phantomjs": "*",
-    "regexp-quote": "*"
+    "regexp-quote": "*",
+    "lodash": "~2.4.1",
+    "async": "~0.2.5",
+    "bower": "~1.2.8"
   },
   "engines": {
     "node": ">=0.8.0"

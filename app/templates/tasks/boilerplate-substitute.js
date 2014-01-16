@@ -1,9 +1,10 @@
 var path = require('path'),
+    _     = require('lodash'),
+    async = require('async'),
     quote = require('regexp-quote');
 
 module.exports = function (grunt) {
     'use strict';
-    var _ = grunt.util._;
 
     grunt.registerMultiTask('substitute', 'Process template vars on source files.', function () {
         var options = this.options({
@@ -57,7 +58,7 @@ module.exports = function (grunt) {
             return '';
         }//end buildTOC()
 
-        grunt.util.async.forEachSeries(files, function (file, next) {
+        async.forEachSeries(files, function (file, next) {
             // Dynamic replacements generated for each file
             options.replacements.file = path.basename(file);
 

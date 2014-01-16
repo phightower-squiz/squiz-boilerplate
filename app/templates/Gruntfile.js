@@ -68,7 +68,7 @@ module.exports = function (grunt) {
             },
             files: [{
                 src: [
-                    '<%= config.source %>/html/*.html'
+                    '<%= config.dest %>/*.html'
                 ]
             }]
         }
@@ -77,25 +77,25 @@ module.exports = function (grunt) {
     tasks.copy = {
         files: {
             files: [{
-                    src: ['*.*'],
-                    dest: '<%= config.dest %>/<%= config.file_dest %>/',
-                    cwd:  '<%= config.source %>/files/',
-                    expand: true
-                }]
+                src: ['*.*'],
+                dest: '<%= config.dest %>/<%= config.file_dest %>/',
+                cwd:  '<%= config.source %>/files/',
+                expand: true
+            }]
         },
 
         moduleFonts: {
             files: [{
-                    src: [
-                        // If we have bower modules that contain fonts we need to copy
-                        // them into the destination CSS directory
-                        '**/fonts/*.*'
-                    ],
-                    dest: '<%= config.dest %>/styles/<%= config.file_dest %>/',
-                    cwd:  '<%= bowerrc.directory %>/',
-                    flatten: true,
-                    expand: true
-                }]
+                src: [
+                    // If we have bower modules that contain fonts we need to copy
+                    // them into the destination CSS directory
+                    '**/fonts/*.*'
+                ],
+                dest: '<%= config.dest %>/styles/<%= config.file_dest %>/',
+                cwd:  '<%= bowerrc.directory %>/',
+                flatten: true,
+                expand: true
+            }]
         },
 
         moduleCSSFiles: {
@@ -128,6 +128,13 @@ module.exports = function (grunt) {
             cwd: '<%= config.source %>/styles',
             dest: '<%= config.tmp %>/styles/',
             src: '*.scss'
+        },
+
+        html: {
+            expand: true,
+            cwd: '<%= config.source %>/html/',
+            dest: '<%= config.dest %>',
+            src: '*.html'
         }
     };
 
@@ -153,7 +160,7 @@ module.exports = function (grunt) {
     tasks.useminPrepare = {
         options: {
             dest: '<%= config.dest %>',
-            root: './',
+            root: __dirname,
             flow: {
                 html: {
                     // Only allow concatenation
@@ -180,7 +187,8 @@ module.exports = function (grunt) {
         template: {
             options: {
                 replacements: _.extend(tasks.config, tasks.pkg, {
-                    date: grunt.template.today('dd-mm-yyyy')
+                    date: grunt.template.today('dd-mm-yyyy'),
+                    bowerdir: tasks.bowerrc.directory
                 })
             },
             files: [{
@@ -193,7 +201,8 @@ module.exports = function (grunt) {
         html: {
             options: {
                 replacements: _.extend(tasks.config, tasks.pkg, {
-                    date: grunt.template.today('dd-mm-yyyy')
+                    date: grunt.template.today('dd-mm-yyyy'),
+                    bowerdir: tasks.bowerrc.directory
                 })
             },
             files: [{
@@ -518,8 +527,9 @@ module.exports = function (grunt) {
     // Build only the tasks necessary when JS is edited
     grunt.registerTask('build_js', [
         'jshint',
-        'boilerplate-importer',
+        'copy:html',
         'substitute:html',
+        'boilerplate-importer',
         'useminPrepare',
         'add_module_banners',
         'concat',
@@ -533,19 +543,20 @@ module.exports = function (grunt) {
     // Build tasks
     grunt.registerTask('build', [
         //'clean',
-        'boilerplate-importer',
-        'copy',
+        'copy:html',
         'substitute:html',
-        'useminPrepare',
+        'boilerplate-importer',
+        'newer:copy:files',
+        'newer:copy:moduleFiles',
+        'newer:copy:moduleCSSFiles',
+        'newer:copy:moduleFonts',
+        'copy:styles',
         'add_module_banners',
         'concat',
-
-        // Compile the stylesheets
-        // Note: when this happens we need to run concat:generated a second time to make sure we
-        // concatenate any results from the sass preprocessor
         'sass',
+        'useminPrepare',
+        'concat:generated', // Only run usemin combinations
         'substitute',
-        'concat:generated',
         'usemin'
     ]);
 

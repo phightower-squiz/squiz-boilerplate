@@ -10,18 +10,23 @@
         <link rel="apple-touch-icon-precomposed" href="{{file_dest}}/logo-144x144.png">
 
 <% if (singleCSS) { %>
-        <!-- build:css(dist) styles/main.css -->
-        <% } %><!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
-        <!-- import:sass<% if (singleCSS) { %>_wrapped<% } %> source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
+        <!-- build:css({{dest}}) styles/main.css -->
+            <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
+            <!-- import:sass_wrapped source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
+            <!-- import:sass_wrapped source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
+            <!-- import:sass_wrapped source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] -->
+        <!-- endbuild -->
+<% } else { %>
+        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
+        <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
         <!-- 600px or higher (with font size set @ 16px) -->
-        <!-- import:sass<% if (singleCSS) { %>_wrapped<% } %> source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
-        <!-- 960px or higher (with font size set @ 16px) --><% if (ie8 && !singleCSS) { %>
+        <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
+        <!-- 960px or higher (with font size set @ 16px) --><% if (ie8) { %>
         <!--[if lte IE 8]>
             <link rel="stylesheet" href="styles/medium.css" />
             <link rel="stylesheet" href="styles/wide.css" />
         <![endif]--><% } %>
-        <!-- import:sass<% if (singleCSS) { %>_wrapped<% } %> source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] --><% if (singleCSS) { %>
-        <!-- endbuild --><% } %>
+        <!-- import:sass source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] --><% } %>
 
         <!-- build:js js/vendor/modernizr.min.js -->
         <!-- import:js source/bower_components/modernizr/modernizr.js -->

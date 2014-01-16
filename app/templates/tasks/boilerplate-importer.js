@@ -5,93 +5,99 @@
  * <script> and <link> files to provide to something like usemin
  */
 
-var _path = require('path');
+var path = require('path'),
+    quote = require('regexp-quote'),
+    async = require('async'),
+    _     = require('lodash'),
+    bowerdeps = require('../lib/bowerdeps');
 
 module.exports = function (grunt) {
 
-    var _ = grunt.util._;
+    // Get the HTML tag output for bower dependencies
+    function getBowerDepTags (type, template, callback) {
+        bowerdeps.resources(function (files) {
+            async.reduce(files, '', function (memo, file, next) {
+                // Get the base path
+                file = file.replace('bower_components', grunt.config('bowerrc').directory);
 
-    // Storage for any bower dependencies that have been resolved
-    var bowerDepList = {};
+                // Get the HTML tag
+                types[type](file, null, function (content) {
+                    memo += content;
+                    next(null, memo);
+                });
+            }, function (err, memo) {
+                callback(memo);
+            });
+        }, function(depFile) {
+            return depFile.match(new RegExp('\.' + quote(type) + '$'));
+        });
+    }//end getBowerDepTags()
 
     // Different types of importable content for the boilerplate
     var types = {
 
         // The content of a file
-        content: function (path) {
-            return grunt.file.read(path);
+        content: function (file, template, callback) {
+            callback(grunt.file.read(file));
         },//end content()
 
         // JS script tags
-        js: function (path) {
-            if (grunt.file.exists(path)) {
-                return '<script src="' + path + '"></script>';
+        js: function (file, template, callback) {
+            var output = '';
+            if (grunt.file.exists(file)) {
+                output = '<script src="' + file + '"></script>';
             }//end if
-            return '';
+            callback(output);
         },//end js()
 
-        // Analyse the path to determine any bower deps that need to be included
-        bower_deps: function (path) {
-            var bower = grunt.file.readJSON(path);
-            var bowerDir = grunt.config('bowerrc').directory;
-            var output = '';
-            if (_.has(bower, 'dependencies')) {
-                _.each(bower.dependencies, function(version, dep) {
-                    var jsonPath = bowerDir + '/' + dep + '/*bower.json';
-                    var json = grunt.file.expand({dot: true}, jsonPath);
+        // This one proves too difficult to mix with scoped usemin blocks
+        // Just use @import directives in the module
+        // bower_css: function (file, template, callback) {
+        //     getBowerDepTags('css', template, callback);
+        // },//end bower_css_deps()
 
-                    // Use the first bower file we get from the pattern
-                    if (json.length >= 1) {
-                        var bowerJSON = grunt.file.readJSON(json[0]);
-                        bowerDepList[dep] = bowerJSON.version;
-                        if (_.has(bowerJSON, 'main')) {
-                            var mainFile = bowerDir + '/' + dep + '/' + bowerJSON.main;
-                            output = types.js(mainFile);
-                            return;
-                        }//end if
-                    }//end if
-                });
-            }//end if
-            return output;
-        },//end bower_deps()
+        bower_js: function (file, template, callback) {
+            getBowerDepTags('js', template, callback);
+        },//end bower_js_deps()
 
         // Link tags for direct css
-        css: function (path) {
-            if (grunt.file.exists(path)) {
-                return '<link rel="stylesheet" href="' + path + '" />';
+        css: function (file, template, callback) {
+            var output = '';
+            if (grunt.file.exists(file)) {
+                output = '<link rel="stylesheet" href="' + file + '" />';
             }//end if
-            return '';
+            callback(output);
         },//end css()
 
         // sass combinator alias
         // This triggers the combinator to wrap the resulting module content in the media
         // query that is attached to the template, it's ideal when all resulting css may
         // be combined into a single CSS file rendering media attributes useless
-        sass_wrapped: function (path, template) {
+        sass_wrapped: function (file, template, callback) {
             var media  = /\s*media="([^"]+)"\s*/gi;
             var match  = media.exec(template);
             var mq     = (match !== null) ? match[1] : 'screen';
 
             // Modify the output of the result to remove any media attributes
             // being wrapped they are now in the content of the css.
-            var output = types.sass(path, template, mq);
-            output = output.replace(media, '');
-
-            return output;
+            types.sass(file, template, function (output) {
+                output = output.replace(media, '');
+                callback(output);
+            }, mq);
         },//end sass_wrapped()
 
         // Sass combinators (triggers other grunt tasks to compile)
-        sass: function (path, template, mq) {
-            var dirname  = _path.dirname(path);
-            var baseName = _path.basename(path, '.scss');
-            var baseFile = _path.basename(path);
+        sass: function (file, template, callback, mq) {
+            var dirname  = path.dirname(file);
+            var baseName = path.basename(file, '.scss');
+            var baseFile = path.basename(file);
             var hrefMatch = (/href="([^"]+)"/gi).exec(template);
             var href = (hrefMatch !== null) ? hrefMatch[1] : 'styles/' + baseFile.replace('scss', 'css');
 
             // Copy the desired sass files into the temp directory for processing
             var newCopyConfig = {};
             newCopyConfig['sass_importer_' + baseName] = {
-                src: path,
+                src: file,
                 dest: '<%= config.tmp %>/styles/' + baseFile
             };
             grunt.config('copy', _.extend(grunt.config('copy') || {}, newCopyConfig));
@@ -102,7 +108,7 @@ module.exports = function (grunt) {
                 options: {
                     process: function (src, filePath) {
                         // Only place module banners on the right files
-                        if (_path.basename(filePath) === baseFile) {
+                        if (path.basename(filePath) === baseFile) {
                             var module = filePath.split('/')[2]; // source/<folder>/<module_name>
                             return "/*-- module:" + module + " --*/\n" + src;
                         }//end if
@@ -157,6 +163,7 @@ module.exports = function (grunt) {
                 options: {
                     style: 'expanded',
                     loadPath: [
+                        '<%= bowerrc.directory %>',
                         '<%= config.source %>/styles/imports/',
                         '/'
                     ]
@@ -169,7 +176,7 @@ module.exports = function (grunt) {
 
             grunt.config('sass', _.extend(grunt.config('sass') || {}, sassCompile));
 
-            return template;
+            callback(template);
         }//end sass()
     };
 
@@ -180,120 +187,105 @@ module.exports = function (grunt) {
         var sourceFiles = this.filesSrc;
         var done = this.async();
 
-        var result_indexes = {
-            type: 1,
-            filePattern: 2,
-            template: 4
-        };
+        function processLine (line, queue) {
 
-        /**
-         * Process a line of HTML from the source HTML file
-         * @param  {string} line       The individual line
-         * @param  {string} content    The full content so replacements can be made
-         * @return {string} The replaced content
-         */
-        function processLine (line, content) {
-
-            var match  = /^\s*?<!--\s*import:([a-z_]+)\s*([^\s]+)\s*(\[([^\]]+)\])?\s*-->([\s]+)?/gim.exec(line);
+            var match  = /^\s*?<!--\s*import:([a-z_]+)\s*([^\s]+)?\s*(\[([^\]]+)\])?\s*-->([\s]+)?/gim.exec(line);
             var indent = (line.match(/^\s*/) || [])[0];
 
-            if (match !== null) {
-                var tag  = match[0];
-                var type = match[result_indexes.type];
-                var filePattern = match[result_indexes.filePattern];
-                var files = [];
-                var output = [];
-                var moduleAlphaSort = false;
+            if (match === null) return;
 
-                // Module shortcuts to be expanded
-                if (filePattern.indexOf('module:') === 0) {
-                    var relPath = filePattern.replace('module:', '');
-                    filePattern = [grunt.config('config').source + '/modules/' + relPath,
-                                   grunt.config('bowerrc').directory + '/' + relPath];
+            var tag             = match[0];
+            var type            = match[1];
+            var filePattern     = match[2];
+            var template        = match[4];
+            var files           = [];
+            var moduleAlphaSort = false;
 
-                    // We know we are dealing with modules, so alpha sort them by module name
-                    moduleAlphaSort = true;
-                }//end if
-
-                if (_.isArray(filePattern)) {
-                    _.each(filePattern, function (pattern) {
-                        var file = grunt.file.expand({dot: true}, pattern);
-                        if (file.length) {
-                            files = files.concat(file);
-                        }//end if
-                    });
-                    filePattern = filePattern.join(', ');
-                } else {
-                    files = grunt.file.expand({dot: true}, filePattern);
-                }//end if
-
-                // Sort files in alpha
-                if (moduleAlphaSort) {
-                    files.sort(function (a, b) {
-                        var aModule = a.split('/')[2];
-                        var bModule = b.split('/')[2];
-                        if (aModule < bModule) return -1;
-                        if (aModule > bModule) return 1;
-                        return 0;
+            // If we don't have a file pattern simply call the function without the first argument.
+            if (!filePattern) {
+                if (type === 'bower_js' || type === 'bower_css') {
+                    queue.push(function (content, done) {
+                        types[type](null, template, function (output) {
+                            done(null, content.replace(tag, output));
+                        });
                     });
                 }//end if
-
-                if (files.length >= 1) {
-                    grunt.log.writeln('Import: ' + type.cyan + ' '  + filePattern.green +
-                        ' (' + files.length + ' file' + ((files.length>1) ? 's' : '') + ' found)');
-                } else {
-                    grunt.log.writeln('Import: ' + type.cyan + ' '  + filePattern.green +
-                        ' Could not find any files to match this pattern'.red);
-                }//end if
-
-                // Iterate all the files found and perform the action specified in the type
-                files.forEach(function (file, i) {
-                    output.push(types[type](file, match[result_indexes.template]));
-                });
-
-                // Replace the tag with it's output
-                content = content.replace(tag, output.join("\n" + indent));
+                return;
             }//end if
 
-            return content;
+            // Module shortcuts to be expanded
+            if (filePattern.indexOf('module:') === 0) {
+                var relPath = filePattern.replace('module:', '');
+                filePattern = [grunt.config('config').source + '/modules/' + relPath,
+                               grunt.config('bowerrc').directory + '/' + relPath];
+
+                // We know we are dealing with modules, so alpha sort them by module name
+                moduleAlphaSort = true;
+            }//end if
+
+            if (_.isArray(filePattern)) {
+                _.each(filePattern, function (pattern) {
+                    var file = grunt.file.expand({dot: true}, pattern);
+                    if (file.length) {
+                        files = files.concat(file);
+                    }//end if
+                });
+                filePattern = filePattern.join(', ');
+            } else {
+                files = grunt.file.expand({dot: true}, filePattern);
+            }//end if
+
+            // Sort files in alpha
+            if (moduleAlphaSort) {
+                files.sort(function (a, b) {
+                    var aModule = a.split('/')[2];
+                    var bModule = b.split('/')[2];
+                    if (aModule < bModule) return -1;
+                    if (aModule > bModule) return 1;
+                    return 0;
+                });
+            }//end if
+
+            if (files.length >= 1) {
+                grunt.log.writeln('Import: ' + type.cyan + ' '  + path.basename(files[0]).green +
+                    ' (' + files.length + ' file' + ((files.length>1) ? 's' : '') + ' found)');
+            } else {
+                grunt.log.writeln('Import: ' + type.cyan + ' '  + filePattern +
+                    ' (0 files found)');
+            }//end if
+
+            queue.push(function (content, done) {
+                async.reduce(files, [], function (memo, file, next) {
+                    types[type](file, template, function (output) {
+                        memo.push(output)
+                        next(null, memo);
+                    });
+                }, function (err, htmlTags) {
+                    content = content.replace(tag, htmlTags.join("\n" + indent));
+                    done(null, content);
+                });
+            });
         }//end processLine()
 
-        grunt.util.async.forEachSeries(sourceFiles, function (sourceFile, next) {
+        async.forEachSeries(sourceFiles, function (sourceFile, next) {
             var content = grunt.file.read(sourceFile);
             var lines   = content.replace(/\r\n/g, '\n').split(/\n/);
+            var queue   = [];
 
-            // Process the content line by line
-            // Preserves line indenting on replacements made
+            // Gather up the replacements to be made and push functions
+            // to a queue to perform replacements
             lines.forEach(function(line) {
-                content = processLine(line, content);
+                processLine(line, queue);
             });
 
-            // Re-write the modified source
-            grunt.file.write(options.dest + '/' + _path.basename(sourceFile), content);
-
-            next();
+            async.waterfall([function (nextQueue) {
+                // Pass in the content to get started
+                nextQueue(null, content);
+            }].concat(queue), function (err, modifiedContent) {
+                grunt.file.write(options.dest + '/' + path.basename(sourceFile), modifiedContent);
+                next();
+            });
         }, function () {
-
-            var depText = _.map(bowerDepList, function(version, dep) {
-                return "\n *    " + dep + " (" + version + ")";
-            }).join('');
-
-            var subConfig = {};
-            subConfig.bowerDeps = {
-                options: {
-                    replacements: {
-                        deps: depText
-                    }
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= config.dest %>/js/',
-                    src: ['*.js'],
-                    dest: '<%= config.dest %>/js/'
-                }]
-            };
-            grunt.config('substitute', _.extend(grunt.config('substitute') || {}, subConfig));
-
             done();
         });
     });
