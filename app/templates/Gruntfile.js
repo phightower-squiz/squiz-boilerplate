@@ -459,6 +459,39 @@ module.exports = function (grunt) {
         }
     };
 
+    tasks.compass = {
+        options: {
+            sassDir: '<%= config.tmp %>/concat',
+            cssDir: '<%= config.dest %>',
+            generatedImagesDir: '<%= config.tmp %>/images/generated',
+            javascriptsDir: '<%= config.dest %>/js',
+            imagesDir: '<%= config.dest %>/styles/<%= config.file_dest %>',
+            httpImagesPath: '<%= config.dest %>/<%= config.file_dest %>',
+            httpFontsPath: '<%= config.dest %>/styles/<%= config.file_dest %>',
+            importPath: [
+                '<%= bowerrc.directory %>',
+                '<%= config.source %>/styles/imports/',
+                __dirname
+            ],
+
+            // Whether to output debugging info
+            debugInfo: false,
+
+            // Set this to false if you want the CSS to include comments on where the rule came
+            // from in the source .scss file
+            noLineComments: true,
+
+            // nested|expanded|compact|compressed
+            outputStyle: 'expanded',
+
+            relativeAssets: false,
+            assetCacheBuster: false
+        },
+        dist: {
+            // No special config
+        }
+    };
+
     ////////////////
     // Concurrent //
     ////////////////
@@ -553,7 +586,7 @@ module.exports = function (grunt) {
         'copy:styles',
         'add_module_banners',
         'concat',
-        'sass',
+        'compass',
         'useminPrepare',
         'concat:generated', // Only run usemin combinations
         'substitute',

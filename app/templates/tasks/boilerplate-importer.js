@@ -18,9 +18,21 @@ module.exports = function (grunt) {
         bowerdeps.resources(function (files) {
             async.reduce(files, '', function (memo, file, next) {
                 // Get the base path
-                file = file.replace('bower_components', grunt.config('bowerrc').directory);
+                var baseFile = file.replace('bower_components', grunt.config('bowerrc').directory);
 
-                // Get the HTML tag
+                // Hacks to make it work with usemin combine blocks
+                // The file needs to exist in the destination directory
+                if (type === 'css') {
+                    var destReg = new RegExp('^' + quote(grunt.config('config').dest) + '/');
+                    file = grunt.config('config').dest + '/styles/' + file;
+                    grunt.file.copy(baseFile, file);
+                    grunt.log.writeln('Copied: ' + path.basename(file).cyan + ' to ' + file.green);
+
+                    // Make the file path relative so the css usemin can handle it
+                    file = file.replace(destReg, '');
+                }//end if
+
+                // Get the HTML tag by calling an existing type function
                 types[type](file, null, function (content) {
                     memo += content;
                     next(null, memo);
@@ -50,11 +62,9 @@ module.exports = function (grunt) {
             callback(output);
         },//end js()
 
-        // This one proves too difficult to mix with scoped usemin blocks
-        // Just use @import directives in the module
-        // bower_css: function (file, template, callback) {
-        //     getBowerDepTags('css', template, callback);
-        // },//end bower_css_deps()
+        bower_css: function (file, template, callback) {
+            getBowerDepTags('css', template, callback);
+        },//end bower_css_deps()
 
         bower_js: function (file, template, callback) {
             getBowerDepTags('js', template, callback);
@@ -62,10 +72,7 @@ module.exports = function (grunt) {
 
         // Link tags for direct css
         css: function (file, template, callback) {
-            var output = '';
-            if (grunt.file.exists(file)) {
-                output = '<link rel="stylesheet" href="' + file + '" />';
-            }//end if
+            var output = '<link rel="stylesheet" href="' + file + '" />';
             callback(output);
         },//end css()
 
@@ -156,25 +163,6 @@ module.exports = function (grunt) {
 
             grunt.config('concat', _.extend(grunt.config('concat') || {},
                 compiledModules, singleFileMerge));
-
-            // Create the sass compiler config
-            var sassCompile = {};
-            sassCompile['sass_compile_' + baseName] = {
-                options: {
-                    style: 'expanded',
-                    loadPath: [
-                        '<%= bowerrc.directory %>',
-                        '<%= config.source %>/styles/imports/',
-                        '/'
-                    ]
-                },
-                files: [{
-                    src: '<%= config.tmp %>/concat/styles/' + baseFile,
-                    dest: '<%= config.dest %>/' + href
-                }]
-            };
-
-            grunt.config('sass', _.extend(grunt.config('sass') || {}, sassCompile));
 
             callback(template);
         }//end sass()

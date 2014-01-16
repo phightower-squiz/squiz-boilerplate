@@ -28,7 +28,6 @@
     "load-grunt-tasks": "~0.2.0",
     "time-grunt": "~0.2.0",
     "jshint-stylish": "~0.1.3",
-    "grunt-contrib-sass": "0.5.x",
     "grunt-html-validation": "~0.1.5",
     "grunt-jsbeautifier": "0.2.3",
     "grunt-prettify": "0.3.x",
