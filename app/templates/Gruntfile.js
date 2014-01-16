@@ -64,7 +64,20 @@ module.exports = function (grunt) {
     tasks['boilerplate-importer'] = {
         html: {
             options: {
-                dest: '<%= config.dest %>'
+                dest: '<%= config.dest %>',
+                ignored: [
+                    // jQuery and Modernizr are built in as dependencies. They don't need
+                    // to be solved by individual modules.
+                    'jquery',
+                    'modernizr',
+
+                    // If you want bootstrap dependencies brought in customise
+                    // the build by editing the squiz-module-bootstrap and uncomment
+                    // the sass imports. If you comment this line out the entire
+                    // bootstrap js and css can be imported (including resets) which
+                    // may be undesirable
+                    'bootstrap-sass'
+                ]
             },
             files: [{
                 src: [

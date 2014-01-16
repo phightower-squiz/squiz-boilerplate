@@ -1,3 +1,10 @@
+/**
+ * Bower dependency solver that uses the bower package to draw a list
+ * of dependencies and generate a new list of main file names to include
+ * as JS and CSS dependencies in the boilerplate.
+ */
+'use strict';
+
 var bower = require('bower');
 var _     = require('lodash');
 
@@ -8,10 +15,11 @@ var mainFiles,
 
 /**
  * Fetch a list of bower main files
- * @param  {Function} callback
- * @param  {[type]}   whitelist Only extract from packages that match the whitelist
+ * @param {Function} callback    Run this function async
+ * @param {Array}    whitelist   Only extract from packages that match the whitelist
+ * @param {Array}    ignored     A list of ignored package names
  */
-function fetchMainFiles(callback, whitelist) {
+function fetchMainFiles(callback, whitelist, ignored) {
     if (mainFiles) {
         callback(mainFiles);
         return;
@@ -20,34 +28,43 @@ function fetchMainFiles(callback, whitelist) {
     bower.commands
     .list({
         paths: true
-    },{
+    }, {
         offline: true
     })
     .on('end', function (packages) {
         var files = _.chain(packages)
+
+            // Filter the packages to only include packages that aren't squiz modules
+            // and only match the whitelist
             .filter(function (pkg, name) {
                 // Modules should not be included in the main file list as the scripts
                 // and css are handled through the boilerplate importer.
-                if (name.match(/^squiz\-module\-/)) return false;
+                if (name.match(/^squiz\-module\-/)) {
+                    return false;
+                }//end fi
 
                 // Only include packages from a white list of packages with matching
                 // dependency names
                 var include = false;
                 _.each(whitelist, function (pkg) {
-                    if (_.has(pkg.dependencies, name)) {
+                    if (_.has(pkg.dependencies, name) &&
+                        _.indexOf(ignored, name) === -1) {
                         include = true;
                     }//end if
                 });
 
                 return include;
             })
-            .map(function (paths, name) {
+
+            // Map the resulting packages to an array of paths
+            .map(function (paths) {
                 return (!_.isArray(paths)) ? [paths] : paths;
             })
             .compact()
             .uniq()
             .flatten()
             .value();
+
         callback(files);
     });
 }//end fetchMainFiles()
@@ -76,7 +93,7 @@ module.exports = {
      * @param  {Function}   (filter) Filter function to extract only those files needed
      * @return {Void}
      */
-    resources: function (callback, filter) {
+    resources: function (callback, filter, ignored) {
         fetchDependencies(function (installed) {
             // Fetch main files from packages that are referenced as dependencies
             // from squiz modules.
@@ -89,7 +106,7 @@ module.exports = {
                 }//end if
             }, _.filter(installed.dependencies, function (pkg, name) {
                 return name.match(/^squiz\-module\-/);
-            }));
+            }), ignored);
         });
     },
     dependencies: fetchDependencies,

@@ -12,12 +12,16 @@
 <% if (singleCSS) { %>
         <!-- build:css({{dest}}) styles/main.css -->
             <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
-            <!-- import:sass_wrapped source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
-            <!-- import:sass_wrapped source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
-            <!-- import:sass_wrapped source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] -->
+            <!-- import:bowerCSS -->
+            <!-- import:sassWrapped source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
+            <!-- import:sassWrapped source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
+            <!-- import:sassWrapped source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] -->
         <!-- endbuild -->
 <% } else { %>
-        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
+        <!-- build:css({{dest}}) styles/global.css -->
+            <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
+            <!-- import:bowerCSS -->
+        <!-- endbuild -->
         <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
         <!-- 600px or higher (with font size set @ 16px) -->
         <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
@@ -63,7 +67,7 @@
 
     <!-- build:js js/plugins.min.js -->
     <!-- import:js source/js/plugins.js -->
-    <!-- import:bower_deps module:squiz-module-*/.bower.json -->
+    <!-- import:bowerJS -->
     <% if (bootstrap) { %>
     <!--
         Bootstrap plugins. Remove any that aren't required to reduce the resulting file size.

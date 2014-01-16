@@ -14,24 +14,27 @@ var path = require('path'),
 
 module.exports = function (grunt) {
 
+    var ignored = [];
+
     // Get the HTML tag output for bower dependencies
     function getBowerDepTags(type, template, callback) {
+        grunt.log.writeln('Bower Dependency Solver: ' + type.cyan + ' (ignored: ' + ignored.join(', ') + ')');
         bowerdeps.resources(function (files) {
             async.reduce(files, '', function (memo, file, next) {
                 // Get the base path
                 var baseFile = file.replace('bower_components', grunt.config('bowerrc').directory);
+                grunt.log.writeln('Bower: ' + type.cyan + ' '  + baseFile.green);
 
-                // Hacks to make it work with usemin combine blocks
-                // The file needs to exist in the destination directory
-                if (type === 'css') {
-                    var destReg = new RegExp('^' + quote(grunt.config('config').dest) + '/');
-                    file = grunt.config('config').dest + '/styles/' + file;
-                    grunt.file.copy(baseFile, file);
-                    grunt.log.writeln('Copied: ' + path.basename(file).cyan + ' to ' + file.green);
+                // The file needs to be copied in order for it to be accessible to any usemin blocks which
+                // will use the relative current directory. We also want the file to be available to the
+                // dist directory in case it needs to be packaged up with all the files
+                var destReg = new RegExp('^' + quote(grunt.config('config').dest) + '/');
+                file = path.join(grunt.config('config').dest, file);
+                grunt.file.copy(baseFile, file);
+                grunt.log.writeln('Copied: ' + path.basename(file).cyan + ' to ' + file.green);
 
-                    // Make the file path relative so the css usemin can handle it
-                    file = file.replace(destReg, '');
-                }//end if
+                // Make the file path relative so the css usemin can handle it
+                file = file.replace(destReg, '');
 
                 // Get the HTML tag by calling an existing type function
                 types[type](file, null, function (content) {
@@ -43,7 +46,7 @@ module.exports = function (grunt) {
             });
         }, function (depFile) {
             return depFile.match(new RegExp(quote('.' + type) + '$'));
-        });
+        }, ignored);
     }//end getBowerDepTags()
 
     // Different types of importable content for the boilerplate
@@ -56,10 +59,7 @@ module.exports = function (grunt) {
 
         // JS script tags
         js: function (file, template, callback) {
-            var output = '';
-            if (grunt.file.exists(file)) {
-                output = '<script src="' + file + '"></script>';
-            }//end if
+            var output = '<script src="' + file + '"></script>';
             callback(output);
         },//end js()
 
@@ -168,14 +168,21 @@ module.exports = function (grunt) {
 
     // The grunt task
     grunt.registerMultiTask('boilerplate-importer', 'File content importing for boilerplate HTML files.', function () {
-        var options = this.options({});
+        var options = this.options({
+            ignored: [
+                'jquery',
+                'modernizr'
+            ]
+        });
+
+        ignored = options.ignored;
 
         var sourceFiles = this.filesSrc;
         var done = this.async();
 
         function processLine(line, queue) {
 
-            var match  = /^\s*?<!--\s*import:([a-z_]+)\s*([^\s]+)?\s*(\[([^\]]+)\])?\s*-->([\s]+)?/gim.exec(line);
+            var match  = /^\s*?<!--\s*import:([a-z]+)\s*([^\s]+)?\s*(\[([^\]]+)\])?\s*-->([\s]+)?/gim.exec(line);
             var indent = (line.match(/^\s*/) || [])[0];
 
             if (match === null) {
@@ -191,7 +198,7 @@ module.exports = function (grunt) {
 
             // If we don't have a file pattern simply call the function without the first argument.
             if (!filePattern) {
-                if (type === 'bower_js' || type === 'bower_css') {
+                if (type.match(/^bower/)) {
                     queue.push(function (content, done) {
                         types[type](null, template, function (output) {
                             done(null, content.replace(tag, output));
