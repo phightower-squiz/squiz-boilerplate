@@ -16,43 +16,44 @@ module.exports = function (grunt) {
         var files = this.filesSrc;
         var done = this.async();
 
+        function getNamesForToc(name, bowerFiles) {
+            _.each(bowerFiles, function (bowerFile) {
+                var files = grunt.file.expand(bowerFile);
+                if (files.length) {
+                    _.each(files, function (file) {
+                        var json = grunt.file.readJSON(file);
+                        if (_.has(json, 'version')) {
+                            name += ' (' + json.version + ')';
+                        }//end if
+                    });
+                }//end if
+            });
+            return name;
+        }
+
         // Analyse the contents of a file for included module comments and build a
         // table of contents
         // format: /*-- module:name --*/
         function buildTOC(content) {
             var commentReg = /\/\*[\-]+\s*?module:([^\s]+)\s*?[\-]+\*\//gim;
             var toc = [];
-            var name;
             var bowerFiles = [];
             var match;
 
-            while (match = commentReg.exec(content)) {
-                name = match[1];
-
+            while ((match = commentReg.exec(content)) !== null) {
                 // See if we can fetch a version number from any source bower files
-                bowerFiles = [grunt.config('config').source + '/modules/' + name + '/.bower.json',
-                              grunt.config('bowerrc').directory + '/' + name + '/.bower.json'];
-                _.each(bowerFiles, function(bowerFile) {
-                    var files = grunt.file.expand(bowerFile);
-                    if (files.length) {
-                        _.each(files, function(file) {
-                            var json = grunt.file.readJSON(file);
-                            if (_.has(json, 'version')) {
-                                name += ' (' + json.version + ')';
-                            }//end if
-                        });
-                    }//end if
-                });
+                bowerFiles = [grunt.config('config').source + '/modules/' + match[1] + '/.bower.json',
+                              grunt.config('bowerrc').directory + '/' + match[1] + '/.bower.json'];
 
-                toc.push(name);
+                toc.push(getNamesForToc(match[1], bowerFiles));
             }//end while
 
             // Create toc text that can be output in a comment block
             if (toc.length >= 1) {
                 grunt.log.writeln('Subtitute toc for modules: ' + toc.join(', ').cyan);
-                return _.map(toc, function(name) {
-                    return "\n *    " + name;
-                }).join('').replace(/^\n/,'');
+                return _.map(toc, function (name) {
+                    return '\n *    ' + name;
+                }).join('').replace(/^\n/, '');
             }//end if
 
             return '';

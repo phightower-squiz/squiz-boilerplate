@@ -18,17 +18,27 @@
     "url": "git@gitlab.squiz.net:boilerplate/squiz-boilerplate.git"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "grunt test"
   },
   "dependencies": {
     "yeoman-generator": "~0.14.0",
     "lingo": "*"
   },
   "devDependencies": {
-    "mocha": "~1.14.0"
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-internal": "~0.4.4",
+    "grunt-lib-phantomjs": "*",
+    "regexp-quote": "*",
+    "bower": "*",
+    "async": "*",
+    "lodash": "*"
   },
   "peerDependencies": {
-    "yo": ">=1.0.0"
+    "yo": ">=1.0.0",
+    "grunt": "~0.4.2"
   },
   "engines": {
     "node": ">=0.8.0",

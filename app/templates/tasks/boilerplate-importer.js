@@ -4,6 +4,7 @@
  * The content that this task produces is ideal for pulling in individual html files or sourcing
  * <script> and <link> files to provide to something like usemin
  */
+'use strict';
 
 var path = require('path'),
     quote = require('regexp-quote'),
@@ -14,7 +15,7 @@ var path = require('path'),
 module.exports = function (grunt) {
 
     // Get the HTML tag output for bower dependencies
-    function getBowerDepTags (type, template, callback) {
+    function getBowerDepTags(type, template, callback) {
         bowerdeps.resources(function (files) {
             async.reduce(files, '', function (memo, file, next) {
                 // Get the base path
@@ -40,8 +41,8 @@ module.exports = function (grunt) {
             }, function (err, memo) {
                 callback(memo);
             });
-        }, function(depFile) {
-            return depFile.match(new RegExp('\.' + quote(type) + '$'));
+        }, function (depFile) {
+            return depFile.match(new RegExp(quote('.' + type) + '$'));
         });
     }//end getBowerDepTags()
 
@@ -62,11 +63,11 @@ module.exports = function (grunt) {
             callback(output);
         },//end js()
 
-        bower_css: function (file, template, callback) {
+        bowerCSS: function (file, template, callback) {
             getBowerDepTags('css', template, callback);
         },//end bower_css_deps()
 
-        bower_js: function (file, template, callback) {
+        bowerJS: function (file, template, callback) {
             getBowerDepTags('js', template, callback);
         },//end bower_js_deps()
 
@@ -80,7 +81,7 @@ module.exports = function (grunt) {
         // This triggers the combinator to wrap the resulting module content in the media
         // query that is attached to the template, it's ideal when all resulting css may
         // be combined into a single CSS file rendering media attributes useless
-        sass_wrapped: function (file, template, callback) {
+        sassMQ: function (file, template, callback) {
             var media  = /\s*media="([^"]+)"\s*/gi;
             var match  = media.exec(template);
             var mq     = (match !== null) ? match[1] : 'screen';
@@ -95,11 +96,8 @@ module.exports = function (grunt) {
 
         // Sass combinators (triggers other grunt tasks to compile)
         sass: function (file, template, callback, mq) {
-            var dirname  = path.dirname(file);
             var baseName = path.basename(file, '.scss');
             var baseFile = path.basename(file);
-            var hrefMatch = (/href="([^"]+)"/gi).exec(template);
-            var href = (hrefMatch !== null) ? hrefMatch[1] : 'styles/' + baseFile.replace('scss', 'css');
 
             // Copy the desired sass files into the temp directory for processing
             var newCopyConfig = {};
@@ -117,20 +115,20 @@ module.exports = function (grunt) {
                         // Only place module banners on the right files
                         if (path.basename(filePath) === baseFile) {
                             var module = filePath.split('/')[2]; // source/<folder>/<module_name>
-                            return "/*-- module:" + module + " --*/\n" + src;
+                            return '/*-- module:' + module + ' --*/\n' + src;
                         }//end if
                         return src;
                     }
                 },
                 files: [{
-                        src: [
-                            '<%= config.source %>/modules/**/css/variables.scss',
-                            '<%= bowerrc.directory %>/squiz-module-*/css/variables.scss',
-                            '<%= config.source %>/modules/**/css/' + baseFile,
-                            '<%= bowerrc.directory %>/squiz-module-*/css/' + baseFile
-                        ],
-                        dest: '<%= config.tmp %>/styles/modules/' + baseFile
-                    }]
+                    src: [
+                        '<%= config.source %>/modules/**/css/variables.scss',
+                        '<%= bowerrc.directory %>/squiz-module-*/css/variables.scss',
+                        '<%= config.source %>/modules/**/css/' + baseFile,
+                        '<%= bowerrc.directory %>/squiz-module-*/css/' + baseFile
+                    ],
+                    dest: '<%= config.tmp %>/styles/modules/' + baseFile
+                }]
             };
 
             // Merge all temporary files together (includes merged module sass, variables and base sass)
@@ -142,23 +140,23 @@ module.exports = function (grunt) {
                         // Wrap the content properly
                         if (filePath.indexOf('styles/' + baseFile) !== -1 && useMq) {
                             // Start mq tag goes before base content
-                            src = "@media " + mq + " {\n" + src;
+                            src = '@media ' + mq + ' {\n' + src;
                         } else if (filePath.indexOf('modules/' + baseFile) !== -1 && useMq) {
                             // End mq tag goes after module content
-                            src = src + "\n}";
+                            src = src + '\n}';
                         }//end if
 
                         return src;
                     }
                 },
                 files: [{
-                        src: [
-                            '<%= config.tmp %>/styles/' + baseFile,
-                            '<%= config.tmp %>/styles/modules/' + baseName + '_variables.scss',
-                            '<%= config.tmp %>/styles/modules/' + baseFile
-                        ],
-                        dest: '<%= config.tmp %>/concat/styles/' + baseFile
-                    }]
+                    src: [
+                        '<%= config.tmp %>/styles/' + baseFile,
+                        '<%= config.tmp %>/styles/modules/' + baseName + '_variables.scss',
+                        '<%= config.tmp %>/styles/modules/' + baseFile
+                    ],
+                    dest: '<%= config.tmp %>/concat/styles/' + baseFile
+                }]
             };
 
             grunt.config('concat', _.extend(grunt.config('concat') || {},
@@ -169,18 +167,20 @@ module.exports = function (grunt) {
     };
 
     // The grunt task
-    grunt.registerMultiTask('boilerplate-importer', 'File content importing for boilerplate HTML files.', function() {
+    grunt.registerMultiTask('boilerplate-importer', 'File content importing for boilerplate HTML files.', function () {
         var options = this.options({});
 
         var sourceFiles = this.filesSrc;
         var done = this.async();
 
-        function processLine (line, queue) {
+        function processLine(line, queue) {
 
             var match  = /^\s*?<!--\s*import:([a-z_]+)\s*([^\s]+)?\s*(\[([^\]]+)\])?\s*-->([\s]+)?/gim.exec(line);
             var indent = (line.match(/^\s*/) || [])[0];
 
-            if (match === null) return;
+            if (match === null) {
+                return;
+            }//end if
 
             var tag             = match[0];
             var type            = match[1];
@@ -228,15 +228,19 @@ module.exports = function (grunt) {
                 files.sort(function (a, b) {
                     var aModule = a.split('/')[2];
                     var bModule = b.split('/')[2];
-                    if (aModule < bModule) return -1;
-                    if (aModule > bModule) return 1;
+                    if (aModule < bModule) {
+                        return -1;
+                    }
+                    if (aModule > bModule) {
+                        return 1;
+                    }
                     return 0;
                 });
             }//end if
 
             if (files.length >= 1) {
                 grunt.log.writeln('Import: ' + type.cyan + ' '  + path.basename(files[0]).green +
-                    ' (' + files.length + ' file' + ((files.length>1) ? 's' : '') + ' found)');
+                    ' (' + files.length + ' file' + ((files.length > 1) ? 's' : '') + ' found)');
             } else {
                 grunt.log.writeln('Import: ' + type.cyan + ' '  + filePattern +
                     ' (0 files found)');
@@ -245,11 +249,11 @@ module.exports = function (grunt) {
             queue.push(function (content, done) {
                 async.reduce(files, [], function (memo, file, next) {
                     types[type](file, template, function (output) {
-                        memo.push(output)
+                        memo.push(output);
                         next(null, memo);
                     });
                 }, function (err, htmlTags) {
-                    content = content.replace(tag, htmlTags.join("\n" + indent));
+                    content = content.replace(tag, htmlTags.join('\n' + indent));
                     done(null, content);
                 });
             });
@@ -262,7 +266,7 @@ module.exports = function (grunt) {
 
             // Gather up the replacements to be made and push functions
             // to a queue to perform replacements
-            lines.forEach(function(line) {
+            lines.forEach(function (line) {
                 processLine(line, queue);
             });
 
