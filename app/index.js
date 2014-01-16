@@ -1,10 +1,15 @@
+/**
+ * Main boilerplate generator
+ */
+
 'use strict';
-var util = require('util');
-var fs   = require('fs');
-var path = require('path');
+
+var util   = require('util');
+var fs     = require('fs');
+var path   = require('path');
 var yeoman = require('yeoman-generator');
 
-var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options, config) {
+var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
 
     this.on('end', function () {
@@ -43,42 +48,42 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         type: 'input',
         name: 'name',
         message: 'What name would you like to give your boilerplate?',
-        validate: function(input) {
+        validate: function (input) {
             if (input.match(/^\s*$/)) {
                 return 'You need to give the boilerplate a name';
             }
             return true;
         },
         default: 'Squiz Boilerplate'
-    },{
+    }, {
         type: 'input',
         name: 'description',
         message: 'Enter a description for this boilerplate',
         default: 'A Squiz Boilerplate design cutup'
-    },{
+    }, {
         type: 'input',
         name: 'email',
         message: 'What email would you like to use?',
-        default: function() {
+        default: function () {
             return ((_.has(process.env, 'USER')) ? process.env.USER : '<name>') + '@squiz.com.au';
         }
-    },{
+    }, {
         type: 'input',
         name: 'version',
         message: 'What version are you starting from?',
-        validate: function(input) {
+        validate: function (input) {
             if (!input.match(/^[0-9]+\.[0-9]+\.[0-9]+$/)) {
                 return 'please use a valid SemVer number, e.g. 0.0.1';
             }
             return true;
         },
         default: '0.0.0'
-    },{
+    }, {
         type: 'input',
         name: 'jqueryVersion',
         message: 'What version of jQuery do you want?',
         default: '~1.10.2'
-    },{
+    }, {
         type: 'confirm',
         name: 'matrix',
         message: 'Is this a design cutup for Squiz Matrix?',
@@ -86,7 +91,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     }];
 
     function getModuleChoices() {
-        var choices = _.map(registry, function(config, name) {
+        var choices = _.map(registry, function (config, name) {
             return {
                 name: config.name,
                 checked: true,

@@ -1,14 +1,15 @@
+/**
+ * Generator for new individual squiz modules
+ */
 'use strict';
+
 var util = require('util');
-var fs   = require('fs');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var lingo = require('lingo');
 
-var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options, config) {
-    var self = this;
+var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator() {
     yeoman.generators.Base.apply(this, arguments);
-
     this.on('end', function () {
         this.installDependencies({ skipInstall: true });
     });
@@ -30,9 +31,8 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         type: 'input',
         name: 'name',
         message: 'What name would you like to give the module?',
-        validate: function(input) {
+        validate: function (input) {
             var slug = _.slugify(input);
-            var moduleDir = dest + slug;
             if (input.match(/^\s*$/)) {
                 return 'Module names cannot be blank';
             }//end if
@@ -49,84 +49,84 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             return true;
         }.bind(this),
         default: 'Test Module'
-    },{
+    }, {
         type: 'input',
         name: 'version',
         message: 'What version are you starting from?',
-        validate: function(input) {
+        validate: function (input) {
             if (!input.match(/^[0-9]+\.[0-9]+\.[0-9]+$/)) {
                 return 'please use a valid SemVer number, e.g. 0.0.1';
             }
             return true;
         },
         default: '0.0.0'
-    },{
+    }, {
         type: 'input',
         name: 'description',
         message: 'Give this module a short description'
-    },{
+    }, {
         type: 'confirm',
         name: 'javascript',
         message: 'Will this module include any javascript?',
         confirm: true
-    },{
+    }, {
         type: 'confirm',
         name: 'jqueryPlugin',
         message: 'Do you require jQuery plugin scaffolding?',
-        when: function(props) {
+        when: function (props) {
             return props.javascript;
         }.bind(this),
         confirm: false
-    },{
+    }, {
         type: 'input',
         name: 'pluginName',
         message: 'What name would you like to give your plugin? (this will appear in jQuery.fn.[pluginName])',
-        when: function(props) {
+        when: function (props) {
             return props.jqueryPlugin;
         }.bind(this),
-        default: function(props) {
+        default: function (props) {
             return lingo.camelcase(props.name);
         }.bind(this)
-    },{
+    }, {
         type: 'confirm',
         name: 'html',
         message: 'Will this module include HTML fragments/examples?',
         confirm: true
-    },{
+    }, {
         type: 'checkbox',
         name: 'stylesheets',
         message: 'Select/De-select any Sass files you require (you can add your own later if you wish, just follow the naming conventions)',
         choices: [{
-                name: 'Global (all screen sizes)',
-                checked: true,
-                value: {
-                    name: 'global.scss'
-                }
-            },{
-                name: 'Medium (tablets, very low resolution desktop and higher)',
-                checked: true,
-                value: {
-                    name: 'medium.scss'
-                }
-            },{
-                name: 'Wide (desktops and higher)',
-                checked: false,
-                value: {
-                    name: 'wide.scss'
-                }
-            },{
-                name: 'Extra Wide (high resolution desktops, televisions and higher)',
-                checked: false,
-                value: {
-                    name: 'extra_wide.scss'
-                }
-            },{
-                name: 'Print (any custom print styles)',
-                checked: false,
-                value: {
-                    name: 'print.scss'
-                }
-            }]
+            name: 'Global (all screen sizes)',
+            checked: true,
+            value: {
+                name: 'global.scss'
+            }
+        }, {
+            name: 'Medium (tablets, very low resolution desktop and higher)',
+            checked: true,
+            value: {
+                name: 'medium.scss'
+            }
+        }, {
+            name: 'Wide (desktops and higher)',
+            checked: false,
+            value: {
+                name: 'wide.scss'
+            }
+        }, {
+            name: 'Extra Wide (high resolution desktops, televisions and higher)',
+            checked: false,
+            value: {
+                name: 'extra_wide.scss'
+            }
+        }, {
+            name: 'Print (any custom print styles)',
+            checked: false,
+            value: {
+                name: 'print.scss'
+            }
+        }]
     }];
 
     this.prompt(prompts, function (props) {
@@ -155,7 +155,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.template('_bower.json', this.dir + '/.bower.json');
 
     // Copy the core example stylesheet with each specified varation
-    this._.each(this.stylesheets, function(sassFile) {
+    this._.each(this.stylesheets, function (sassFile) {
         this.template('css/styles.scss', this.dir + '/css/' + sassFile.name);
     }.bind(this));
 
