@@ -1,21 +1,21 @@
 {
   "name": "generator-squiz-boilerplate",
   "version": "0.0.0",
-  "description": "A generator for Yeoman",
+  "description": "The Squiz Boilerplate generator for Yeoman",
   "keywords": [
     "yeoman-generator"
   ],
-  "homepage": "https://github.com/abarnes/generator-squiz-boilerplate",
-  "bugs": "https://github.com/abarnes/generator-squiz-boilerplate/issues",
+  "homepage": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home",
+  "bugs": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/issues",
   "author": {
-    "name": "",
-    "email": "",
-    "url": "https://github.com/abarnes"
+    "name": "Anthony Barnes",
+    "email": "abarnes@squiz.com.au",
+    "url": ""
   },
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/abarnes/generator-squiz-boilerplate.git"
+    "url": "git@gitlab.squiz.net:boilerplate/squiz-boilerplate.git"
   },
   "scripts": {
     "test": "mocha"
@@ -36,7 +36,7 @@
   },
   "licenses": [
     {
-      "type": "MIT"
+      "type": ""
     }
   ]
 }
