@@ -1,14 +1,14 @@
 {
     "squiz-module-skip-links": {
         "name": "Accessible skip links",
-        "repository": "git@gitlab.squiz.net:boilerplate/squiz-module-skip-links.git"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git"
     },
     "squiz-module-bootstrap": {
         "name": "Twitter Bootstrap Components",
-        "repository": "git@gitlab.squiz.net:boilerplate/squiz-module-bootstrap.git"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-bootstrap.git"
     },
     "squiz-module-font-awesome": {
         "name": "Font Awesome - Font icon library",
-        "repository": "git@gitlab.squiz.net:boilerplate/squiz-module-font-awesome.git"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git"
     }
 }
