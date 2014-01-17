@@ -84,7 +84,7 @@ module.exports = function (grunt) {
         sassMQ: function (file, template, callback) {
             var media  = /\s*media=['"]([^"']+)['"]\s*/gi;
             var match  = media.exec(template);
-            var mq     = (match !== null) ? match[1] : 'screen';
+            var mq     = (match !== null) ? match[1] : null;
 
             // Modify the output of the result to remove any media attributes
             // being wrapped they are now in the content of the css.
@@ -135,7 +135,7 @@ module.exports = function (grunt) {
             }, variableContent);
 
             // Optionally wrap the file in it's media query
-            if (typeof(mq) !== 'undefined') {
+            if (typeof(mq) !== 'undefined' && mq !== null) {
                 moduleContent = '@media ' + mq + ' {\n' + moduleContent + '\n}';
             }//end if
 
