@@ -11,7 +11,7 @@ var lingo = require('lingo');
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator() {
     yeoman.generators.Base.apply(this, arguments);
     this.on('end', function () {
-        this.installDependencies({ skipInstall: true });
+        this.installDependencies({ skipInstall: true, skipMessage: true });
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));

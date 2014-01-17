@@ -12,7 +12,7 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
     yeoman.generators.Base.apply(this, arguments);
 
     this.on('end', function () {
-        this.installDependencies({ skipInstall: true });
+        this.installDependencies({ skipInstall: true, skipMessage: true });
     });
 
     this.nested = self.options.nested;
@@ -37,6 +37,16 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         },
         default: 'index.html'
     }, {
+        type: 'input',
+        name: 'mediumMQ',
+        message: 'Set the width for the medium media query (portrait tablets, low res desktops and higher) in ems',
+        default: '37.5em'
+    }, {
+        type: 'input',
+        name: 'wideMQ',
+        message: 'Set the width for the wide media query (landscape tablets, desktops and higher) in ems',
+        default: '60em'
+    }, {
         type: 'confirm',
         name: 'ie8',
         message: 'Is Internet Explorer version 8 or older required?',
@@ -46,15 +56,20 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'ieConditionals',
         message: 'Should IE conditional tags be added to the body?',
         default: true
-    }, {
-        type: 'confirm',
-        name: 'singleCSS',
-        message: 'Would you like to combine all CSS into a single CSS file?',
-        when: function (props) {
-            // Only ask this question when we don't have to support IE8 because the resulting
-            // CSS will result in @media queries
-            return !props.ie8;
-        }.bind(this)
+    },  {
+        type: 'list',
+        name: 'cssTagStyle',
+        message: 'What method would you like to choose for building module CSS?',
+        choices: [
+            {
+                name: "Single CSS file (Combine all the CSS into a single file wrapped in @media queries)",
+                value: "single"
+            },
+            {
+                name: "Individual CSS files (Each file is generated separately, e.g. global.css, medium.css with media attributes)",
+                value: "individual"
+            }
+        ]
     }, {
         type: 'confirm',
         name: 'bootstrap',
@@ -65,8 +80,10 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     this.prompt(prompts, function (props) {
         this.fileName = props.fileName;
         this.ie8 = props.ie8;
-        this.singleCSS = props.singleCSS;
         this.ieConditionals = props.ieConditionals;
+        this.cssTagStyle = props.cssTagStyle;
+        this.mediumMQ = props.mediumMQ;
+        this.wideMQ = props.wideMQ;
         this.bootstrap = props.bootstrap;
         cb();
     }.bind(this));

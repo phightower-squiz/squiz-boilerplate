@@ -8,30 +8,44 @@
 
         <link rel="shortcut icon" href="{{file_dest}}/favicon.ico">
         <link rel="apple-touch-icon-precomposed" href="{{file_dest}}/logo-144x144.png">
+<% if (cssTagStyle === 'single') { %><% if (ie8) { %>
+        <!-- Single CSS File (for all browser not IE 8 or older) -->
 
-<% if (singleCSS) { %>
+        <!--[if !(lte IE 8)]><!--><% } %>
         <!-- build:css({{dest}}) styles/main.css -->
-            <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
-            <!-- import:bowerCSS -->
-            <!-- import:sassWrapped source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
-            <!-- import:sassWrapped source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
-            <!-- import:sassWrapped source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] -->
+        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/source/global.css" />] -->
+        <!-- import:bowerCSS -->
+        <!-- import:sassMQ source/styles/medium.scss [<link rel="stylesheet" href="styles/source/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
+        <!-- import:sassMQ source/styles/wide.scss [<link rel="stylesheet" href="styles/source/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
+        <!-- import:sassMQ source/styles/print.scss [<link rel="stylesheet" href="styles/source/print.css" media="print" />] -->
         <!-- endbuild -->
-<% } else { %>
-        <!-- build:css({{dest}}) styles/global.css -->
-            <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
-            <!-- import:bowerCSS -->
-        <!-- endbuild -->
-        <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: 37.5em)" />] -->
-        <!-- 600px or higher (with font size set @ 16px) -->
-        <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: 60em)" />] -->
-        <!-- 960px or higher (with font size set @ 16px) --><% if (ie8) { %>
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="styles/medium.css" />
-            <link rel="stylesheet" href="styles/wide.css" />
-        <![endif]--><% } %>
-        <!-- import:sass source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] --><% } %>
+        <% if (ie8) { %><!--<![endif]-->
 
+        <!-- Single CSS file with media queries removed for IE 8 and older -->
+
+        <!--[if lte IE 8]>
+        <!-- build:css({{dest}}) styles/ie.css -->
+        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/ie/global.css" />] -->
+        <!-- import:bowerCSS -->
+        <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/ie/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
+        <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/ie/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
+        <!-- endbuild -->
+        <!-- import:sass source/styles/print.scss [<link rel="stylesheet" href="styles/ie/print.css" media="print" />] -->
+        <![endif]-->
+
+<% } %><% } else { %>
+        <!-- build:css({{dest}}) styles/global.css -->
+        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
+        <!-- import:bowerCSS -->
+        <!-- endbuild -->
+        <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
+        <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
+        <!--[if lte IE 8]>
+            <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" />] -->
+            <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css"  />] -->
+        <![endif]-->
+        <!-- import:sass source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] -->
+        <% } %>
         <!-- build:js js/vendor/modernizr.min.js -->
         <!-- import:js source/bower_components/modernizr/modernizr.js -->
         <!-- endbuild -->
@@ -67,8 +81,7 @@
 
     <!-- build:js js/plugins.min.js -->
     <!-- import:js source/js/plugins.js -->
-    <!-- import:bowerJS -->
-    <% if (bootstrap) { %>
+    <!-- import:bowerJS --><% if (bootstrap) { %>
     <!--
         Bootstrap plugins. Remove any that aren't required to reduce the resulting file size.
     -->
@@ -83,8 +96,7 @@
     <!-- import:js module:bootstrap-sass/js/scrollspy.js -->
     <!-- import:js module:bootstrap-sass/js/tab.js -->
     <!-- import:js module:bootstrap-sass/js/affix.js -->
-    <% } %>
-    <!-- import:js module:**/js/plugin.js -->
+    <% } %><!-- import:js module:**/js/plugin.js -->
     <!-- endbuild -->
 
     <!-- build:js js/global.js -->

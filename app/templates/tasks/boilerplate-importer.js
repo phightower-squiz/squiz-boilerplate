@@ -82,7 +82,7 @@ module.exports = function (grunt) {
         // query that is attached to the template, it's ideal when all resulting css may
         // be combined into a single CSS file rendering media attributes useless
         sassMQ: function (file, template, callback) {
-            var media  = /\s*media="([^"]+)"\s*/gi;
+            var media  = /\s*media=['"]([^"']+)['"]\s*/gi;
             var match  = media.exec(template);
             var mq     = (match !== null) ? match[1] : 'screen';
 
@@ -98,70 +98,55 @@ module.exports = function (grunt) {
         sass: function (file, template, callback, mq) {
             var baseName = path.basename(file, '.scss');
             var baseFile = path.basename(file);
+            var gruntConfig = grunt.config();
 
-            // Copy the desired sass files into the temp directory for processing
-            var newCopyConfig = {};
-            newCopyConfig['sass_importer_' + baseName] = {
-                src: file,
-                dest: '<%= config.tmp %>/styles/' + baseFile
-            };
-            grunt.config('copy', _.extend(grunt.config('copy') || {}, newCopyConfig));
+            if (typeof(template) === 'undefined') {
+                callback('<!-- Error: could not construct css. Missing template parameter for sass file: ' + file + ' -->');
+                return;
+            }//end if
 
-            // Concatenate module sass with the base sass
-            var compiledModules = {};
-            compiledModules['sass_importer_' + baseName] = {
-                options: {
-                    process: function (src, filePath) {
-                        // Only place module banners on the right files
-                        if (path.basename(filePath) === baseFile) {
-                            var module = filePath.split('/')[2]; // source/<folder>/<module_name>
-                            return '/*-- module:' + module + ' --*/\n' + src;
-                        }//end if
-                        return src;
-                    }
-                },
-                files: [{
-                    src: [
-                        '<%= config.source %>/modules/**/css/variables.scss',
-                        '<%= bowerrc.directory %>/squiz-module-*/css/variables.scss',
-                        '<%= config.source %>/modules/**/css/' + baseFile,
-                        '<%= bowerrc.directory %>/squiz-module-*/css/' + baseFile
-                    ],
-                    dest: '<%= config.tmp %>/styles/modules/' + baseFile
-                }]
-            };
+            // Figure out the right destination for the merged sass file based on the href
+            // supplied in the template
+            var hrefMatch  = /\s*href=['"]([^"']+)['"]\s*/gi.exec(template);
+            var concatDest = baseFile;
+            if (hrefMatch !== null) {
+                concatDest = hrefMatch[1].replace('css', 'scss').replace(/^\/?styles\//, '');
+            }//end if
 
-            // Merge all temporary files together (includes merged module sass, variables and base sass)
-            var singleFileMerge = {};
-            singleFileMerge['sass_importer_merge_' + baseName] = {
-                options: {
-                    process: function (src, filePath) {
-                        var useMq = (typeof(mq) !== 'undefined');
-                        // Wrap the content properly
-                        if (filePath.indexOf('styles/' + baseFile) !== -1 && useMq) {
-                            // Start mq tag goes before base content
-                            src = '@media ' + mq + ' {\n' + src;
-                        } else if (filePath.indexOf('modules/' + baseFile) !== -1 && useMq) {
-                            // End mq tag goes after module content
-                            src = src + '\n}';
-                        }//end if
+            var uniqName = concatDest.replace(/\/\./gim, '_');
+            var tmpFile  = path.join(grunt.config('config').tmp, '/styles/', concatDest);
 
-                        return src;
-                    }
-                },
-                files: [{
-                    src: [
-                        '<%= config.tmp %>/styles/' + baseFile,
-                        '<%= config.tmp %>/styles/modules/' + baseName + '_variables.scss',
-                        '<%= config.tmp %>/styles/modules/' + baseFile
-                    ],
-                    dest: '<%= config.tmp %>/concat/styles/' + baseFile
-                }]
-            };
+            // Get variable content to merge together
+            var variableContent = _.reduce(grunt.file.expand([
+                gruntConfig.config.source + '/modules/**/css/variables.scss',
+                gruntConfig.bowerrc.directory + '/squiz-module-*/css/variables.scss'
+            ]), function (memo, targetFile) {
+                return memo += '\n// Source: ' + targetFile + '\n' + grunt.file.read(targetFile);
+            }, '');
 
-            grunt.config('concat', _.extend(grunt.config('concat') || {},
-                compiledModules, singleFileMerge));
+            // Get the module content with header to merge together
+            var moduleContent = _.reduce(grunt.file.expand([
+                gruntConfig.config.source + '/modules/**/css/' + baseFile,
+                gruntConfig.bowerrc.directory + '/squiz-module-*/css/' + baseFile
+            ]), function (memo, targetFile) {
+                var module = targetFile.split('/')[2];
+                grunt.log.debug('Module Sass file: ', path.basename(targetFile), module);
+                return memo += '\n/*-- module:' + module + ' --*/\n' + grunt.file.read(targetFile);
+            }, variableContent);
 
+            // Optionally wrap the file in it's media query
+            if (typeof(mq) !== 'undefined') {
+                moduleContent = '@media ' + mq + ' {\n' + moduleContent + '\n}';
+            }//end if
+
+            // Perform the merge
+            var tmpContent = grunt.file.read(file);
+            tmpContent = tmpContent.replace('{{modules}}', moduleContent);
+            var exists = grunt.file.exists(tmpFile);
+            grunt.file.write(tmpFile, tmpContent);
+            grunt.log.writeln(((exists) ? 'Overwrite'.yellow : 'Create'.green) + ': ' + tmpFile.cyan);
+
+            // Write out the template
             callback(template);
         }//end sass()
     };
@@ -195,6 +180,12 @@ module.exports = function (grunt) {
             var template        = match[4];
             var files           = [];
             var moduleAlphaSort = false;
+
+            // Fail gracefully on unknown tag types
+            if (!_.has(types, type)) {
+                grunt.log.writeln('Unknown type ' + type.red + ' from tag: ' + tag);
+                return;
+            }//end if
 
             // If we don't have a file pattern simply call the function without the first argument.
             if (!filePattern) {

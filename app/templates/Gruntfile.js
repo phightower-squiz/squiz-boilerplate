@@ -135,14 +135,6 @@ module.exports = function (grunt) {
             }]
         },
 
-        styles: {
-            expand: true,
-            dot: true,
-            cwd: '<%= config.source %>/styles',
-            dest: '<%= config.tmp %>/styles/',
-            src: '*.scss'
-        },
-
         html: {
             expand: true,
             cwd: '<%= config.source %>/html/',
@@ -474,8 +466,8 @@ module.exports = function (grunt) {
 
     tasks.compass = {
         options: {
-            sassDir: '<%= config.tmp %>/concat',
-            cssDir: '<%= config.dest %>',
+            sassDir: '<%= config.tmp %>/styles',
+            cssDir: '<%= config.dest %>/styles',
             generatedImagesDir: '<%= config.tmp %>/images/generated',
             javascriptsDir: '<%= config.dest %>/js',
             imagesDir: '<%= config.dest %>/styles/<%= config.file_dest %>',
@@ -596,12 +588,10 @@ module.exports = function (grunt) {
         'newer:copy:moduleFiles',
         'newer:copy:moduleCSSFiles',
         'newer:copy:moduleFonts',
-        'copy:styles',
-        'add_module_banners',
-        'concat',
         'compass',
         'useminPrepare',
-        'concat:generated', // Only run usemin combinations
+        'add_module_banners',
+        'concat',
         'substitute',
         'usemin'
     ]);
