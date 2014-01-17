@@ -37,7 +37,6 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
 
     // Greet the user with the squiz logo and message
     var logo = path.resolve(__dirname, './squiz.txt');
-    console.log(logo);
     console.log(fs.readFileSync(logo, {encoding: 'utf8'}));
     console.log('Squiz Boilerplate Generator');
 
