@@ -33,8 +33,11 @@ module.exports = function (grunt) {
                 grunt.file.copy(baseFile, file);
                 grunt.log.writeln('Copied: ' + path.basename(file).cyan + ' to ' + file.green);
 
-                // Make the file path relative so the css usemin can handle it
-                file = file.replace(destReg, '');
+                // Make the file path relative so the css usemin can handle it with it's custom
+                // directory argument.
+                if (type === 'css') {
+                    file = file.replace(destReg, '');
+                }//end if
 
                 // Get the HTML tag by calling an existing type function
                 types[type](file, null, function (content) {
@@ -257,26 +260,41 @@ module.exports = function (grunt) {
             });
         }//end processLine()
 
-        async.forEachSeries(sourceFiles, function (sourceFile, next) {
-            var content = grunt.file.read(sourceFile);
-            var lines   = content.replace(/\r\n/g, '\n').split(/\n/);
-            var queue   = [];
+        var once = false;
+        function processFiles() {
+            async.forEachSeries(sourceFiles, function (sourceFile, next) {
+                var content = grunt.file.read(sourceFile);
+                var lines   = content.replace(/\r\n/g, '\n').split(/\n/);
+                var queue   = [];
 
-            // Gather up the replacements to be made and push functions
-            // to a queue to perform replacements
-            lines.forEach(function (line) {
-                processLine(line, queue);
-            });
+                // Gather up the replacements to be made and push functions
+                // to a queue to perform replacements
+                lines.forEach(function (line) {
+                    processLine(line, queue);
+                });
 
-            async.waterfall([function (nextQueue) {
-                // Pass in the content to get started
-                nextQueue(null, content);
-            }].concat(queue), function (err, modifiedContent) {
-                grunt.file.write(options.dest + '/' + path.basename(sourceFile), modifiedContent);
-                next();
+                async.waterfall([function (nextQueue) {
+                    // Pass in the content to get started
+                    nextQueue(null, content);
+                }].concat(queue), function (err, modifiedContent) {
+                    grunt.file.write(options.dest + '/' + path.basename(sourceFile), modifiedContent);
+                    next();
+                });
+            }, function () {
+
+                // Run the replacement twice per file. The second time around will do any replacements
+                // injected from content, such as module HTML files. This allows modules to output
+                // dynamic references for builds like large groups of individual JS files intended
+                // to be combined in single file output by usemin.
+                if (!once) {
+                    processFiles();
+                    once = true;
+                } else {
+                    done();
+                }//end if
             });
-        }, function () {
-            done();
-        });
+        }
+
+        processFiles();
     });
 };
