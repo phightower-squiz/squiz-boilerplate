@@ -107,7 +107,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     prompts = prompts.concat({
         type: 'checkbox',
         name: 'modules',
-        message: 'Select the modules you would like to use (arrow keys to navigate, spacebar to toggle)',
+        message: 'Select the modules you would like to use',
         choices: getModuleChoices()
     });
 
