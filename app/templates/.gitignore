@@ -8,7 +8,8 @@ node_modules/
 *plugin.min.js
 validation-status.json
 validation-report.json
-source/bower_components
+source/bower_components/*
+!source/bower_components/squiz-module-**
 
 # Personal Preference Files #
 #############################
