@@ -10,5 +10,9 @@
     "squiz-module-font-awesome": {
         "name": "Font Awesome - Font icon library",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git"
+    },
+    "squiz-module-magnific-popup": {
+        "name": "Magnific Popup library",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git"
     }
 }
