@@ -62,12 +62,12 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         message: 'What method would you like to choose for building module CSS?',
         choices: [
             {
-                name: "Single CSS file (Combine all the CSS into a single file wrapped in @media queries)",
-                value: "single"
+                name: "Individual CSS files",
+                value: "individual"
             },
             {
-                name: "Individual CSS files (Each file is generated separately, e.g. global.css, medium.css with media attributes)",
-                value: "individual"
+                name: "Single CSS file",
+                value: "single"
             }
         ]
     }, {
