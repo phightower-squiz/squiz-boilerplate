@@ -191,7 +191,7 @@ module.exports = function (grunt) {
             src: [tasks.config.dest + '/*.html'],
             actions: [{
                 name: 'internal',
-                search: /([\s\t]*)?<\!--@@(?:[^@@]+)@@-->([\s\t]*)?\n*/gm,
+                search: /([\s\t]*)?<\!--@@(?:[^@@]+)@@-->/gm,
                 replace: ''
             }]
         }
@@ -562,12 +562,13 @@ module.exports = function (grunt) {
         if (_.has(concatConfig, 'generated')) {
             concatConfig.generated.options = {
                 process: function (src, filePath) {
+                    console.log('add_module_banners', filePath);
                     // Only place module banners on the right files (i.e. module js files)
-                    if (filePath.indexOf(tasks.config.source + '/modules') === 0 ||
-                        filePath.indexOf(tasks.bowerrc.directory + '/squiz-module-') === 0) {
+                    if (filePath.indexOf(tasks.config.source + '/modules') !== -1 ||
+                        filePath.indexOf(tasks.bowerrc.directory + '/squiz-module-') !== -1) {
                         var parts = filePath.split('/');
-                        var module = parts[parts.length - 2]; // source/<folder>/<module_name>
-                        return '\n/*-- module:' + module + ' --*/\n' + src;
+                        var module = parts[parts.length - 3]; // source/<folder>/<module_name>
+                        return '\n/*-- module:' + module.replace(/^squiz\-module\-/, '') + ' --*/\n' + src;
                     }//end if
                     return src;
                 }
