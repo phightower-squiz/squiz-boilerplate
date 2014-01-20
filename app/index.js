@@ -8,6 +8,7 @@ var util   = require('util');
 var fs     = require('fs');
 var path   = require('path');
 var yeoman = require('yeoman-generator');
+var lingo  = require('lingo');
 
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
@@ -43,6 +44,9 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     // Read the module registry configuration to allow a display of module choices
     var registry = JSON.parse(this.readFileAsString(path.join(__dirname, '../moduleRegistry.json')));
 
+    var currentDir = path.basename(process.cwd());
+    var projectName = lingo.capitalize(currentDir.replace(/[\-_]/, ' '));
+
     var prompts = [{
         type: 'input',
         name: 'name',
@@ -53,7 +57,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             }
             return true;
         },
-        default: 'Squiz Boilerplate'
+        default: projectName
     }, {
         type: 'input',
         name: 'description',
@@ -87,6 +91,11 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'matrix',
         message: 'Is this a design cutup for Squiz Matrix?',
         default: true
+    }, {
+        type: 'confirm',
+        name: 'unitTest',
+        message: 'Include Unit Tests? (Useful if you are developing or otherwise altering the boilerplate from default)',
+        default: false
     }];
 
     function getModuleChoices() {
@@ -119,6 +128,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.jqueryVersion = props.jqueryVersion;
         this.modules = props.modules;
         this.matrix = props.matrix;
+        this.unitTest = props.unitTest;
         cb();
     }.bind(this));
 };
@@ -144,5 +154,9 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
 
     if (this.matrix) {
         this.copy('source/html/parse.html', 'source/html/parse.html');
+    }//end if
+
+    if (this.unitTest) {
+        this.directory('test', 'test');
     }//end if
 };

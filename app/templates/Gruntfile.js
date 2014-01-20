@@ -160,6 +160,15 @@ module.exports = function (grunt) {
             files: {
                 src: '<%= config.tmp %>'
             }
+        },
+        test: {
+            files: {
+                src: [
+                    '<%= config.source %>/html/_test.html',
+                    '<%= config.dest %>/js/test',
+                    '<%= config.dest %>/styles/test'
+                ]
+            }
         }
     };
 
@@ -540,8 +549,49 @@ module.exports = function (grunt) {
         'jsbeautifier'
     ]);
 
-    // Tests
+    ///////////
+    // Tests //
+    ///////////
+
+    // Code Quality Tests
     grunt.registerTask('test', ['jshint', 'validation', 'htmlcs', 'qunit']);
+
+    // Setup test config
+    grunt.registerTask('set_test_config', 'Alter the configuration for testing', function () {
+
+        // Copy the html source file into it's location for testing. It'll be picked up
+        // by the default build functions
+        var htmlSourceFile = grunt.config('config').source + '/html/_test.html';
+        grunt.file.copy('test/fixtures/index.html', htmlSourceFile);
+        grunt.config('boilerplate-importer').html.files = htmlSourceFile;
+        grunt.config('copy').html.src = '_test.html';
+
+        // These variables are output to the resulting template by default, replace them
+        // with something expected that can be tested
+        tasks.pkg.version = '0.0.0';
+        tasks.pkg.name = 'boilerplate-test';
+        var sub = grunt.config('substitute');
+        sub.template.options.replacements = _.extend(sub.template.options.replacements, tasks.pkg);
+        sub.html.options.replacements = _.extend(sub.html.options.replacements, tasks.pkg);
+        grunt.config('substitute', sub);
+
+        // Output a predictable file destination variable
+        grunt.config('config').file_dest = 'files';
+    });
+
+    tasks.nodeunit = {
+        all: ['test/*.js']
+    };
+
+    // Build tests
+    grunt.registerTask('build_test',[
+        'clean:test',
+        'clean:tmp',
+        'set_test_config',
+        'build',
+        'nodeunit',
+        'clean:test'
+    ]);
 
     // HTTP server
     grunt.registerTask('serve', function (target) {
@@ -562,7 +612,6 @@ module.exports = function (grunt) {
         if (_.has(concatConfig, 'generated')) {
             concatConfig.generated.options = {
                 process: function (src, filePath) {
-                    console.log('add_module_banners', filePath);
                     // Only place module banners on the right files (i.e. module js files)
                     if (filePath.indexOf(tasks.config.source + '/modules') !== -1 ||
                         filePath.indexOf(tasks.bowerrc.directory + '/squiz-module-') !== -1) {
