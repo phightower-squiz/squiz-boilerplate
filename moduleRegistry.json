@@ -14,5 +14,9 @@
     "squiz-module-magnific-popup": {
         "name": "Magnific Popup library",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git"
+    },
+    "squiz-module-foundation": {
+        "name": "Zurb Foundation Components",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-foundation.git"
     }
 }
