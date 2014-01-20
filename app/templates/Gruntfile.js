@@ -187,7 +187,7 @@ module.exports = function (grunt) {
 
     tasks['regex-replace'] = {
         // Looks for comment syntax of <!--@@ ... @@--> to replace in html files
-        internalComments: {
+        comments: {
             src: [tasks.config.dest + '/*.html'],
             actions: [{
                 name: 'internal',
@@ -579,6 +579,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_js', [
         'jshint',
         'copy:html',
+        'regex-replace:comments',
         'substitute:html',
         'boilerplate-importer',
         'useminPrepare',
@@ -595,6 +596,7 @@ module.exports = function (grunt) {
     // Build tasks
     grunt.registerTask('build', [
         'copy:html',
+        'regex-replace:comments',
         'substitute:html',
         'boilerplate-importer',
         'newer:copy:files',
