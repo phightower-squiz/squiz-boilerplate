@@ -93,7 +93,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         var choices = _.map(registry, function (config, name) {
             return {
                 name: config.name,
-                checked: true,
+                checked: false,
                 value: {
                     name: name,
                     repository: config.repository
