@@ -18,12 +18,14 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
     this.nested = self.options.nested;
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+    this.bower = JSON.parse(this.readFileAsString('.bower.json'));
 };
 
 util.inherits(SquizBoilerplateGenerator, yeoman.generators.Base);
 
 SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
+    var _ = this._;
 
     var prompts = [{
         type: 'input',
@@ -70,11 +72,6 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
                 value: "single"
             }
         ]
-    }, {
-        type: 'confirm',
-        name: 'bootstrap',
-        message: 'Are twitter bootstrap plugins required? (Will automatically reference plugins for you)',
-        default: true
     }];
 
     this.prompt(prompts, function (props) {
@@ -84,7 +81,13 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.cssTagStyle = props.cssTagStyle;
         this.mediumMQ = props.mediumMQ;
         this.wideMQ = props.wideMQ;
-        this.bootstrap = props.bootstrap;
+
+        // Whether bootstrap JS plugins should be included
+        this.bootstrap = _.has(this.bower.dependencies, 'squiz-module-bootstrap');
+
+        // Whether foundation JS plugins should be included
+        this.foundation = _.has(this.bower.dependencies, 'squiz-module-foundation');
+
         cb();
     }.bind(this));
 };
