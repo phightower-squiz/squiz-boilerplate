@@ -99,6 +99,7 @@ module.exports = function (grunt) {
 
         // Sass combinators (triggers other grunt tasks to compile)
         sass: function (file, template, callback, mq) {
+            var baseName = path.basename(file, '.scss');
             var baseFile = path.basename(file);
             var gruntConfig = grunt.config();
 
@@ -115,6 +116,7 @@ module.exports = function (grunt) {
                 concatDest = hrefMatch[1].replace('css', 'scss').replace(/^\/?styles\//, '');
             }//end if
 
+            var uniqName = concatDest.replace(/\/\./gim, '_');
             var tmpFile  = path.join(grunt.config('config').tmp, '/styles/', concatDest);
 
             // Get variable content to merge together
@@ -205,7 +207,7 @@ module.exports = function (grunt) {
                 var relPath = filePattern.replace('module:', '');
                 filePattern = [
                     grunt.config('config').source + '/modules/' + relPath,
-                    grunt.config('bowerrc').directory + '/squiz-module-' + relPath.replace(/^squiz\-module\-/, '')
+                    grunt.config('bowerrc').directory + '/squiz-module-' + relPath.replace(/^squiz\-module\-/,'')
                 ];
 
                 // We know we are dealing with modules, so alpha sort them by module name
@@ -254,7 +256,7 @@ module.exports = function (grunt) {
                         next(null, memo);
                     });
                 }, function (err, htmlTags) {
-                    content = content.replace(tag, htmlTags.join('\n' + indent));
+                    content = content.replace(tag, indent + htmlTags.join('\n' + indent));
                     done(null, content);
                 });
             });
