@@ -20,6 +20,10 @@
     {
       "name": "James Sinclair",
       "email": "jsinclair@squiz.com.au"
+    },
+    {
+      "name": "Tim Tran",
+      "email": "ttran@squiz.com.au"
     }
   ],
   "main": "app/index.js",
