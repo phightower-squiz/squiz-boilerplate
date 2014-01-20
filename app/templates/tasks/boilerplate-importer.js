@@ -205,8 +205,10 @@ module.exports = function (grunt) {
             // Module shortcuts to be expanded
             if (filePattern.indexOf('module:') === 0) {
                 var relPath = filePattern.replace('module:', '');
-                filePattern = [grunt.config('config').source + '/modules/' + relPath,
-                               grunt.config('bowerrc').directory + '/' + relPath];
+                filePattern = [
+                    grunt.config('config').source + '/modules/' + relPath,
+                    grunt.config('bowerrc').directory + '/squiz-module-' + relPath.replace(/^squiz\-module\-/,'')
+                ];
 
                 // We know we are dealing with modules, so alpha sort them by module name
                 moduleAlphaSort = true;
