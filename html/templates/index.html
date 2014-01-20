@@ -58,7 +58,7 @@
     <% if (ieConditionals) { %><!--<![endif]--><% } %>
     <div id="page-wrapper">
     <!--noindex-->
-        <!-- import:content module:squiz-module-skip-links/html/index.html -->
+        <!-- import:content module:skip-links/html/index.html -->
         <div class="header" role="banner">
 
         </div><!-- /.header -->
@@ -74,21 +74,38 @@
         </div><!-- /.footer -->
     <!--endnoindex-->
     </div><!-- /#page-wrapper -->
-    
+
+<!--@@
+    jQuery
+    We're bringing this in seperately to avoid any confusion. If desired this could be replaced
+    with a jQuery CDN tag instead of locally sourced library.
+@@-->
     <!-- build:js js/vendor/jquery.min.js -->
     <!-- import:js source/bower_components/jquery/jquery.js -->
     <!-- endbuild -->
 
+<!--@@
+    Plugin JS
+    You can use this build directive to automatically combine supporting library files
+    including things like jQuery plugins. Naming the file .min.js will allow the generated
+    file to be picked up in the optimisation phase and minified reducing it's final file size.
+@@-->
     <!-- build:js js/plugins.min.js -->
     <!-- import:js source/js/plugins.js -->
     <!-- import:bowerJS --><% if (bootstrap) { %>
-    <!-- import:content module:squiz-module-bootstrap/html/index.html -->
+    <!-- import:content module:bootstrap/html/js.html -->
+    <% } %><% if (foundation) { %>
+    <!-- import:content module:foundation/html/js.html -->
     <% } %><!-- import:js module:**/js/plugin.js -->
     <!-- endbuild -->
 
+<!--@@
+    Global JS
+    All the scripts that do the configuration and invocation of plugins, or any small ad-hoc
+    javascript required to enhance the page.
+@@-->
     <!-- build:js js/global.js -->
     <!-- import:js source/js/global.js -->
-    <!-- import:js module:squiz-module-*/js/global.js -->
     <!-- import:js module:**/js/global.js -->
     <!-- endbuild -->
 
