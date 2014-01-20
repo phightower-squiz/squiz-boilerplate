@@ -191,7 +191,7 @@ module.exports = function (grunt) {
             src: [tasks.config.dest + '/*.html'],
             actions: [{
                 name: 'internal',
-                search: new RegExp('([\s\t]*)?<\\!--@@([^(@@)]*)@@-->([\s\t]*)?\n*', 'gm'),
+                search: /([\s\t]*)?<\!--@@(?:[^@@]+)@@-->([\s\t]*)?\n*/gm,
                 replace: ''
             }]
         }
@@ -565,7 +565,8 @@ module.exports = function (grunt) {
                     // Only place module banners on the right files (i.e. module js files)
                     if (filePath.indexOf(tasks.config.source + '/modules') === 0 ||
                         filePath.indexOf(tasks.bowerrc.directory + '/squiz-module-') === 0) {
-                        var module = filePath.split('/')[2]; // source/<folder>/<module_name>
+                        var parts = filePath.split('/');
+                        var module = parts[parts.length - 2]; // source/<folder>/<module_name>
                         return '\n/*-- module:' + module + ' --*/\n' + src;
                     }//end if
                     return src;
