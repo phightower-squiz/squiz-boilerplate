@@ -184,6 +184,18 @@ module.exports = function (grunt) {
         html: ['<%= config.dest %>/{,*/}*.html']
     };
 
+    tasks['regex-replace'] = {
+        // Looks for comment syntax of <!--@@ ... @@--> to replace in html files
+        internalComments: {
+            src: [tasks.config.dest + '/*.html'],
+            actions: [{
+                name: 'internal',
+                search: new RegExp('([\s\t]*)?<\\!--@@([^(@@)]*)@@-->([\s\t]*)?\n*', 'gm'),
+                replace: ''
+            }]
+        }
+    };
+
     // Simple variable substitution
     // This also includes dynamic replacements for:
     // {{toc}} (table of contents for modules)
@@ -572,6 +584,7 @@ module.exports = function (grunt) {
         'add_module_banners',
         'concat',
         'substitute',
+        'regex-replace',
         'usemin'
     ]);
 
@@ -593,6 +606,7 @@ module.exports = function (grunt) {
         'add_module_banners',
         'concat',
         'substitute',
+        'regex-replace',
         'usemin'
     ]);
 
