@@ -7,11 +7,21 @@
   ],
   "homepage": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home",
   "bugs": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/issues",
-  "author": {
-    "name": "Anthony Barnes",
-    "email": "abarnes@squiz.com.au",
-    "url": ""
-  },
+  "author": "Squiz Australia",
+  "contributors": [
+    {
+      "name": "Anthony Barnes",
+      "email": "abarnes@squiz.com.au"
+    },
+    {
+      "name": "Dianne Castillo",
+      "email": "dcastillo@squiz.com.au"
+    },
+    {
+      "name": "James Sinclair",
+      "email": "jsinclair@squiz.com.au"
+    }
+  ],
   "main": "app/index.js",
   "repository": {
     "type": "git",
@@ -36,7 +46,7 @@
   },
   "licenses": [
     {
-      "type": ""
+      "type": "Squiz"
     }
   ]
 }
