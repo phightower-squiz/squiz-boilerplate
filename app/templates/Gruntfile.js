@@ -71,12 +71,13 @@ module.exports = function (grunt) {
                     'jquery',
                     'modernizr',
 
-                    // If you want bootstrap dependencies brought in customise
-                    // the build by editing the squiz-module-bootstrap and uncomment
-                    // the sass imports. If you comment this line out the entire
-                    // bootstrap js and css can be imported (including resets) which
-                    // may be undesirable
-                    'bootstrap-sass'
+                    // If you want the entire bootstrap CSS and JS to be brought in then
+                    // comment out this line (not recommended)
+                    'bootstrap-sass',
+
+                    // If you want the entire CSS and JS for foundation then comment out
+                    // this line (not recommended)
+                    'foundation'
                 ]
             },
             files: [{
@@ -593,7 +594,6 @@ module.exports = function (grunt) {
 
     // Build tasks
     grunt.registerTask('build', [
-        //'clean',
         'copy:html',
         'substitute:html',
         'boilerplate-importer',
