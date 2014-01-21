@@ -1,7 +1,7 @@
 {
     "squiz-module-skip-links": {
         "name": "Accessible skip links",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.0.1"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.0.2"
     },
     "squiz-module-bootstrap": {
         "name": "Twitter Bootstrap Components",
@@ -13,7 +13,7 @@
     },
     "squiz-module-magnific-popup": {
         "name": "Magnific Popup library",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git#0.0.1"
     },
     "squiz-module-foundation": {
         "name": "Zurb Foundation Components",

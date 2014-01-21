@@ -1,29 +1,26 @@
 // Screen Hidden Content
 .visuallyhidden {
-    @include screen-hide;
+    @extend %screen-hide;
 }
 
 // When screen hidden content is focused restore it to view
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
-    @include screen-show;
+    @extend %screen-show;
 }
 
-// Clear fix class for floats
+// Clear fix class for containers of floated elements
 .clearfix {
-    @include clearfix;
-}
-
-// Image replacement
-.ir {
-    @include ir;
-}
-
-.ir:before {
-    content: "";
-    display: block;
-    width: 0;
-    height: 150%;
+    &:after,
+    &:before {
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+    &:after {
+        clear: both;
+    }
+    *zoom: 1;
 }
 
 // Hide from both screenreaders and browsers: h5bp.com/u
@@ -37,44 +34,24 @@
     visibility: hidden;
 }
 
-/* Flex input groups with Modernizr prefixes and No JS fallback */
-// Uses Modernizr class to prefix solution for flexible inputs and input addons
-// Falls back to the table method for elements ajoined to an input (e.g. twitter bootstrap)
+// The container for input groups
 .input-group {
-    @include border-box;
-    .flexbox & {
-        @include flexbox;
-    }
-    .no-js &,
-    .no-flexbox & {
-        display: table;
-    }
+    @extend %border-box;
+    @extend %flex-box;
 }
 
+// The field will expand to 100% of what's available
 .input-field {
-    @include border-box;
-    .flexbox & {
-        @include flex(1);
-    }
-    .no-js &,
-    .no-flexbox & {
-        width: 100%;
-        display: table-cell;
-    }
+    @extend %border-box;
+    @include sq-flex(1);
+    width: 100%;
 }
 
 // Make sure that when you apply this class it's an inline element like a span tag
 // Applying it directly to a form element may result in some margins that are
 // difficult to remove, the span container element makes it easy.
 .input-addon {
-    @include border-box;
-    .flexbox & {
-        // No need for anything else here
-    }
-    .no-js &,
-    .no-flexbox & {
-        // Will adjust to fit whatever the content because of the table cell
-        width: 1%;
-        display: table-cell;
-    }
+    @extend %border-box;
+    @include sq-flex(1);
+    width: 1%;
 }
