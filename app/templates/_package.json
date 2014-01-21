@@ -32,8 +32,7 @@
     "grunt-lib-phantomjs": "*",
     "regexp-quote": "*",
     "lodash": "~2.4.1",
-    "async": "~0.2.5",
-    "bower": "~1.2.8"
+    "async": "~0.2.5"
   },
   "engines": {
     "node": ">=0.8.0"

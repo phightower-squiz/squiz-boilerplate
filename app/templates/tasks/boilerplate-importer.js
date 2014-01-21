@@ -27,25 +27,25 @@ module.exports = function (grunt) {
         bowerdeps.resources(function (files) {
             async.reduce(files, '', function (memo, file, next) {
                 // Get the base path
-                var baseFile = file.replace('bower_components', grunt.config('bowerrc').directory);
-                grunt.log.writeln('Bower: ' + type.cyan + ' '  + baseFile.green);
+                grunt.log.writeln('Bower: ' + type.cyan + ' '  + file.green);
 
                 // The file needs to be copied in order for it to be accessible to any usemin blocks which
                 // will use the relative current directory. We also want the file to be available to the
                 // dist directory in case it needs to be packaged up with all the files
-                var destReg = new RegExp('^' + quote(grunt.config('config').dest) + '/');
-                file = path.join(grunt.config('config').dest, file);
-                grunt.file.copy(baseFile, file);
-                grunt.log.writeln('Copied: ' + path.basename(file).cyan + ' to ' + file.green);
+                var sourceReg = new RegExp('^' + quote(grunt.config('config').source) + '/');
+                var destFile = path.join(grunt.config('config').dest, file.replace(sourceReg, ''));
+                grunt.file.copy(file, destFile);
+                grunt.log.writeln('Copied: ' + path.basename(file).cyan + ' to ' + destFile.green);
 
                 // Make the file path relative so the css usemin can handle it with it's custom
                 // directory argument.
+                var destReg = new RegExp('^' + quote(grunt.config('config').dest) + '/');
                 if (type === 'css') {
-                    file = file.replace(destReg, '');
+                    destFile = destFile.replace(destReg, '');
                 }//end if
 
                 // Get the HTML tag by calling an existing type function
-                types[type](file, null, function (content) {
+                types[type](destFile, null, function (content) {
                     memo += content + "\n";
                     next(null, memo);
                 });
