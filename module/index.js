@@ -152,7 +152,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
 
     this.template('css/variables.scss', this.dir + '/css/variables.scss');
     this.template('README.md', this.dir + '/README.md');
-    this.template('_bower.json', this.dir + '/.bower.json');
+    this.template('_bower.json', this.dir + '/bower.json');
 
     // Copy the core example stylesheet with each specified varation
     this._.each(this.stylesheets, function (sassFile) {
