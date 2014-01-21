@@ -3,7 +3,7 @@
 module.exports = function (grunt) {
 
     // Load grunt tasks automatically
-    require('load-grunt-tasks')(grunt, {pattern: ['grunt-*', '!grunt-lib-*']});
+    //require('load-grunt-tasks')(grunt, {pattern: ['grunt-*', '!grunt-lib-*']});
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
@@ -423,7 +423,8 @@ module.exports = function (grunt) {
     // Unit tests that require the DOM
     tasks.qunit = {
         modules: {
-            option: {
+            options: {
+                force: true,
                 timeout: 10000
             },
             files: {
@@ -463,25 +464,18 @@ module.exports = function (grunt) {
             tasks: ['copy']
         },
 
-        // If core HTML is edited then a full rebuild is required
-        html: {
-            options: {
-                livereload: true
-            },
-            files: ['<%= config.source %>/html/*.html'],
-            tasks: ['build']
-        },
-
-        sass: {
+        // If core HTML or Sass are edited
+        core: {
             options: {
                 livereload: true
             },
             files: [
+                '<%= config.source %>/html/*.html',
                 '<%= config.source %>/styles/{,*/}*.scss',
                 '<%= config.source %>/modules/**/css/*.scss',
                 '<%= bowerrc.directory %>/squiz-module-*/css/*.scss'
             ],
-            tasks: ['build_sass']
+            tasks: ['build']
         }
     };
 
@@ -518,42 +512,51 @@ module.exports = function (grunt) {
         }
     };
 
-    ////////////////
-    // Concurrent //
-    ////////////////
-    // Process some longer runnin tasks concurrently to improve performance
-    tasks.concurrent = {
-        optimise: [
-            'cssmin',
-            'imagemin',
-            'svgmin',
-            //'htmlmin', // Uncomment this line if you want html minification
-            'uglify'
-        ]
-    };
-
     grunt.initConfig(tasks);
 
     // Load any tasks from the tasks directory
     grunt.loadTasks('tasks');
 
-    // Clean up alias
-    grunt.registerTask('reset', ['clean']);
+    // Load global tasks
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     // Run optimisation tasks
-    grunt.registerTask('optimise', [
-        'modernizr',
-        'concurrent:optimise',
-        'prettify',
-        'jsbeautifier'
-    ]);
+    grunt.registerTask('optimise', [], function() {
+        _.each([
+            'grunt-contrib-imagemin',
+            'grunt-contrib-cssmin',
+            'grunt-contrib-uglify',
+            'grunt-svgmin',
+            'grunt-htmlmin',
+            'grunt-modernizr',
+            'grunt-jsbeautifier',
+            'grunt-prettify'
+        ], function(task) {
+            grunt.loadNpmTasks(task);
+        });
+        grunt.task.run([
+            'modernizr',
+            'cssmin',
+            'imagemin',
+            'svgmin',
+            'uglify',
+            'prettify',
+            'jsbeautifier'
+        ]);
+    });
 
     ///////////
     // Tests //
     ///////////
 
     // Code Quality Tests
-    grunt.registerTask('test', ['jshint', 'validation', 'htmlcs', 'qunit']);
+    grunt.registerTask('test', [], function () {
+        grunt.loadNpmTasks('grunt-contrib-jshint');
+        grunt.loadNpmTasks('grunt-contrib-qunit');
+        grunt.loadNpmTasks('grunt-html-validation');
+        grunt.task.run(['jshint', 'validation', 'htmlcs', 'qunit']);
+    });
 
     // Setup test config
     grunt.registerTask('set_test_config', 'Alter the configuration for testing', function () {
@@ -583,17 +586,21 @@ module.exports = function (grunt) {
     };
 
     // Build tests
-    grunt.registerTask('build_test', [
-        'clean:test',
-        'clean:tmp',
-        'set_test_config',
-        'build',
-        'nodeunit',
-        'clean:test'
-    ]);
+    grunt.registerTask('build_test', [], function () {
+        grunt.loadNpmTasks('grunt-contrib-nodeunit');
+        grunt.task.run([
+            'clean:test',
+            'clean:tmp',
+            'set_test_config',
+            'build',
+            'nodeunit',
+            'clean:test'
+        ]);
+    });
 
     // HTTP server
     grunt.registerTask('serve', function () {
+        grunt.loadNpmTasks('grunt-contrib-connect');
         grunt.task.run([
             'build',
             'connect:livereload',
@@ -622,41 +629,62 @@ module.exports = function (grunt) {
     });
 
     // Build only the tasks necessary when JS is edited
-    grunt.registerTask('build_js', [
-        'jshint',
-        'copy:html',
-        'regex-replace:comments',
-        'substitute:html',
-        'boilerplate-importer',
-        'useminPrepare',
-        'add_module_banners',
-        'concat',
-        'substitute',
-        'regex-replace',
-        'usemin'
-    ]);
+    grunt.registerTask('build_js', [], function () {
+        _.each([
+            'grunt-contrib-concat',
+            'grunt-contrib-copy',
+            'grunt-regex-replace',
+            'grunt-contrib-jshint',
+            'grunt-usemin'
+        ], function(task) {
+            grunt.loadNpmTasks(task);
+        });
+        grunt.task.run([
+            'jshint',
+            'copy:html',
+            'regex-replace:comments',
+            'substitute:html',
+            'boilerplate-importer',
+            'useminPrepare',
+            'add_module_banners',
+            'concat',
+            'substitute',
+            'regex-replace',
+            'usemin'
+        ]);
+    });
 
-    // Build only the tasks necessary when Sass is edited
-    grunt.registerTask('build_sass', ['build']);
-
-    // Build tasks
-    grunt.registerTask('build', [
-        'copy:html',
-        'regex-replace:comments',
-        'substitute:html',
-        'boilerplate-importer',
-        'newer:copy:files',
-        'newer:copy:moduleFiles',
-        'newer:copy:moduleCSSFiles',
-        'newer:copy:moduleFonts',
-        'compass',
-        'useminPrepare',
-        'add_module_banners',
-        'concat',
-        'substitute',
-        'regex-replace',
-        'usemin'
-    ]);
+    // Defer load of required npm tasks
+    // https://github.com/gruntjs/grunt/issues/975
+    grunt.registerTask('build', [], function () {
+        _.each([
+            'grunt-contrib-concat',
+            'grunt-contrib-copy',
+            'grunt-regex-replace',
+            'grunt-contrib-compass',
+            'grunt-usemin',
+            'grunt-newer'
+        ], function(task) {
+            grunt.loadNpmTasks(task);
+        });
+        grunt.task.run([
+            'copy:html',
+            'regex-replace:comments',
+            'substitute:html',
+            'boilerplate-importer',
+            'newer:copy:files',
+            'newer:copy:moduleFiles',
+            'newer:copy:moduleCSSFiles',
+            'newer:copy:moduleFonts',
+            'compass',
+            'useminPrepare',
+            'add_module_banners',
+            'concat',
+            'substitute',
+            'regex-replace',
+            'usemin'
+        ])
+    });
 
     // Run the whole lot
     grunt.registerTask('all', ['build', 'optimise', 'test']);

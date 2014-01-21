@@ -1,10 +1,10 @@
-var path = require('path'),
-    _     = require('lodash'),
-    async = require('async'),
-    quote = require('regexp-quote');
-
 module.exports = function (grunt) {
     'use strict';
+
+    var path = require('path'),
+        _     = require('lodash'),
+        async = require('async'),
+        quote = require('regexp-quote');
 
     grunt.registerMultiTask('substitute', 'Process template vars on source files.', function () {
         var options = this.options({

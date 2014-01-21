@@ -6,18 +6,23 @@
  */
 'use strict';
 
-var path = require('path'),
-    quote = require('regexp-quote'),
-    async = require('async'),
-    _     = require('lodash'),
-    bowerdeps = require('../lib/bowerdeps');
-
 module.exports = function (grunt) {
+
+    // Require calls moved inside to load only when this task is invoked
+    var path = require('path'),
+        quote = require('regexp-quote'),
+        async = require('async'),
+        _     = require('lodash'),
+        bowerdeps;
 
     var ignored = [];
 
     // Get the HTML tag output for bower dependencies
     function getBowerDepTags(type, template, callback) {
+        // Defer requiring this library, it does a require('bower') which is slow
+        if (!bowerdeps) {
+            bowerdeps = require('../lib/bowerdeps');
+        }//end if
         grunt.log.writeln('Bower Dependency Solver: ' + type.cyan + ' (ignored: ' + ignored.join(', ') + ')');
         bowerdeps.resources(function (files) {
             async.reduce(files, '', function (memo, file, next) {
