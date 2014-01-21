@@ -88,6 +88,10 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         // Whether foundation JS plugins should be included
         this.foundation = _.has(this.bower.dependencies, 'squiz-module-foundation');
 
+        // Other modules that don't have decent bower repo settings
+        this.typeahead = _.has(this.bower.dependencies, 'squiz-module-typeahead');
+        this.flexslider = _.has(this.bower.dependencies, 'squiz-module-flexslider');
+
         cb();
     }.bind(this));
 };
