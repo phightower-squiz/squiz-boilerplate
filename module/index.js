@@ -68,7 +68,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         type: 'confirm',
         name: 'javascript',
         message: 'Will this module include any javascript?',
-        confirm: true
+        default: true
     }, {
         type: 'confirm',
         name: 'jqueryPlugin',
@@ -76,7 +76,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         when: function (props) {
             return props.javascript;
         }.bind(this),
-        confirm: false
+        default: false
     }, {
         type: 'input',
         name: 'pluginName',
@@ -91,7 +91,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         type: 'confirm',
         name: 'html',
         message: 'Will this module include HTML fragments/examples?',
-        confirm: true
+        default: true
     }, {
         type: 'checkbox',
         name: 'stylesheets',
