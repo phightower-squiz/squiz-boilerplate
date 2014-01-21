@@ -9,7 +9,7 @@
     },
     "squiz-module-font-awesome": {
         "name": "Font Awesome - Font icon library",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.0.1"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.0.2"
     },
     "squiz-module-magnific-popup": {
         "name": "Magnific Popup library",
@@ -18,5 +18,9 @@
     "squiz-module-foundation": {
         "name": "Zurb Foundation Components",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-foundation.git"
+    },
+    "squiz-module-back-to-top": {
+        "name": "Back to top link pattern",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.0.1"
     }
 }
