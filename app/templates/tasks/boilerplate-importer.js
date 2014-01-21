@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 
                 // Get the HTML tag by calling an existing type function
                 types[type](file, null, function (content) {
-                    memo += content;
+                    memo += content + "\n";
                     next(null, memo);
                 });
             }, function (err, memo) {
@@ -137,14 +137,14 @@ module.exports = function (grunt) {
                 return memo += '\n/*-- module:' + module + ' --*/\n' + grunt.file.read(targetFile);
             }, variableContent);
 
-            // Optionally wrap the file in it's media query
-            if (typeof(mq) !== 'undefined' && mq !== null) {
-                moduleContent = '@media ' + mq + ' {\n' + moduleContent + '\n}';
-            }//end if
-
             // Perform the merge
             var tmpContent = grunt.file.read(file);
             tmpContent = tmpContent.replace('{{modules}}', moduleContent);
+            // Optionally wrap the file in it's media query
+            if (typeof(mq) !== 'undefined' && mq !== null) {
+                grunt.log.writeln('Wrapping file content ' + tmpFile.cyan + ' in media query ' + mq.green);
+                tmpContent = '@media ' + mq + ' {\n' + tmpContent + '\n}';
+            }//end if
             var exists = grunt.file.exists(tmpFile);
             grunt.file.write(tmpFile, tmpContent);
             grunt.log.writeln(((exists) ? 'Overwrite'.yellow : 'Create'.green) + ': ' + tmpFile.cyan);
