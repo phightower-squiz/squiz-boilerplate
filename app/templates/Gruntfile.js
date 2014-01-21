@@ -600,7 +600,6 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
-            'clean:tmp',
             'connect:livereload',
             'watch'
         ]);
