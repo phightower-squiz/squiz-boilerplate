@@ -23,6 +23,7 @@ module.exports = function (grunt) {
                     _.each(files, function (file) {
                         var json = grunt.file.readJSON(file);
                         if (_.has(json, 'version')) {
+                            name = name.replace('squiz-module-', '');
                             name += ' (' + json.version + ')';
                         }//end if
                     });
@@ -49,6 +50,7 @@ module.exports = function (grunt) {
             }//end while
 
             // Create toc text that can be output in a comment block
+            toc = _.uniq(toc);
             if (toc.length >= 1) {
                 grunt.log.writeln('Subtitute toc for modules: ' + toc.join(', ').cyan);
                 return _.map(toc, function (name) {

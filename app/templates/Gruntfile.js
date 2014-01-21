@@ -214,7 +214,7 @@ module.exports = function (grunt) {
         template: {
             options: {
                 replacements: _.extend(tasks.config, tasks.pkg, {
-                    date: grunt.template.today('dd-mm-yyyy'),
+                    date: grunt.template.today('dd-mm-yyyy HH:MM'),
                     bowerdir: tasks.bowerrc.directory
                 })
             },
@@ -228,7 +228,7 @@ module.exports = function (grunt) {
         html: {
             options: {
                 replacements: _.extend(tasks.config, tasks.pkg, {
-                    date: grunt.template.today('dd-mm-yyyy'),
+                    date: grunt.template.today('dd-mm-yyyy HH:MM'),
                     bowerdir: tasks.bowerrc.directory
                 })
             },
