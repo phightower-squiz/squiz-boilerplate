@@ -22,5 +22,13 @@
     "squiz-module-back-to-top": {
         "name": "Back to top link pattern",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.0.1"
+    },
+    "squiz-module-typeahead": {
+        "name": "Typeahead/Autocomplete functionality",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate-typeahead.git#0.0.1"
+    },
+    "squiz-module-matrix-form": {
+        "name": "Matrix custom form styling and validation",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.0.1"
     }
 }
