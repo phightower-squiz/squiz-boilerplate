@@ -5,7 +5,7 @@
     },
     "squiz-module-bootstrap": {
         "name": "Twitter Bootstrap Components",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-bootstrap.git"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-bootstrap.git#0.0.2"
     },
     "squiz-module-font-awesome": {
         "name": "Font Awesome - Font icon library",
@@ -34,5 +34,9 @@
     "squiz-module-google-analytics": {
         "name": "Google Analytics helpers",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-google-analytics.git#0.0.1"
+    },
+    "squiz-module-flexslider": {
+        "name": "Flexslider - slideshow/carousel library",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-flexslider.git#0.0.1"
     }
 }
