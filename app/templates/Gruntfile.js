@@ -386,7 +386,6 @@ module.exports = function (grunt) {
             reporter: require('jshint-stylish')
         },
         all: [
-            'Gruntfile.js',
             '<%= config.dest %>/scripts/{,*/}*.js',
             '!<%= config.dest %>/scripts/plugins.js',
             'test/spec/{,*/}*.js'
@@ -584,7 +583,7 @@ module.exports = function (grunt) {
     };
 
     // Build tests
-    grunt.registerTask('build_test',[
+    grunt.registerTask('build_test', [
         'clean:test',
         'clean:tmp',
         'set_test_config',
@@ -594,7 +593,7 @@ module.exports = function (grunt) {
     ]);
 
     // HTTP server
-    grunt.registerTask('serve', function (target) {
+    grunt.registerTask('serve', function () {
         grunt.task.run([
             'build',
             'connect:livereload',
