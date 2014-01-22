@@ -23,7 +23,8 @@ module.exports = function (grunt) {
         if (!bowerdeps) {
             bowerdeps = require('../lib/bowerdeps');
         }//end if
-        grunt.log.writeln('Bower Dependency Solver: ' + type.cyan + ' (ignored: ' + ignored.join(', ') + ')');
+        grunt.log.writeln('Bower: ' + type.cyan);
+        grunt.log.debug('ignored: ' + ignored.join(', '));
         bowerdeps.resources(function (files) {
             async.reduce(files, '', function (memo, file, next) {
                 // Get the base path
