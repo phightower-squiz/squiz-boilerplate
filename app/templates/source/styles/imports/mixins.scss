@@ -81,10 +81,15 @@
 // Flex the content to fit
 @mixin sq-flex($values) {
     // Table cell is a fallback to no flexbox support
-    display: table-cell;
-    -webkit-box-flex: $values;
-    -moz-box-flex:  $values;
-    -webkit-flex:  $values;
-    -ms-flex:  $values;
-    flex:  $values;
+    .flexbox & {
+      -webkit-box-flex: $values;
+      -moz-box-flex:  $values;
+      -webkit-flex:  $values;
+      -ms-flex:  $values;
+      flex:  $values;
+    }
+    .no-js &,
+    .no-flexbox & {
+      display: table-cell;
+    }
 }

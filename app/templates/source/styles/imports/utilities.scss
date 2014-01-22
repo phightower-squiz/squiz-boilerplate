@@ -34,28 +34,6 @@
     visibility: hidden;
 }
 
-// The container for input groups
-.input-group {
-    @extend %border-box;
-    @extend %flex-box;
-}
-
-// The field will expand to 100% of what's available
-.input-field {
-    @extend %border-box;
-    @include sq-flex(1);
-    width: 100%;
-}
-
-// Make sure that when you apply this class it's an inline element like a span tag
-// Applying it directly to a form element may result in some margins that are
-// difficult to remove, the span container element makes it easy.
-.input-addon {
-    @extend %border-box;
-    @include sq-flex(1);
-    width: 1%;
-}
-
 // 16:9 Ratio container for embedded video
 // This container is suitable for something like youtube videos
 .video-container
