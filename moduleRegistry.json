@@ -5,7 +5,7 @@
     },
     "squiz-module-bootstrap": {
         "name": "Twitter Bootstrap Components",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-bootstrap.git#0.0.2"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-bootstrap.git#0.0.3"
     },
     "squiz-module-font-awesome": {
         "name": "Font Awesome - Font icon library",
@@ -41,6 +41,10 @@
     },
     "squiz-module-quick-search": {
         "name": "Quick search pattern (requires bootstrap)",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.1"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.2"
+    },
+    "squiz-module-navbar": {
+        "name": "Nav bar and accessible hover dropdown menu solution",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.0.1"
     }
 }
