@@ -25,7 +25,7 @@
     },
     "squiz-module-typeahead": {
         "name": "Typeahead/Autocomplete functionality",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate-typeahead.git#0.0.1"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-typeahead.git#0.0.2"
     },
     "squiz-module-matrix-form": {
         "name": "Matrix custom form styling and validation",
