@@ -38,5 +38,9 @@
     "squiz-module-flexslider": {
         "name": "Flexslider - slideshow/carousel library",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-flexslider.git#0.0.1"
+    },
+    "squiz-module-quick-search": {
+        "name": "Quick search pattern (requires bootstrap)",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.1"
     }
 }
