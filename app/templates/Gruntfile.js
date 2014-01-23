@@ -459,18 +459,21 @@ module.exports = function (grunt) {
             files: [
                 '<%= config.source %>/files/*.*',
                 '<%= config.source %>/modules/**/files/*.*',
-                '<%= bowerrc.directory %>/squiz-module-*/files/*.js'
+                '<%= bowerrc.directory %>/squiz-module-*/files/*.*'
             ],
             tasks: ['copy']
         },
 
-        // If core HTML or Sass are edited
-        core: {
+        // Any other source files edited that require re-building
+        source: {
             options: {
                 livereload: true
             },
             files: [
+                'Gruntfile.js',
+                'tasks/*.js',
                 '<%= config.source %>/html/*.html',
+                '<%= config.source %>/modules/**/html/*.html',
                 '<%= config.source %>/styles/{,*/}*.scss',
                 '<%= config.source %>/modules/**/css/*.scss',
                 '<%= bowerrc.directory %>/squiz-module-*/css/*.scss'

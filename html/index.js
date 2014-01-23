@@ -41,18 +41,18 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     }, {
         type: 'input',
         name: 'mediumMQ',
-        message: 'Set the width for the medium media query (portrait tablets, low res desktops and higher) in ems',
+        message: 'Set the minimum width for the medium (tablet) screen size media query (preferrably ems)',
         default: '37.5em'
     }, {
         type: 'input',
         name: 'wideMQ',
-        message: 'Set the width for the wide media query (landscape tablets, desktops and higher) in ems',
+        message: 'Set the minimum width for the wide (desktop) screen size media query (preferrably ems)',
         default: '60em'
     }, {
         type: 'confirm',
         name: 'ie8',
         message: 'Is Internet Explorer version 8 or older required?',
-        default: true
+        default: false
     }, {
         type: 'confirm',
         name: 'ieConditionals',
@@ -61,15 +61,15 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     },  {
         type: 'list',
         name: 'cssTagStyle',
-        message: 'What method would you like to choose for building module CSS?',
+        message: 'What method would you like to choose for building modular CSS?',
         choices: [
             {
-                name: "Individual CSS files",
-                value: "individual"
+                name: "Single CSS file (Preferred)",
+                value: "single"
             },
             {
-                name: "Single CSS file",
-                value: "single"
+                name: "Individual CSS files (IE 8 or older)",
+                value: "individual"
             }
         ]
     }];
@@ -83,10 +83,10 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.wideMQ = props.wideMQ;
 
         // Whether bootstrap JS plugins should be included
-        this.bootstrap = _.has(this.bower.dependencies, 'squiz-module-bootstrap');
+        this.bootstrap = _.has(this.bower.dependencies, 'bootstrap-sass');
 
         // Whether foundation JS plugins should be included
-        this.foundation = _.has(this.bower.dependencies, 'squiz-module-foundation');
+        this.foundation = _.has(this.bower.dependencies, 'foundation');
 
         // Other modules that don't have decent bower repo settings
         this.typeahead = _.has(this.bower.dependencies, 'squiz-module-typeahead');

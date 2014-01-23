@@ -7,8 +7,14 @@
         _.each(modules, function (module) {
     %>"<%= module.name %>": "<%= module.repository %>",
     <% })} %>
+    <% if (includeBootstrap) { %>
+    "bootstrap-sass": "*",
+    <% } %>
+    <% if (includeFoundation) { %>
+    "foundation": "*",
+    <% } %>
     "modernizr": "~2.7.x",
-    "jquery": "<%= jqueryVersion %>",
+    "jquery": "*",
     "qunit": "~1.13.0"
   }
 }

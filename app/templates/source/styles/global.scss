@@ -5,10 +5,12 @@
  * updated: {{date}}
  *
  * Table of Contents:
- * 1. Reset
- * 2. Utilities
- * 3. General
- * 4. Modules
+ *  Reset
+ *  Utilities
+ *  General<% if (includeBootstrap) { %>
+ *  Bootstrap<% } %><% if (includeFoundation) { %>
+ *  Foundation<% } %>
+ *  Modules
 {{toc}}
  */
 
@@ -18,7 +20,7 @@
 
 /*
 --------------------
-1. Reset (Normalize.css)
+Reset (Normalize.css)
 --------------------
 */
 
@@ -26,7 +28,7 @@
 
 /*
 --------------------
-2. Utilities
+Utilities
 --------------------
 */
 
@@ -34,7 +36,7 @@
 
 /*
 --------------------
-3. General
+General
 --------------------
 */
 
@@ -70,10 +72,31 @@ img {
 @-ms-viewport{
     width: device-width;
 }
+<% if (includeBootstrap) { %>
 
 /*
 --------------------
-4. Modules
+Bootstrap
+--------------------
+*/
+@import "bootstrap_variables.scss";
+@import "bootstrap.scss";
+<% } %>
+
+<% if (includeFoundation) { %>
+
+/*
+--------------------
+Foundation
+--------------------
+*/
+@import "foundation_settings.scss";
+@import "foundation.scss";
+<% } %>
+
+/*
+--------------------
+Modules
 --------------------
 */
 

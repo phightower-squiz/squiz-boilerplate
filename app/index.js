@@ -80,17 +80,22 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             }
             return true;
         },
-        default: '0.0.0'
-    }, {
-        type: 'input',
-        name: 'jqueryVersion',
-        message: 'What version of jQuery do you want?',
-        default: '~1.10.2'
+        default: '0.0.1'
     }, {
         type: 'confirm',
         name: 'matrix',
         message: 'Is this a design cutup for Squiz Matrix?',
         default: true
+    }, {
+        type: 'confirm',
+        name: 'bootstrap',
+        message: 'Include components from Twitter Bootstrap 3?',
+        default: false
+    }, {
+        type: 'confirm',
+        name: 'foundation',
+        message: 'Include components from Zurb Foundation 5?',
+        default: false
     }, {
         type: 'confirm',
         name: 'unitTest',
@@ -116,7 +121,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     prompts = prompts.concat({
         type: 'checkbox',
         name: 'modules',
-        message: 'Select the modules you would like to use',
+        message: 'Select the Squiz modules you would like to use',
         choices: getModuleChoices()
     });
 
@@ -125,14 +130,359 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.email = props.email;
         this.version = props.version;
         this.description = props.description;
-        this.jqueryVersion = props.jqueryVersion;
         this.modules = props.modules;
         this.matrix = props.matrix;
         this.unitTest = props.unitTest;
+
+        // 3rd party frameworks
+        this.includeFoundation = props.foundation;
+        this.includeBootstrap = props.bootstrap;
         cb();
     }.bind(this));
 };
 
+function getSassImport(path, comment) {
+    return ((comment) ? '// ' : '') + '@import "' + path + '";';
+}
+
+function getJSImport(path, comment) {
+    return '<!--' + ((comment) ? '@@ ' : ' ') +
+                'import:js source/bower_components/' + path + ' ' +
+            ((comment) ? '@@' : '') + '-->';
+}
+
+/////////////////////////
+// Customise Bootstrap //
+/////////////////////////
+SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
+    if (!this.includeBootstrap) {
+        return;
+    }//end if
+
+    var cb        = this.async();
+    var _         = this._;
+    var url       = 'http://getbootstrap.com/customize/';
+
+    var $ = require('cheerio');
+    var request = require('request');
+
+    this.log.writeln('Bootstrap component selection (hint: don\'t worry you can change this later manually)');
+    this.log.writeln('Fetching remote', url);
+    request(url, function (err, resp, html) {
+        if (err) {
+            this.log.error(err);
+            cb();
+            return;
+        }//end if
+
+        var page = $.load(html);
+
+        var cssChoices = [];
+        var jsChoices  = [];
+
+        // Find all the .less components
+        var lessComponents = page('#less-section input[type="checkbox"]');
+        lessComponents.each(function () {
+            var $elem = $(this);
+
+            // Determine dependencies
+            var dependents = [];
+            if ($(this).data('dependents')) {
+                dependents = _.map($(this).attr('data-dependents').split(','), function (fileName){
+                    return fileName.replace('.less', '');
+                });
+            }//end if
+
+            // Get a trimmed name value to use as a display name
+            var name = _.trim($(this).parent().text());
+
+            // Build the choice to present to the user
+            var choice = {
+                name: name,
+                checked: false,
+                value: {
+                    name: name + 
+                        ((dependents.length >= 1) ? ' (depends on: ' + dependents.join(', ') + ')' : ''),
+                    value: $(this).val().replace('.less',''),
+                    dependents: dependents
+                }
+            };
+            cssChoices = cssChoices.concat(choice);
+        });
+
+        // Find all the .less components
+        var pluginComponents = page('#plugin-section input[type="checkbox"]');
+        pluginComponents.each(function () {
+            var $elem = $(this);
+
+            // Get a trimmed name value to use as a display name
+            var name = _.trim($(this).parent().text());
+
+            // Build the choice to present to the user
+            var choice = {
+                name: name,
+                checked: false,
+                value: {
+                    name: name,
+                    value: $(this).val().replace('.js','')
+                }
+            };
+            jsChoices = jsChoices.concat(choice);
+        });
+
+        // Build the bootstrap sass output into a temporary file
+        function buildBootstrapSass (props) {
+            // Start with the content in this folder first, it's our base file
+            var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.scss'), {encoding: 'utf8'});
+            var imports = [];
+
+            var selectedWithDeps = [];
+            var selected = props;
+            _.each(selected, function(selection) {
+                // Check if we have a complex value from the choices object or a simple array
+                if (_.has(selection, 'value')) {
+                    selectedWithDeps.push(selection.value);
+                    selectedWithDeps = selectedWithDeps.concat(selection.dependents);
+                } else {
+                    selectedWithDeps.push(selection);
+                }//end if
+            });
+
+            selectedWithDeps = _.uniq(selectedWithDeps);
+
+            // Loop each component building an import directive.
+            // Only selected choices are output as uncommented directives.
+            lessComponents.each(function () {
+                var value = $(this).val().replace('.less','');
+                var sassFile = 'bootstrap-sass/lib/' + value;
+                imports.push(getSassImport(sassFile, _.indexOf(selectedWithDeps, value) === -1));
+            });
+
+            content += imports.join('\n');
+
+            // Write out a temporary file
+            fs.writeFileSync(path.join(__dirname, 'templates/bootstrap/_tmp.scss'), content);
+        }//end buildBootstrapSass
+
+        // Build the bootstrap JS choices into a temporary file
+        function buildBootstrapJS (props) {
+            var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.html'), {encoding: 'utf8'});
+            var imports = [];
+
+            // Loop each component building an import directive.
+            // Only selected choices are output as uncommented directives.
+            pluginComponents.each(function () {
+                var value = $(this).val();
+                var jsFile = 'bootstrap-sass/js/' + value;
+                imports.push(getJSImport(jsFile, _.indexOf(props, value) === -1));
+            });
+
+            content += imports.join('\n');
+
+            // Write out a temporary file
+            fs.writeFileSync(path.join(__dirname, 'templates/bootstrap/_tmp.html'), content);
+        }//end buildBootstrapSass
+
+        var prompts = [{
+            type: 'list',
+            name: 'build',
+            message: 'What type of Bootstrap build do you want?',
+            choices: [
+                {
+                    name: 'Let me choose the components',
+                    value: 'custom'
+                },
+                {
+                    name: 'Include all components and I can customise later on',
+                    value: 'all'
+                },
+            ]
+        }, {
+            type: 'checkbox',
+            name: 'bootstrapComponentsCSS',
+            message: 'Select the Bootstrap CSS components (dependencies automatically resolve)',
+            when: function (props) {
+                return props.build === 'custom';
+            },
+            choices: cssChoices
+        }, {
+            type: 'checkbox',
+            name: 'bootstrapComponentsJS',
+            message: 'Select the Bootstrap JS plugin components',
+            when: function (props) {
+                return props.build === 'custom';
+            },
+            choices: jsChoices
+        }];
+
+        this.prompt(prompts, function(props) {
+            if (props.build === 'custom') {
+                buildBootstrapSass(props.bootstrapComponentsCSS);
+                buildBootstrapJS(props.bootstrapComponentsJS);
+            } else {
+                buildBootstrapSass(_.map(lessComponents, function(component) {
+                    return $(component).val();
+                }));
+                buildBootstrapJS(_.map(pluginComponents, function(component) {
+                    return $(component).val();
+                }));
+            }//end if
+            cb();
+        }.bind(this));
+    }.bind(this));
+};
+
+//////////////////////////
+// Customise Foundation //
+//////////////////////////
+SquizBoilerplateGenerator.prototype.foundation = function foundation() {
+    if (!this.includeFoundation) {
+        return;
+    }//end if
+
+    var cb        = this.async();
+    var _         = this._;
+    var url       = 'http://foundation.zurb.com/develop/download.html';
+
+    var $ = require('cheerio');
+    var request = require('request');
+
+    this.log.writeln('Foundation component selection (hint: don\'t worry you can change this later manually)');
+    this.log.writeln('Fetching remote', url);
+    request(url, function (err, resp, html) {
+        if (err) {
+            this.log.error(err);
+            cb();
+            return;
+        }//end if
+
+        var page = $.load(html);
+        var foundationChoices = [];
+
+        var allCSS = [];
+        var allJS  = [];
+
+        // Loop through the component inputs sourced from the HTML
+        var components = page('input[name^="scss_components"]');
+        components.each(function (){
+            var name  = $(this).parent().text();
+            var css   = $(this).val();
+            var js    = $(this).attr('data-js-dependency');
+
+            foundationChoices.push({
+                name: name,
+                value: css,
+                js: js,
+                checked: false
+            });
+
+            if (js) {
+                allJS.push(js);
+            }//end if
+
+            allCSS.push(css);
+        });
+
+        var prompts = [{
+            type: 'list',
+            name: 'build',
+            message: 'What type of Foundation build do you want?',
+            choices: [
+                {
+                    name: 'Let me choose the components',
+                    value: 'custom'
+                },
+                {
+                    name: 'Include all components and I can customise later on',
+                    value: 'all'
+                },
+            ]
+        }, {
+            type: 'checkbox',
+            name: 'foundationComponents',
+            message: 'Select the foundation components you want',
+            when: function (props) {
+                return props.build === 'custom';
+            },
+            choices: foundationChoices
+        }];
+
+        function buildFoundationCSS (props) {
+            // Start with the content in this folder first, it's our base file
+            var content = fs.readFileSync(path.join(__dirname, 'templates/foundation/foundation.scss'), {encoding: 'utf8'});
+            var imports = [];
+
+            // Build an array of selected components
+            var selected = _.map(props, function (prop) {
+                if (_.has(prop, 'value')) {
+                    return prop.value;
+                }
+                return prop;
+            });
+
+            // Loop each component building an import directive.
+            // Only selected choices are output as uncommented directives.
+            components.each(function () {
+                var value = $(this).val();
+                var sassFile = 'foundation/scss/' + value;
+                imports.push(getSassImport(sassFile, _.indexOf(selected, value) === -1));
+            });
+
+            content += imports.join('\n');
+
+            // Write out a temporary file
+            fs.writeFileSync(path.join(__dirname, 'templates/foundation/_tmp.scss'), content);
+        }//end buildFoundationCSS
+
+        function buildFoundationJS (props) {
+            // Start with the content in this folder first, it's our base file
+            var content = fs.readFileSync(path.join(__dirname, 'templates/foundation/foundation.html'), {encoding: 'utf8'});
+            var imports = [];
+
+            // Build an array of selected components
+            var selected = _.map(props, function (prop) {
+                if (_.has(prop, 'value')) {
+                    return prop.value;
+                }
+                return prop;
+            });
+
+            // Loop each component building an import directive.
+            // Only selected choices are output as uncommented directives.
+            components.each(function () {
+                var value = $(this).val();
+                var jsDep = $(this).attr('data-js-dependency');
+                if (jsDep) {
+                    _.each(jsDep.split(','), function(jsFile) {
+                        jsFile = 'foundation/js/' + jsFile;
+                        imports.push(getJSImport(jsFile, _.indexOf(selected, value) === -1));
+                    });
+                }//end if
+            });
+
+            content += imports.join('\n');
+
+            // Write out a temporary file
+            fs.writeFileSync(path.join(__dirname, 'templates/foundation/_tmp.html'), content);
+        }//end buildFoundationJS
+
+        this.prompt(prompts, function(props) {
+            if (props.build === 'custom') {
+                buildFoundationCSS(props.foundationComponents);
+                buildFoundationJS(props.foundationComponents);
+            } else {
+                buildFoundationCSS(allCSS);
+                buildFoundationJS(allCSS);
+            }//end if
+            cb();
+        }.bind(this));
+    }.bind(this));
+};//end foundation
+
+
+////////////////
+// Copy Files //
+////////////////
 SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.copy('_package.json', 'package.json');
     this.copy('_bower.json', '.bower.json');
@@ -159,4 +509,18 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     if (this.unitTest) {
         this.directory('test', 'test');
     }//end if
+
+    this.mkdir('source/html/fragments');
+
+    if (this.includeBootstrap) {
+        this.copy('bootstrap/variables.scss', 'source/styles/imports/bootstrap_variables.scss');
+        this.copy('bootstrap/_tmp.scss', 'source/styles/imports/bootstrap.scss');
+        this.copy('bootstrap/_tmp.html', 'source/html/fragments/bootstrap.html');
+    }
+
+    if (this.includeFoundation) {
+        this.copy('foundation/settings.scss', 'source/styles/imports/foundation_settings.scss');
+        this.copy('foundation/_tmp.scss', 'source/styles/imports/foundation.scss');
+        this.copy('foundation/_tmp.html', 'source/html/fragments/foundation.html');
+    }
 };

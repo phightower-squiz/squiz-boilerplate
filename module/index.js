@@ -59,7 +59,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             }
             return true;
         },
-        default: '0.0.0'
+        default: '0.0.1'
     }, {
         type: 'input',
         name: 'description',

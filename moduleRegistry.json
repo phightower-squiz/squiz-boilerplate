@@ -3,10 +3,6 @@
         "name": "Accessible skip links",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.0.2"
     },
-    "squiz-module-bootstrap": {
-        "name": "Twitter Bootstrap Components",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-bootstrap.git#0.0.3"
-    },
     "squiz-module-font-awesome": {
         "name": "Font Awesome - Font icon library",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.0.2"
@@ -14,10 +10,6 @@
     "squiz-module-magnific-popup": {
         "name": "Magnific Popup library",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git#0.0.1"
-    },
-    "squiz-module-foundation": {
-        "name": "Zurb Foundation Components",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-foundation.git"
     },
     "squiz-module-back-to-top": {
         "name": "Back to top link pattern",
@@ -41,11 +33,11 @@
     },
     "squiz-module-quick-search": {
         "name": "Quick search pattern (requires bootstrap)",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.2"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.3"
     },
     "squiz-module-navbar": {
         "name": "Nav bar and accessible hover dropdown menu solution",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.0.1"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.0.3"
     },
     "squiz-module-header-logo": {
         "name": "Header logo pattern",

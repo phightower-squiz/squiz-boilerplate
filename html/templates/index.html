@@ -8,46 +8,28 @@
 
         <link rel="shortcut icon" href="{{file_dest}}/favicon.ico">
         <link rel="apple-touch-icon-precomposed" href="{{file_dest}}/logo-144x144.png">
-<% if (cssTagStyle === 'single') { %><% if (ie8) { %>
-        <!-- Single CSS File (for all browser not IE 8 or older) -->
-
-        <!--[if !(lte IE 8)]><!--><% } %>
+<% if (cssTagStyle === 'single') { %>
         <!-- build:css({{dest}}) styles/main.css -->
-        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/source/global.css" />] -->
-        <!-- import:bowerCSS -->
-        <!-- import:sassMQ source/styles/medium.scss [<link rel="stylesheet" href="styles/source/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
-        <!-- import:sassMQ source/styles/wide.scss [<link rel="stylesheet" href="styles/source/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
-        <!-- import:sassMQ source/styles/print.scss [<link rel="stylesheet" href="styles/source/print.css" media="print" />] -->
-        <!-- endbuild -->
-        <% if (ie8) { %><!--<![endif]-->
-
-        <!-- Single CSS file with media queries removed for IE 8 and older -->
-
-        <!--[if lte IE 8]>
-        <!-- build:css({{dest}}) styles/ie.css -->
-        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/ie/global.css" />] -->
-        <!-- import:bowerCSS -->
-        <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/ie/medium.css" />] -->
-        <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/ie/wide.css" />] -->
-        <!-- endbuild -->
-        <!-- import:sass source/styles/print.scss [<link rel="stylesheet" href="styles/ie/print.css" media="print" />] -->
-        <![endif]-->
-
-<% } %><% } else { %>
+            <!-- import:sass {{source}}/styles/global.scss [<link rel="stylesheet" href="styles/{{source}}/global.css" />] -->
+            <!-- import:bowerCSS -->
+            <!-- import:sassMQ {{source}}/styles/medium.scss [<link rel="stylesheet" href="styles/{{source}}/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
+            <!-- import:sassMQ {{source}}/styles/wide.scss [<link rel="stylesheet" href="styles/{{source}}/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
+            <!-- import:sassMQ {{source}}/styles/print.scss [<link rel="stylesheet" href="styles/{{source}}/print.css" media="print" />] -->
+        <!-- endbuild --><% } else { %>
         <!-- build:css({{dest}}) styles/global.css -->
-        <!-- import:sass source/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
-        <!-- import:bowerCSS -->
+            <!-- import:sass {{source}}/styles/global.scss [<link rel="stylesheet" href="styles/global.css" />] -->
+            <!-- import:bowerCSS -->
         <!-- endbuild -->
-        <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
-        <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
+        <!-- import:sass {{source}}/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
+        <!-- import:sass {{source}}/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css" media="(min-width: <%= wideMQ %>)" />] --><% if (ie8) { %>
         <!--[if lte IE 8]>
-            <!-- import:sass source/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" />] -->
-            <!-- import:sass source/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css"  />] -->
-        <![endif]-->
-        <!-- import:sass source/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] -->
+            <!-- import:sass {{source}}/styles/medium.scss [<link rel="stylesheet" href="styles/medium.css" />] -->
+            <!-- import:sass {{source}}/styles/wide.scss [<link rel="stylesheet" href="styles/wide.css"  />] -->
+        <![endif]--><% } %>
+        <!-- import:sass {{source}}/styles/print.scss [<link rel="stylesheet" href="styles/print.css" media="print" />] -->
         <% } %>
         <!-- build:js js/vendor/modernizr.min.js -->
-        <!-- import:js source/bower_components/modernizr/modernizr.js -->
+            <!-- import:js {{bowerdir}}/modernizr/modernizr.js -->
         <!-- endbuild -->
     </head>
     <% if (ieConditionals) { %><!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
@@ -81,7 +63,7 @@
     with a jQuery CDN tag instead of locally sourced library.
 @@-->
     <!-- build:js js/vendor/jquery.min.js -->
-    <!-- import:js source/bower_components/jquery/jquery.js -->
+        <!-- import:js {{bowerdir}}/jquery/jquery.js -->
     <!-- endbuild -->
 
 <!--@@
@@ -91,16 +73,16 @@
     file to be picked up in the optimisation phase and minified reducing it's final file size.
 @@-->
     <!-- build:js js/plugins.min.js -->
-    <!-- import:js source/js/plugins.js -->
-    <!-- import:bowerJS --><% if (bootstrap) { %>
-    <!-- import:content module:bootstrap/html/js.html -->
-    <% } %><% if (foundation) { %>
-    <!-- import:content module:foundation/html/js.html -->
-    <% } %><% if (flexslider) { %>
-    <!-- import:js source/bower_components/flexslider/jquery.flexslider.js -->
-    <% } %><% if (typeahead) { %>
-    <!-- import:js source/bower_components/typeahead.js/dist/typeahead.js -->
-    <% } %><!-- import:js module:**/js/plugin.js -->
+        <!-- import:js {{source}}/js/plugins.js -->
+        <!-- import:bowerJS --><% if (bootstrap) { %>
+        <!-- import:content {{source}}/html/fragments/bootstrap.html -->
+        <% } %><% if (foundation) { %>
+        <!-- import:content {{source}}/html/fragments/foundation.html -->
+        <% } %><% if (flexslider) { %>
+        <!-- import:js {{bowerdir}}/flexslider/jquery.flexslider.js -->
+        <% } %><% if (typeahead) { %>
+        <!-- import:js {{bowerdir}}/typeahead.js/dist/typeahead.js -->
+        <% } %><!-- import:js module:**/js/plugin.js -->
     <!-- endbuild -->
 
 <!--@@
@@ -109,8 +91,8 @@
     javascript required to enhance the page.
 @@-->
     <!-- build:js js/global.js -->
-    <!-- import:js source/js/global.js -->
-    <!-- import:js module:**/js/global.js -->
+        <!-- import:js {{source}}/js/global.js -->
+        <!-- import:js module:**/js/global.js -->
     <!-- endbuild -->
 
     </body>
