@@ -65,20 +65,7 @@ module.exports = function (grunt) {
         html: {
             options: {
                 dest: '<%= config.dest %>',
-                ignored: [
-                    // jQuery and Modernizr are built in as dependencies. They don't need
-                    // to be solved by individual modules.
-                    'jquery',
-                    'modernizr',
-
-                    // If you want the entire bootstrap CSS and JS to be brought in then
-                    // comment out this line (not recommended)
-                    'bootstrap-sass',
-
-                    // If you want the entire CSS and JS for foundation then comment out
-                    // this line (not recommended)
-                    'foundation'
-                ]
+                ignored: tasks.config.bower_ignore
             },
             files: [{
                 src: [
