@@ -226,7 +226,7 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
             var info = fetchBootstrapComponentInfo($(this), _);
 
             // Build the choice to present to the user
-            cssChoices.concat([{
+            cssChoices = cssChoices.concat([{
                 name: info.name,
                 checked: false,
                 value: info
@@ -239,7 +239,7 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
             var info = fetchBootstrapComponentInfo($(this), _);
 
             // Build the choice to present to the user
-            jsChoices.concat([{
+            jsChoices = jsChoices.concat([{
                 name: info.name,
                 checked: false,
                 value: info
