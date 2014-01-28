@@ -9,6 +9,11 @@
     @extend %screen-show;
 }
 
+// Bootstrap friendly class
+.sr-only {
+    @extend .visuallyhidden;
+}
+
 // Clear fix class for containers of floated elements
 .clearfix {
     &:after,
@@ -38,21 +43,21 @@
 // This container is suitable for something like youtube videos
 .video-container
 {
-  position: relative;
-  padding-bottom: 56.25%; // Video area
-  padding-top: 30px; // 30px controls container
-  height: 0;
-  overflow: hidden;
-  margin-bottom: 1em;
+    position: relative;
+    padding-bottom: 56.25%; // Video area
+    padding-top: 30px; // 30px controls container
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 1em;
 }
 
 .video-container iframe,
 .video-container object,
 .video-container embed
 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
