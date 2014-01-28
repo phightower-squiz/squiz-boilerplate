@@ -248,7 +248,6 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
 
         // Build the bootstrap sass output into a temporary file
         function buildBootstrapSass (props) {
-            console.log('build bootstrap css', props);
             // Start with the content in this folder first, it's our base file
             var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.scss'), {encoding: 'utf8'});
             var imports = [];
@@ -277,7 +276,6 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
 
         // Build the bootstrap JS choices into a temporary file
         function buildBootstrapJS (props) {
-            console.log('build boostrap js', props);
             var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.html'), {encoding: 'utf8'});
             var imports = [];
 
