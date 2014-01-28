@@ -10,9 +10,6 @@
     <% if (includeBootstrap) { %>
     "bootstrap-sass": "*",
     <% } %>
-    <% if (includeFoundation) { %>
-    "foundation": "*",
-    <% } %>
     "modernizr": "~2.7.x",
     "jquery": "*",
     "qunit": "~1.13.0"

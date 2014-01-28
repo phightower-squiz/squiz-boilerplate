@@ -13,16 +13,32 @@ var lingo  = require('lingo');
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
 
+    this.cachedDeps = options['cached-deps'] || false;
+
     this.on('end', function () {
-        this.installDependencies({
+        this.log.writeln('Installing dependencies using npm and bower. Cache: ' + this.cachedDeps);
+        this.npmInstall(null, {
             skipInstall: options['skip-install'],
-            callback: function () {
-                // Run the initial build
-                if (!options['skip-install']) {
-                    this.spawnCommand('grunt', ['build']);
-                }//end if
-            }.bind(this)
-        });
+            cacheMin: this.cachedDeps ? 999999 : 0
+        }, function () {
+            this.bowerInstall(null, {
+                skipInstall: options['skip-install'],
+                offline: this.cachedDeps,
+                forceLatest: true // Supplies --force-latest in the bower install
+            }, function () {
+                this.spawnCommand('grunt', ['build']);
+            }.bind(this));
+        }.bind(this));
+        // this.installDependencies({
+        //     skipInstall: options['skip-install'],
+        //     forceLatest: true, // Supplied --force-latest to the install commands auto-resolving conflicts
+        //     callback: function () {
+        //         // Run the initial build
+        //         if (!options['skip-install']) {
+        //             this.spawnCommand('grunt', ['build']);
+        //         }//end if
+        //     }.bind(this)
+        // });
     });
 
     this.hookFor('squiz-boilerplate', {as: 'html'});
@@ -91,12 +107,12 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'bootstrap',
         message: 'Include components from Twitter Bootstrap 3?',
         default: false
-    }, {
+    },/* {
         type: 'confirm',
         name: 'foundation',
         message: 'Include components from Zurb Foundation 5?',
         default: false
-    }, {
+    }, */{
         type: 'confirm',
         name: 'unitTest',
         message: 'Include Unit Tests? (Useful if you are developing or otherwise altering the boilerplate from default)',
@@ -335,7 +351,7 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
 //////////////////////////
 // Customise Foundation //
 //////////////////////////
-SquizBoilerplateGenerator.prototype.foundation = function foundation() {
+/*SquizBoilerplateGenerator.prototype.foundation = function foundation() {
     if (!this.includeFoundation) {
         return;
     }//end if
@@ -477,7 +493,7 @@ SquizBoilerplateGenerator.prototype.foundation = function foundation() {
             cb();
         }.bind(this));
     }.bind(this));
-};//end foundation
+};//end foundation*/
 
 
 ////////////////
@@ -518,9 +534,9 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
         this.copy('bootstrap/_tmp.html', 'source/html/fragments/bootstrap.html');
     }
 
-    if (this.includeFoundation) {
+    /*if (this.includeFoundation) {
         this.copy('foundation/settings.scss', 'source/styles/imports/foundation_settings.scss');
         this.copy('foundation/_tmp.scss', 'source/styles/imports/foundation.scss');
         this.copy('foundation/_tmp.html', 'source/html/fragments/foundation.html');
-    }
+    }*/
 };

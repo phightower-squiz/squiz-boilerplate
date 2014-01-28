@@ -88,9 +88,11 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         // Whether foundation JS plugins should be included
         this.foundation = _.has(this.bower.dependencies, 'foundation');
 
-        // Other modules that don't have decent bower repo settings
+        // Other modules that don't have decent bower repos, or generally would require
+        // manual steps to include import directives in the HTML file
         this.typeahead = _.has(this.bower.dependencies, 'squiz-module-typeahead');
         this.flexslider = _.has(this.bower.dependencies, 'squiz-module-flexslider');
+        this.dataTable = _.has(this.bower.dependencies, 'squiz-module-datatables');
 
         cb();
     }.bind(this));
