@@ -61,7 +61,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     var registry = JSON.parse(this.readFileAsString(path.join(__dirname, '../moduleRegistry.json')));
 
     var currentDir = path.basename(process.cwd());
-    var projectName = lingo.capitalize(currentDir.replace(/[\-_]/, ' '));
+    var projectName = lingo.capitalize(currentDir.replace(/[\-_]+/gm, ' '));
 
     var prompts = [{
         type: 'input',
