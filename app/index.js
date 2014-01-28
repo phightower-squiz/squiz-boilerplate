@@ -157,15 +157,39 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     }.bind(this));
 };
 
+////////////////////////////
+// Build helper functions //
+////////////////////////////
+
 function getSassImport(path, comment) {
     return ((comment) ? '// ' : '') + '@import "' + path + '";';
-}
+}//end getSassImport()
 
 function getJSImport(path, comment) {
     return '<!--' + ((comment) ? '@@ ' : ' ') +
                 'import:js source/bower_components/' + path + ' ' +
             ((comment) ? '@@' : '') + '-->';
-}
+}//end getJSImport()
+
+function fetchBootstrapComponentInfo($elem, _) {
+    // Determine dependencies
+    var dependents = [];
+    if ($elem.data('dependents')) {
+        dependents = _.map($elem.attr('data-dependents').split(','), function (fileName){
+            return fileName.replace('.less', '');
+        });
+    }//end if
+
+    // Get a trimmed name value to use as a display name
+    var name = _.trim($elem.parent().text());
+    var value = $elem.val().split('.').shift();
+
+    return {
+        name: name,
+        value: value,
+        dependents: dependents
+    };
+}//end fetchBootstrapComponentInfo()
 
 /////////////////////////
 // Customise Bootstrap //
@@ -199,69 +223,40 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
         // Find all the .less components
         var lessComponents = page('#less-section input[type="checkbox"]');
         lessComponents.each(function () {
-            var $elem = $(this);
-
-            // Determine dependencies
-            var dependents = [];
-            if ($(this).data('dependents')) {
-                dependents = _.map($(this).attr('data-dependents').split(','), function (fileName){
-                    return fileName.replace('.less', '');
-                });
-            }//end if
-
-            // Get a trimmed name value to use as a display name
-            var name = _.trim($(this).parent().text());
+            var info = fetchBootstrapComponentInfo($(this), _);
 
             // Build the choice to present to the user
-            var choice = {
-                name: name,
+            cssChoices.concat([{
+                name: info.name,
                 checked: false,
-                value: {
-                    name: name + 
-                        ((dependents.length >= 1) ? ' (depends on: ' + dependents.join(', ') + ')' : ''),
-                    value: $(this).val().replace('.less',''),
-                    dependents: dependents
-                }
-            };
-            cssChoices = cssChoices.concat(choice);
+                value: info
+            }]);
         });
 
         // Find all the .less components
         var pluginComponents = page('#plugin-section input[type="checkbox"]');
         pluginComponents.each(function () {
-            var $elem = $(this);
-
-            // Get a trimmed name value to use as a display name
-            var name = _.trim($(this).parent().text());
+            var info = fetchBootstrapComponentInfo($(this), _);
 
             // Build the choice to present to the user
-            var choice = {
-                name: name,
+            jsChoices.concat([{
+                name: info.name,
                 checked: false,
-                value: {
-                    name: name,
-                    value: $(this).val().replace('.js','')
-                }
-            };
-            jsChoices = jsChoices.concat(choice);
+                value: info
+            }]);
         });
 
         // Build the bootstrap sass output into a temporary file
         function buildBootstrapSass (props) {
+            console.log('build bootstrap css', props);
             // Start with the content in this folder first, it's our base file
             var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.scss'), {encoding: 'utf8'});
             var imports = [];
 
             var selectedWithDeps = [];
-            var selected = props;
-            _.each(selected, function(selection) {
-                // Check if we have a complex value from the choices object or a simple array
-                if (_.has(selection, 'value')) {
-                    selectedWithDeps.push(selection.value);
-                    selectedWithDeps = selectedWithDeps.concat(selection.dependents);
-                } else {
-                    selectedWithDeps.push(selection);
-                }//end if
+            _.each(props, function(selection) {
+                selectedWithDeps.push(selection.value);
+                selectedWithDeps = selectedWithDeps.concat(selection.dependents);
             });
 
             selectedWithDeps = _.uniq(selectedWithDeps);
@@ -282,6 +277,7 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
 
         // Build the bootstrap JS choices into a temporary file
         function buildBootstrapJS (props) {
+            console.log('build boostrap js', props);
             var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.html'), {encoding: 'utf8'});
             var imports = [];
 
@@ -337,10 +333,10 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
                 buildBootstrapJS(props.bootstrapComponentsJS);
             } else {
                 buildBootstrapSass(_.map(lessComponents, function(component) {
-                    return $(component).val();
+                    return fetchBootstrapComponentInfo($(component), _);
                 }));
                 buildBootstrapJS(_.map(pluginComponents, function(component) {
-                    return $(component).val();
+                    return fetchBootstrapComponentInfo($(component), _);
                 }));
             }//end if
             cb();
