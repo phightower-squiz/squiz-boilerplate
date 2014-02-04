@@ -11,27 +11,27 @@ Installation of the boilerplate first requires a few pre-requisites:
 After Ruby is installed on your system you can use Ruby's gem package manager
 to install the Sass compiler:
 
-```Shell
-gem install sass
+```
+gem install compass --dev
 ```
 
 ## Install Yeoman
 
 Yeoman is used to provide the boilerplate with automated generation and workflow tools in conjunction with Grunt and Bower.
 
-```Shell
+```
 npm install -g yo
 ```
 
 After the prerequites are sorted it's time to get the install the boilerplate generator:
 
-```Shell
+```
 npm install -g git+https://gitlab.squiz.net/boilerplate/generator-squiz-boilerplate.git
 ```
 
 # Starting a new cutup
 
-```Shell
+```
 mkdir new_project && cd new_project
 yo squiz-boilerplate
 ```
@@ -39,62 +39,76 @@ yo squiz-boilerplate
 These commands will create a new directory, initialise the boilerplate with all of the necessary files. This command will ask you a series of questions which will help setting up the initial choices for the build. Subsequent changes can be made to the projects Gruntfile.js which can be tweaked for any custom
 build options that the boilerplate doesn't already offer.
 
-Running the initial `grunt` without any parameters will give you a basic build and confirm that all
-of the pre-requisites have been installed correctly.
-
 # Tasks
 
 To call a specific task the syntax is as follows:
-```Shell
+```
 grunt [task name]
 ```
 
 ***
 
-```Shell
+```
 grunt
 ```
-This is the default "build" task for the boilerplate and will read all source files and create a new directory. The destination directory is defined by the `config.json` "destination" property (defaults to `dist`).
 
-```Shell
-grunt build_js
-grunt build_html
-grunt build_css
-grunt build_files
-grunt build_docs
-```
-Each task can be broken down into individual components. If a change has been made to a smaller part of the boilerplate source then running an individual component task can save some time. This is used behind the scenes to perform different tasks when the file system is watched for changes.
+This is the default "build" task for the boilerplate and will read all source files and create a new directory. The destination directory is defined by the `config.json` "dest" property (defaults to `dist`).
 
 ***
 
-```Shell
+```
 grunt watch
 ```
-Watch the file system for changes and perform any builds based on the file type that was changed. For example editing a html file will only trigger the build_html task.
+
+Watch the file system for changes and perform any builds based on the file type that was changed.
+
+```
+grunt serve
+```
+
+Starts a HTTP server to allow proper previewing of files in the `dist` directory. If live reload is available appropriate scripts are injected to allow for dynamic browser refreshes.
 
 ***
 
-```Shell
+```
 grunt test
 ```
-Run all associated tests for the Boilerplate including jshint, qunit and htmlcs. Each of these tasks can be run individually by using `grunt jshint`, `grunt qunit` or `grunt htmlcs`.
+
+Run all associated tests for the Boilerplate including jshint, qunit and htmlcs.
 
 ***
 
-```Shell
+```
+grunt optimise
+```
+
+Run optimisation tasks including svgmin, imagemin, uglifyjs and beautification tasks. This should be run before transferring the files to a production system.
+
+***
+
+```
 grunt clean
 ```
-This will remove any content output in the destination directory. Useful for purging the directory before a rebuild.
 
-Note: this will remove the entire directory.
+This will remove any content output in the destination directory. Useful for purging the directory before a rebuild. **Note:** this will remove the entire directory.
 
 # Revision History
 
-## `0.9a` - Alpha release
+## `2.0.0rc1` - Yeoman generator conversion
 
-* Added new HTML prettify task
+* Grunt init replaced with [Yeoman](http://yeoman.io) Generator
+* Keyword replacement syntax changed from `@@` to `{{` and `}}` delimiters. Entire keyword system has been replaced
+* New HTML directives added to allow for more flexible customisation of the final build process
+* Sass pre-processor changed to compass to improve performance and give access to compass mixins
+* Directory structure altered to remove the need for `core` and `libs`.
+* Dependency management passed over to [Bower](http://bower.io) for both external libraries and internal modules. Each module now exists in it's own git repository.
+* Added core support for Bootstrap Sass allowing for customised components from this framework to be used seamlessly with the boilerplate
+* Modules themselves have changed to reduce duplication between bootstrap components and reviewed to reduce complexity
+* Re-usable fragments of HTML introduced as a keyword replacement allowing for multiple HTML source files to re-use elements of templated HTML already processed by the boilerplate during builds.
+* Option to install IE 8 compatible version. For those cut ups that don't require IE 8 a single CSS file containing `@media` queries can be generated.
+* Split modules into 'custom' and 'shared' clearly identifying those modules managed as bower dependencies.
 
-## `1.0`  - First verion release
+## `1.x`  - First release
 
 * New configuration file `config.json` that replaces `modules.json`.
 * Grunt tasks split into separate css, html, css, files and documentation to improve performance of the watch task
@@ -105,3 +119,7 @@ Note: this will remove the entire directory.
 * Added new JS beautify task
 * Added new Markdown to HTML document generation for docs
 * Replaced some of the previously complicated and custom file concatenation with default grunt concat task
+
+## `0.9a` - Alpha release
+
+* Added new HTML prettify task
