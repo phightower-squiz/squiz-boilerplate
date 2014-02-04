@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     // Configuration //
     ///////////////////
     tasks.config  = grunt.file.readJSON('config.json');
-    tasks.bower   = grunt.file.readJSON('.bower.json');
+    tasks.bower   = grunt.file.readJSON('bower.json');
     tasks.bowerrc = grunt.file.readJSON('.bowerrc');
     tasks.pkg     = grunt.file.readJSON('package.json');
 
