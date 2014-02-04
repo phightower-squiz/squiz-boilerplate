@@ -29,24 +29,51 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
                 this.spawnCommand('grunt', ['build']);
             }.bind(this));
         }.bind(this));
-        // this.installDependencies({
-        //     skipInstall: options['skip-install'],
-        //     forceLatest: true, // Supplied --force-latest to the install commands auto-resolving conflicts
-        //     callback: function () {
-        //         // Run the initial build
-        //         if (!options['skip-install']) {
-        //             this.spawnCommand('grunt', ['build']);
-        //         }//end if
-        //     }.bind(this)
-        // });
     });
-
-    this.hookFor('squiz-boilerplate', {as: 'html'});
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
 util.inherits(SquizBoilerplateGenerator, yeoman.generators.Base);
+
+/**
+ * Converts an expected number or pixel unit value to ems
+ * @param  {mixed}  value        The value to convert
+ * @param  {string} defaultValue A sane default if no match can be found
+ * @return {string}              Text value with em units attached
+ */
+function enforceEms (value, defaultValue) {
+    var base = 16;
+
+    // If it's a number do the conversion from pixel to ems
+    if (typeof(value) === 'number') {
+        return value/base + 'em';
+    }//end if
+
+    // Check to see if we've already specified ems
+    if (value.match(/em$/)) {
+        return value;
+    }// end if
+
+    // A whole number without units attached is considered a pixel value, e.g.
+    // 768
+    if (value.match(/^[0-9]+$/)) {
+        return parseFloat(value)/base + 'em';
+    }//end if
+
+    // A decimal value is considered em, since you can't effectively have half a pixel
+    if (value.match(/^[0-9]+\.[0-9]+$/)) {
+        return value + 'em';
+    }//end if
+
+    // If 'px' was specified find the numerical value and strip the unit to calculate ems
+    if (value.match(/^[0-9]+\s+?px$/)) {
+        var px = parseFloat(value.replace(/\s+?px$/, ''));
+        return px/base + 'em';
+    }//end if
+
+    return defaultValue;
+}//end enforceEms
 
 SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
@@ -107,15 +134,30 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'bootstrap',
         message: 'Include components from Twitter Bootstrap 3?',
         default: false
-    },/* {
+    }, {
+        type: 'input',
+        name: 'mediumMQ',
+        message: 'Set min width media query for medium/tablet (pixel units will be auto-converted to ems)',
+        default: '37.5em'
+    }, {
+        type: 'input',
+        name: 'wideMQ',
+        message: 'Set min width media query wide/desktop (pixel units will be auto-converted to ems)',
+        default: '60em'
+    }, {
         type: 'confirm',
-        name: 'foundation',
-        message: 'Include components from Zurb Foundation 5?',
+        name: 'ie8',
+        message: 'Is Internet Explorer version 8 or older required?',
         default: false
-    }, */{
+    }, {
+        type: 'confirm',
+        name: 'ieConditionals',
+        message: 'Should IE conditional tags be added to the body?',
+        default: true
+    }, {
         type: 'confirm',
         name: 'unitTest',
-        message: 'Include Unit Tests? (Useful if you are developing or otherwise altering the boilerplate from default)',
+        message: 'Include Unit Tests? (Useful if you are developing new additions to the boilerplate)',
         default: false
     }];
 
@@ -142,17 +184,35 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     });
 
     this.prompt(prompts, function (props) {
-        this.name = props.name;
-        this.email = props.email;
-        this.version = props.version;
+        this.name        = props.name;
+        this.email       = props.email;
+        this.version     = props.version;
         this.description = props.description;
-        this.modules = props.modules;
-        this.matrix = props.matrix;
-        this.unitTest = props.unitTest;
+        this.modules     = props.modules;
+        this.matrix      = props.matrix;
+        this.unitTest    = props.unitTest;
 
         // 3rd party frameworks
         this.includeFoundation = props.foundation;
-        this.includeBootstrap = props.bootstrap;
+        this.includeBootstrap  = props.bootstrap;
+
+        // IE 8 and conditionals
+        this.ie8            = props.ie8;
+        this.cssTagStyle    = props.cssTagStyle;
+        this.ieConditionals = props.ieConditionals;
+
+        // Media queries
+        this.mediumMQ = enforceEms(props.mediumMQ, '37.5em');
+        this.wideMQ   = enforceEms(props.wideMQ, '60em');
+
+        var modules = _.pluck(props.modules, 'name');
+
+        // Module/Plugin defaults
+        this.bootstrap  = _.contains(modules, 'bootstrap-sass');
+        this.typeahead  = _.contains(modules, 'squiz-module-typeahead');
+        this.flexslider = _.contains(modules, 'squiz-module-flexslider');
+        this.dataTable  = _.contains(modules, 'squiz-module-datatables');
+
         cb();
     }.bind(this));
 };
@@ -527,6 +587,15 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
         this.copy('bootstrap/_tmp.scss', 'source/styles/imports/bootstrap.scss');
         this.copy('bootstrap/_tmp.html', 'source/html/fragments/bootstrap.html');
     }
+
+    if (this.ie8) {
+        this.template('source/html/_head-ie8.html', 'source/html/_head.html');
+    } else {
+        this.template('source/html/_head-single.html', 'source/html/_head.html');
+    }//end if
+
+    this.template('source/html/_foot.html', 'source/html/_foot.html');
+    this.template('source/html/index.html', 'source/html/index.html');
 
     /*if (this.includeFoundation) {
         this.copy('foundation/settings.scss', 'source/styles/imports/foundation_settings.scss');

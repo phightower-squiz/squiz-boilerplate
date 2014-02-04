@@ -156,6 +156,11 @@ module.exports = function (grunt) {
                     '<%= config.dest %>/styles/test'
                 ]
             }
+        },
+        distFragments: {
+            files: {
+                src: '<%= config.dest %>/_*.html'
+            }
         }
     };
 
@@ -584,7 +589,8 @@ module.exports = function (grunt) {
             'set_test_config',
             'build',
             'nodeunit',
-            'clean:test'
+            'clean:test',
+            'clean:distFragments'
         ]);
     });
 
@@ -618,6 +624,43 @@ module.exports = function (grunt) {
         }//end if
     });
 
+    // Task to sub in the output of one HTML file into the contents of another
+    // e.g. dist/index.html has a keyword of {{_head_html}}
+    //    - the content of the file _head.html is subbed in allowing for re-use of common HTML patterns that only run
+    //       directives once
+    grunt.registerTask('substitute_file_fragments', 'Sub in the output of a dist/*.html file with the content of another', function () {
+
+        // Get a list of files and determine what may need to be replaced
+        var files = grunt.file.expand(grunt.config('config').dest + '/*.html');
+        var subs = _.map(files, function (file) {
+            var subName = file.replace(/\./, '_').replace(grunt.config('config').dest + '/', '');
+            if (subName.match(/^_/)) {
+                return {
+                    name: subName,
+                    content: grunt.file.read(file)
+                };
+            }
+            return false;
+        });
+        subs = _.compact(subs);
+        // Perform the replacements
+        // This happens once for each _ prefixed file, not ideal but it works
+        files.forEach(function (file) {
+            if (file.match(/\/_/)) {
+                return;
+            }//end if
+            subs.forEach(function (sub) {
+                var content = grunt.file.read(file);
+                var keyword = new RegExp("{{" + sub.name + "}}", "gim");
+                var newContent = content.replace(keyword, sub.content);
+                if (content !== newContent) {
+                    grunt.log.writeln('Replacing ' + sub.name.green + ' in file ' + file.cyan);
+                    grunt.file.write(file, newContent);
+                }//end if
+            });
+        });
+    });
+
     // Build only the tasks necessary when JS is edited
     grunt.registerTask('build_js', [], function () {
         _.each([
@@ -640,7 +683,9 @@ module.exports = function (grunt) {
             'concat',
             'substitute',
             'regex-replace',
-            'usemin'
+            'usemin',
+            'substitute_file_fragments',
+            'clean:distFragments'
         ]);
     });
 
@@ -672,7 +717,9 @@ module.exports = function (grunt) {
             'concat',
             'substitute',
             'regex-replace',
-            'usemin'
+            'usemin',
+            'substitute_file_fragments',
+            'clean:distFragments'
         ])
     });
 
