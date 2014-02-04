@@ -37,7 +37,7 @@
     },
     "squiz-module-navbar": {
         "name": "Nav bar and accessible hover dropdown menu solution",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.0.3"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.0.4"
     },
     "squiz-module-header-logo": {
         "name": "Header logo pattern",
