@@ -130,7 +130,7 @@ module.exports = function (grunt) {
                 gruntConfig.config.source + '/modules/**/css/variables.scss',
                 gruntConfig.bowerrc.directory + '/squiz-module-*/css/variables.scss'
             ]), function (memo, targetFile) {
-                return memo += '\n// Source: ' + targetFile + '\n' + grunt.file.read(targetFile);
+                return memo += '\n// Source: ' + targetFile + '\n' + '@import "' + targetFile + '";';
             }, '');
 
             // Get the module content with header to merge together
@@ -140,7 +140,7 @@ module.exports = function (grunt) {
             ]), function (memo, targetFile) {
                 var module = targetFile.split('/')[2];
                 grunt.log.debug('Module Sass file: ', path.basename(targetFile), module);
-                return memo += '\n/*-- module:' + module + ' --*/\n' + grunt.file.read(targetFile);
+                return memo += '\n/*-- module:' + module + ' --*/\n' + '@import "' + targetFile + '";';
             }, variableContent);
 
             // Perform the merge
