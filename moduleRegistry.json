@@ -39,6 +39,10 @@
         "name": "Nav bar and accessible hover dropdown menu solution",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.0.4"
     },
+    "squiz-module-secondary-nav": {
+        "name": "Secondary navigation pattern",
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-secondary-nav.git#0.0.1"
+    },
     "squiz-module-header-logo": {
         "name": "Header logo pattern",
         "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-header-logo.git#0.0.1"
