@@ -474,37 +474,28 @@ module.exports = function (grunt) {
         }
     };
 
-    tasks.compass = {
-        options: {
-            sassDir: '<%= config.tmp %>/styles',
-            cssDir: '<%= config.dest %>/styles',
-            generatedImagesDir: '<%= config.tmp %>/images/generated',
-            javascriptsDir: '<%= config.dest %>/js',
-            imagesDir: '<%= config.dest %>/styles/<%= config.file_dest %>',
-            httpImagesPath: '<%= config.dest %>/<%= config.file_dest %>',
-            httpFontsPath: '<%= config.dest %>/styles/<%= config.file_dest %>',
-            importPath: [
-                '<%= bowerrc.directory %>',
-                '<%= config.source %>/styles/imports/',
-                __dirname
-            ],
-
-            // Whether to output debugging info
-            debugInfo: false,
-
-            // Set this to false if you want the CSS to include comments on where the rule came
-            // from in the source .scss file
-            noLineComments: true,
-
-            // nested|expanded|compact|compressed
-            outputStyle: 'expanded',
-
-            relativeAssets: false,
-            assetCacheBuster: false
-        },
+    tasks.sass = {
         dist: {
-            // No special config
+            options: {
+                includePaths: [
+                    '<%= bowerrc.directory %>',
+                   '<%= config.source %>/styles/imports/',
+                   __dirname
+                ]
+            },
+            files: [{
+                src: '**/*.css',
+                expand: true,
+                cwd: '<%= config.tmp %>/styles',
+                dest: '<%= config.dest %>/styles'
+            }]
         }
+    };
+
+    tasks.cssbeautifier = {
+        files: [
+            '<%= config.dest %>/styles/*.css'
+        ]
     };
 
     grunt.initConfig(tasks);
@@ -523,10 +514,10 @@ module.exports = function (grunt) {
             'grunt-contrib-cssmin',
             'grunt-contrib-uglify',
             'grunt-svgmin',
-            'grunt-htmlmin',
             'grunt-modernizr',
             'grunt-jsbeautifier',
-            'grunt-prettify'
+            'grunt-prettify',
+            'grunt-cssbeautifier'
         ], function(task) {
             grunt.loadNpmTasks(task);
         });
@@ -537,7 +528,8 @@ module.exports = function (grunt) {
             'svgmin',
             'uglify',
             'prettify',
-            'jsbeautifier'
+            'jsbeautifier',
+            'cssbeautifier'
         ]);
     });
 
@@ -696,7 +688,7 @@ module.exports = function (grunt) {
             'grunt-contrib-concat',
             'grunt-contrib-copy',
             'grunt-regex-replace',
-            'grunt-contrib-compass',
+            'grunt-sass',
             'grunt-usemin',
             'grunt-newer'
         ], function(task) {
@@ -711,7 +703,7 @@ module.exports = function (grunt) {
             'newer:copy:moduleFiles',
             'newer:copy:moduleCSSFiles',
             'newer:copy:moduleFonts',
-            'compass',
+            'sass',
             'useminPrepare',
             'add_module_banners',
             'concat',

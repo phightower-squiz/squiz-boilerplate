@@ -119,11 +119,14 @@ module.exports = function (grunt) {
             var hrefMatch  = /\s*href=['"]([^"']+)['"]\s*/gi.exec(template);
             var concatDest = baseFile;
             if (hrefMatch !== null) {
-                concatDest = hrefMatch[1].replace('css', 'scss').replace(/^\/?styles\//, '');
+                concatDest = hrefMatch[1].replace(/^\/?styles\//, '');
             }//end if
 
             var uniqName = concatDest.replace(/\/\./gim, '_');
             var tmpFile  = path.join(grunt.config('config').tmp, '/styles/', concatDest);
+
+            // Ensure .css file extension
+            tmpFile = tmpFile.replace(/\.scss$/,'.css');
 
             // Get variable content to merge together
             var variableContent = _.reduce(grunt.file.expand([
