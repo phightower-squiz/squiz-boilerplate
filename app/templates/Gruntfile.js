@@ -88,9 +88,9 @@ module.exports = function (grunt) {
         moduleFonts: {
             files: [{
                 src: [
-                    // If we have bower modules that contain fonts we need to copy
-                    // them into the destination CSS directory
-                    '**/fonts/*.*'
+                    // Manually copy known module fonts
+                    'bootstrap-sass/fonts/*.*',
+                    'font-awesome/fonts/*.*'
                 ],
                 dest: '<%= config.dest %>/styles/<%= config.file_dest %>/',
                 cwd:  '<%= bowerrc.directory %>/',
