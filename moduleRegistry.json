@@ -45,7 +45,7 @@
     },
     "squiz-module-header-logo": {
         "name": "Header logo pattern",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-header-logo.git#0.0.1"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-header-logo.git#0.0.2"
     },
     "squiz-module-datatables": {
         "name": "Data tables",
