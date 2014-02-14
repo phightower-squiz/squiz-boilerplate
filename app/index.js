@@ -16,19 +16,22 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
     this.cachedDeps = options['cached-deps'] || false;
 
     this.on('end', function () {
-        this.log.writeln('Installing dependencies using npm and bower. Cache: ' + this.cachedDeps);
-        this.npmInstall(null, {
-            skipInstall: options['skip-install'],
-            cacheMin: this.cachedDeps ? 999999 : 0
-        }, function () {
-            this.bowerInstall(null, {
+        if (!options['skip-install']) {
+            this.log.writeln('Installing dependencies using npm and bower. Cache: ' + this.cachedDeps);
+
+            this.npmInstall(null, {
                 skipInstall: options['skip-install'],
-                offline: this.cachedDeps,
-                forceLatest: true // Supplies --force-latest in the bower install
+                cacheMin: this.cachedDeps ? 999999 : 0
             }, function () {
-                this.spawnCommand('grunt', ['build']);
+                this.bowerInstall(null, {
+                    skipInstall: options['skip-install'],
+                    offline: this.cachedDeps,
+                    forceLatest: true // Supplies --force-latest in the bower install
+                }, function () {
+                    this.spawnCommand('grunt', ['build']);
+                }.bind(this));
             }.bind(this));
-        }.bind(this));
+        }//end if
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -343,8 +346,14 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
             // Only selected choices are output as uncommented directives.
             pluginComponents.each(function () {
                 var value = $(this).val();
-                var jsFile = 'bootstrap-sass/js/' + value;
-                imports.push(getJSImport(jsFile, _.indexOf(props, value) === -1));
+
+                // Determine if this value matches anything in the selected props array
+                var jsFile = _.isUndefined(_.find(props, function (val) {
+                    var test = new RegExp("^" + value.replace(/\.js$/, ''));
+                    return val.value.match(test);
+                }));
+
+                imports.push(getJSImport('bootstrap-sass/js/' + value, jsFile));
             });
 
             content += imports.join('\n');
