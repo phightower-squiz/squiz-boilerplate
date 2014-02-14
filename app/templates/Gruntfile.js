@@ -468,6 +468,7 @@ module.exports = function (grunt) {
                 '<%= config.source %>/modules/**/html/*.html',
                 '<%= config.source %>/styles/{,*/}*.scss',
                 '<%= config.source %>/modules/**/css/*.scss',
+                '<%= bowerrc.directory %>/squiz-module-*/html/*.html',
                 '<%= bowerrc.directory %>/squiz-module-*/css/*.scss'
             ],
             tasks: ['build']
