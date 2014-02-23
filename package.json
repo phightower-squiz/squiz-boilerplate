@@ -1,20 +1,52 @@
 {
-  "name": "squiz_boilerplate_grunt_init",
-
-  "description": "The boilerplate grunt init plugin",
-
-  "version": "0.1.1",
-
-  "maintainers": [{
-    "name": "Anthony Barnes",
-    "email": "abarnes@squiz.com.au"
-  }, {
-    "name": "Dianne Castillo",
-    "email": "dcastillo@squiz.com.au"
-  }],
-
+  "name": "generator-squiz-boilerplate",
+  "version": "2.0.1",
+  "description": "The Squiz Boilerplate generator for Yeoman",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home",
+  "bugs": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/issues",
+  "author": "Squiz Australia",
+  "contributors": [
+    {
+      "name": "Anthony Barnes",
+      "email": "abarnes@squiz.com.au"
+    },
+    {
+      "name": "Dianne Castillo",
+      "email": "dcastillo@squiz.com.au"
+    },
+    {
+      "name": "James Sinclair",
+      "email": "jsinclair@squiz.com.au"
+    },
+    {
+      "name": "Tim Tran",
+      "email": "ttran@squiz.com.au"
+    }
+  ],
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.squiz.net:boilerplate/squiz-boilerplate.git"
+  },
   "dependencies": {
-    "grunt": "*",
-    "grunt-init": "*"
-  }
+    "yeoman-generator": "~0.14.0",
+    "lingo": "*",
+    "cheerio": "*",
+    "request": "*"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "Squiz"
+    }
+  ]
 }

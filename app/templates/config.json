@@ -1,0 +1,14 @@
+{
+    "source":        "source",
+    "dest":          "dist",
+    "tmp":           ".tmp",
+    "file_dest":     "<% if (matrix) { %>mysource_<% } %>files",
+    "module_prefix": "squiz-module-",
+    "bower_ignore": [
+        "jquery",
+        "modernizr",
+        "bootstrap-sass",
+        "foundation",
+        "datatables"
+    ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "squiz-module-<%= _.slugify(name) %>",
+  "version": "<%= version %>",
+  "license": "",
+  "private": true,
+  "ignore": []
+}

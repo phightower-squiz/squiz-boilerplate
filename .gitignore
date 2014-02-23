@@ -3,6 +3,8 @@
 dist/
 npm-debug.log
 node_modules/
+test/tmp/
+_tmp*
 
 # OS generated files #
 ######################
