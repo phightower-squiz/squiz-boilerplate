@@ -1,0 +1,70 @@
+// Best Practice Article: https://central.squiz.net/imp/best-practice/accessibility/screen-hidden-content
+// Prevent an element from being displayed.
+%screen-hide {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+// Restore to view
+%screen-show {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+    }
+
+// Re-usable list reset
+%list-reset {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+%inline-block {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+}
+
+%border-box {
+    -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+%flex-box {
+    .no-js &,
+    .no-flexbox & {
+        display: table;
+    }
+    .flexbox & {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+}
+
+// Image replacement
+%ir {
+    color: transparent;
+    border: 0;
+    overflow: hidden;
+    // No rgba fallback (Modernizr class)
+    .no-rgba & { text-indent: 9999em; }
+    &:before {
+        content: "";
+        display: block;
+        width: 0;
+        height: 150%;
+    }
+}

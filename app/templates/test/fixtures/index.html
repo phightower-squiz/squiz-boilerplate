@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+        <title>{{name}} - (version {{version}})</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="shortcut icon" href="{{file_dest}}/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" href="{{file_dest}}/logo-144x144.png">
+
+        <!-- build:css({{dest}}) styles/test/main.css -->
+        <!-- import:sassMQ test/fixtures/styles/test1.scss [<link rel="stylesheet" href="styles/test/test1.css" media="screen" />] -->
+        <!-- import:sassMQ test/fixtures/styles/test2.scss [<link rel="stylesheet" href="styles/test/test2.css" media="(min-width: 37.5em)" />] -->
+        <!-- endbuild -->
+
+        <!-- import:sass test/fixtures/styles/test3.scss [<link rel="stylesheet" href="styles/test/test3.css" media="screen" />] -->
+        
+        <!-- build:js js/test/vendor/modernizr.min.js -->
+        <!-- import:js source/bower_components/modernizr/modernizr.js -->
+        <!-- endbuild -->
+    </head>
+    
+    <body class="no-js">
+    
+    <div id="page-wrapper">
+    <!--noindex-->
+        <!-- import:content test/fixtures/import.html -->
+        <div class="header" role="banner">
+
+        </div><!-- /.header -->
+    <!--endnoindex-->
+            <!-- start main-content -->
+            <div id="main" role="main">
+
+            </div><!-- /#main -->
+            <!-- end main-content -->
+    <!--noindex-->
+        <div class="footer" role="contentinfo">
+
+        </div><!-- /.footer -->
+    <!--endnoindex-->
+    </div><!-- /#page-wrapper -->
+
+<!--@@ jQuery @@-->
+    <!-- build:js js/test/vendor/jquery.min.js -->
+    <!-- import:js source/bower_components/jquery/jquery.js -->
+    <!-- endbuild -->
+
+<!--@@
+    Global JS
+    All the scripts that do the configuration and invocation of plugins, or any small ad-hoc
+    javascript required to enhance the page.
+@@-->
+    <!-- build:js js/test/global.js -->
+    <!-- import:js test/fixtures/js/test.js -->
+    <!-- endbuild -->
+
+    </body>
+</html>

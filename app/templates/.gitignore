@@ -1,0 +1,27 @@
+# Build Files #
+###############
+dist/
+npm-debug.log
+node_modules/
+.tmp/
+.sass-cache/
+*plugin.min.js
+validation-status.json
+validation-report.json
+source/bower_components/*
+!source/bower_components/squiz-module-**
+
+# Personal Preference Files #
+#############################
+.editorconfig
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db

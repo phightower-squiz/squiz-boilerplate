@@ -1,0 +1,46 @@
+// This file allows you to custom build bootstrap 3.x by uncommenting
+// the parts of Bootstrap that you want to use.
+
+// Bootstrap dependencies
+@import "bootstrap-sass/lib/variables";
+@import "bootstrap-sass/lib/mixins";
+
+// The CSS following this has been copied and placed directly in this file. This is because the
+// resets contained in scaffolding.scss may be undesirable. Uncomment this at your own risk.
+// @import "bootstrap-sass/lib/scaffolding";
+
+// Responsive images (ensure images don't scale beyond their parents)
+.img-responsive {
+  @include img-responsive();
+}
+
+// Rounded corners
+.img-rounded {
+  border-radius: $border-radius-large;
+}
+
+// Image thumbnails
+//
+// Heads up! This is mixin-ed into thumbnails.less for `.thumbnail`.
+.img-thumbnail {
+    padding: $thumbnail-padding;
+    line-height: $line-height-base;
+    background-color: $thumbnail-bg;
+    border: 1px solid $thumbnail-border;
+    border-radius: $thumbnail-border-radius;
+    @include transition(all .2s ease-in-out);
+
+    // Keep them at most 100% wide
+    @include img-responsive(inline-block);
+}
+
+// Perfect circle
+.img-circle {
+    border-radius: 50%; // set radius in percents
+}
+
+// Resets
+// You won't normally need this, they are covered by the core boilerplate using necolas' normalize CSS
+// @import "bootstrap-sass/lib/normalize";
+
+// Components

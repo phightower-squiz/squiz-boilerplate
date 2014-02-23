@@ -1,0 +1,10 @@
+        <!-- build:css({{dest}}) styles/main.css -->
+            <!-- import:sass {{source}}/styles/global.scss [<link rel="stylesheet" href="styles/{{source}}/global.css" />] -->
+            <!-- import:bowerCSS -->
+            <!-- import:sassMQ {{source}}/styles/medium.scss [<link rel="stylesheet" href="styles/{{source}}/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
+            <!-- import:sassMQ {{source}}/styles/wide.scss [<link rel="stylesheet" href="styles/{{source}}/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
+            <!-- import:sassMQ {{source}}/styles/print.scss [<link rel="stylesheet" href="styles/{{source}}/print.css" media="print" />] -->
+        <!-- endbuild -->
+        <!-- build:js js/vendor/modernizr.min.js -->
+            <!-- import:js {{bowerdir}}/modernizr/modernizr.js -->
+        <!-- endbuild -->

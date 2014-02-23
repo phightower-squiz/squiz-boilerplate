@@ -1,0 +1,17 @@
+{
+  "name": "<%= _.slugify(name) %>",
+  "version": "<%= version %>",
+  "private": true,
+  "dependencies": {
+    <% if (modules.length >= 1) {
+        _.each(modules, function (module) {
+    %>"<%= module.name %>": "<%= module.repository %>",
+    <% })} %>
+    <% if (includeBootstrap) { %>
+    "bootstrap-sass": "*",
+    <% } %>
+    "modernizr": "~2.7.x",
+    "jquery": "*",
+    "qunit": "~1.13.0"
+  }
+}
