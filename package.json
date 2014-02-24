@@ -29,7 +29,7 @@
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git@gitlab.squiz.net:boilerplate/squiz-boilerplate.git"
+    "url": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate.git"
   },
   "dependencies": {
     "yeoman-generator": "~0.14.0",
