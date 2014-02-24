@@ -419,7 +419,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.copy('_bower.json', 'bower.json');
     this.copy('.bowerrc', '.bowerrc');
     this.copy('.jshintrc', '.jshintrc');
-    this.copy('.gitignore', '.gitignore');
+    this.copy('_gitignore', '.gitignore');
     this.copy('config.json', 'config.json');
     this.copy('Gruntfile.js', 'Gruntfile.js');
     this.copy('README.md', 'README.md');
