@@ -1,10 +1,11 @@
 <!--@@
     jQuery
-    We're bringing this in seperately to avoid any confusion. If desired this could be replaced
-    with a jQuery CDN tag instead of locally sourced library.
+    We're bringing this in seperately to avoid any confusion. If desired this could be replaced with a jQuery CDN tag instead of locally sourced library.
+    (2 paths are required here to catch the right path for 2.1+ and below)
 @@-->
     <!-- build:js js/vendor/jquery.min.js -->
         <!-- import:js {{bowerdir}}/jquery/jquery.js -->
+        <!-- import:js {{bowerdir}}/jquery/dist/jquery.js -->
     <!-- endbuild -->
 
 <!--@@
