@@ -29,7 +29,7 @@
     },
     "squiz-module-flexslider": {
         "name": "Flexslider - slideshow/carousel library",
-        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-flexslider.git#0.0.1"
+        "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-flexslider.git#0.0.2"
     },
     "squiz-module-quick-search": {
         "name": "Quick search pattern",
