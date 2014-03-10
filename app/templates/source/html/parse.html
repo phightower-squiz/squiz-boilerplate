@@ -19,7 +19,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title><MySource_PRINT id_name="__global__" var="asset_name" /> - <MySource_PRINT id_name="__global__" var="site_name" /></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -30,12 +30,12 @@
 
         <MySource_AREA id_name="head_scripts" design_area="nest_content" />
     </head>
-    <!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+    <% if (ieConditionals) { %><!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
     <!--[if IE 7]><body class="no-js lt-ie9 lt-ie8"><![endif]-->
     <!--[if IE 8]><body class="no-js lt-ie9"><![endif]-->
-    <!--[if gt IE 8]><!-->
+    <!--[if gt IE 8]><!--><% } %>
     <body class="no-js">
-    <!--<![endif]-->
+    <% if (ieConditionals) { %><!--<![endif]--><% } %>
     <div id="page-wrapper">
         <!--noindex-->
         <MySource_AREA id_name="skip_links" design_area="nest_content" />
