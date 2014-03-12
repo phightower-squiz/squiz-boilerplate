@@ -2,18 +2,8 @@
 
 Installation of the boilerplate first requires a few pre-requisites:
 
-* Ruby (Sass)
 * Git: https://help.github.com/articles/set-up-git
 * Node: http://howtonode.org/how-to-install-nodejs
-
-## Install Sass
-
-After Ruby is installed on your system you can use Ruby's gem package manager
-to install the Sass compiler:
-
-```
-gem install compass --dev
-```
 
 ## Install Yeoman
 
