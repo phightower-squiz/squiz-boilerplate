@@ -17,7 +17,7 @@
   },
   "squiz-module-google-analytics": {
     "name": "Google Analytics helpers",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-google-analytics.git#0.0.2"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-google-analytics.git#0.0.3"
   },
   "squiz-module-header-logo": {
     "name": "Header logo pattern",
