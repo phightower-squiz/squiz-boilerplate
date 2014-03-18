@@ -91,5 +91,7 @@
     .no-js &,
     .no-flexbox & {
       display: table-cell;
+      // Vertical align is needed to prevent auto vertical centering by some browsers
+      vertical-align: top;
     }
 }
