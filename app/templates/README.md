@@ -84,6 +84,10 @@ This will remove any content output in the destination directory. Useful for pur
 
 # Revision History
 
+## `2.0.5`
+* Removed redundant root folder
+* Fixed sq-flex table cell fallback formatting
+
 ## `2.0.0rc1` - Yeoman generator conversion
 
 * Grunt init replaced with [Yeoman](http://yeoman.io) Generator
