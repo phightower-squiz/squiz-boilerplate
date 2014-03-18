@@ -1,6 +1,0 @@
-{
-    "name": "funnelback_search",
-    "dependencies": [
-        "typeahead"
-    ]
-}
