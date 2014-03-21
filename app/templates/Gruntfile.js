@@ -82,6 +82,11 @@ module.exports = function (grunt) {
                 dest: '<%= config.dest %>/<%= config.file_dest %>/',
                 cwd:  '<%= config.source %>/files/',
                 expand: true
+            }, {
+                src: ['*.*'],
+                dest: '<%= config.dest %>/styles/<%= config.file_dest %>/',
+                cwd:  '<%= config.source %>/styles/files',
+                expand: true
             }]
         },
 
