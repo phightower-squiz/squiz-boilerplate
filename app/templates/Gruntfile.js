@@ -712,6 +712,7 @@ module.exports = function (grunt) {
             'substitute:html',
             'boilerplate-importer',
             'newer:copy:files',
+            'newer:copy:favicon',
             'newer:copy:moduleFiles',
             'newer:copy:moduleCSSFiles',
             'newer:copy:moduleFonts',
