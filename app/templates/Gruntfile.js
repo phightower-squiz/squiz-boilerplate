@@ -133,6 +133,12 @@ module.exports = function (grunt) {
             cwd: '<%= config.source %>/html/',
             dest: '<%= config.dest %>',
             src: '*.html'
+        },
+        favicon: {
+            expand: true,
+            cwd: '<%= config.source %>/html/',
+            dest: '<%= config.dest %>',
+            src: 'favicon.ico'
         }
     };
 
