@@ -95,3 +95,10 @@
       vertical-align: top;
     }
 }
+
+// Em calculator based on James' in Squiz Map issue #4906
+@mixin sq-calc-ems($prop, $numerator, $denominator) {
+    $tmp: ($numerator/$denominator);
+    #{$prop}: #{$tmp}em;
+    #{$prop}: calc(#{$numerator}em / #{$denominator});
+}
