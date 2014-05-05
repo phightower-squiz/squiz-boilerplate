@@ -89,6 +89,14 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         }.bind(this)
     }, {
         type: 'confirm',
+        name: 'unitTests',
+        message: 'Would you like to set up unit tests for your javascript?',
+        when: function (props) {
+            return props.javascript;
+        }.bind(this),
+        default: true
+    }, {
+        type: 'confirm',
         name: 'html',
         message: 'Will this module include HTML fragments/examples?',
         default: true
@@ -139,6 +147,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.stylesheets = props.stylesheets;
         this.version = props.version;
         this.pluginName = props.pluginName;
+        this.unitTests = props.unitTests;
 
         this.cssName = _.slugify(props.name);
         this.camelCaseName = lingo.camelcase(props.name);
@@ -163,13 +172,16 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
         this.template('js/global.js', this.dir + '/js/global.js');
         if (this.jqueryPlugin) {
             this.template('js/plugin.js', this.dir + '/js/plugin.js');
-            this.mkdir(this.dir + '/tests');
-            this.template('tests/spec.html', this.dir + '/tests/spec.html');
-            this.template('tests/spec.js', this.dir + '/tests/spec.js');
         }//end if
     }//end if
 
     if (this.html) {
         this.template('html/index.html', this.dir + '/html/index.html');
+    }//end if
+
+    if (this.unitTests) {
+        this.mkdir(this.dir + '/tests');
+        this.template('tests/spec.html', this.dir + '/tests/spec.html');
+        this.template('tests/spec.js', this.dir + '/tests/spec.js');
     }//end if
 };
