@@ -61,7 +61,7 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
 
         gp.on('exit', function(code) {
             writeEndMessage.call(this, true);
-        });
+        }.bind(this));
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
