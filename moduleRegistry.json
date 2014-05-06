@@ -29,7 +29,7 @@
   },
   "squiz-module-matrix-form": {
     "name": "Styling and validation for Squiz Matrix custom form accessible output",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.0.1"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.0.3"
   },
   "squiz-module-navbar": {
     "name": "Nav bar (Bootstrap compatible) and accessible hover dropdown menu solution",
