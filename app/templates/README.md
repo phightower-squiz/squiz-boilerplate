@@ -84,6 +84,10 @@ This will remove any content output in the destination directory. Useful for pur
 
 # Revision History
 
+## `2.0.7`
+* Favicon re-worked to pass validation
+* X-Compatible-UA meta tag removed to pass validation (add in only if necessary)
+
 ## `2.0.5`
 * Removed redundant root folder
 * Fixed sq-flex table cell fallback formatting

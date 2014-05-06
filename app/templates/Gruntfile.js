@@ -82,6 +82,11 @@ module.exports = function (grunt) {
                 dest: '<%= config.dest %>/<%= config.file_dest %>/',
                 cwd:  '<%= config.source %>/files/',
                 expand: true
+            }, {
+                src: ['*.*'],
+                dest: '<%= config.dest %>/styles/<%= config.file_dest %>/',
+                cwd:  '<%= config.source %>/styles/files',
+                expand: true
             }]
         },
 
@@ -128,6 +133,12 @@ module.exports = function (grunt) {
             cwd: '<%= config.source %>/html/',
             dest: '<%= config.dest %>',
             src: '*.html'
+        },
+        favicon: {
+            expand: true,
+            cwd: '<%= config.source %>/html/',
+            dest: '<%= config.dest %>',
+            src: 'favicon.ico'
         }
     };
 
@@ -701,6 +712,7 @@ module.exports = function (grunt) {
             'substitute:html',
             'boilerplate-importer',
             'newer:copy:files',
+            'newer:copy:favicon',
             'newer:copy:moduleFiles',
             'newer:copy:moduleCSSFiles',
             'newer:copy:moduleFonts',
