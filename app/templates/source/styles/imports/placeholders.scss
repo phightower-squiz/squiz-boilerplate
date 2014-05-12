@@ -68,3 +68,17 @@
         height: 150%;
     }
 }
+
+// Clear fix for containers of floated elements
+%clearfix {
+    &:before,
+    &:after {
+        content: '';
+        display: table;
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+    }
+    *zoom: 1;
+}
