@@ -98,29 +98,26 @@
 
 
 
-/*
-
-  Spritesheet mixin (adewezlopez@squiz.net)
-  Loops through your spritesheet and creates classes for you to easily add icons to your elements, or you can extend them for use with pseudo elements.
 
 
-  1. Set your spritesheet in a grid of your choosing and enter the width and height of each cell in the variables below.
-  2. Enter the column length (horizontal count of cells)
-  3. Put your spritesheets in dist/css/mysource_files/
-  4. Name the cells as you wish, in the order as they appear in the spritesheet (left to right, top to bottom)
-  5. Use the icons as psuedo elements by calling @extend on the class e.g.
+//  Spritesheet mixin (adewezlopez@squiz.net)
+//  Loops through your spritesheet and creates classes for you to easily add icons to your elements, or you can extend them for use with pseudo elements.
 
-    a[href$="doc"],
-    a[href$="docx"] {
-      &:before {
-        content: '';
-        @include inline-block();
-        vertical-align: middle;
-        @extend .icn-doc;
-      }
-    }
+//  1. Set your spritesheet in a grid of your choosing and enter the width and height of each cell in the variables below.
+//  2. Enter the column length (horizontal count of cells)
+//  3. Put your spritesheets in dist/css/mysource_files/
+//  4. Name the cells as you wish, in the order as they appear in the spritesheet (left to right, top to bottom)
+//  5. Use the icons by extending the class (@extend) e.g.
 
-*/
+//  a[href$="doc"],
+//  a[href$="docx"] {
+//    &:before {
+//      content: '';
+//      @include inline-block();
+//      vertical-align: middle;
+//      @extend .icn-doc;
+//    }
+//  }
 
 $sprite__icon-width: 50px;
 $sprite__icon-height: 50px;
