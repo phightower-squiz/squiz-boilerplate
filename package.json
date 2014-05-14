@@ -26,6 +26,9 @@
       "email": "ttran@squiz.com.au"
     }
   ],
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
   "main": "app/index.js",
   "repository": {
     "type": "git",
@@ -39,6 +42,10 @@
   },
   "peerDependencies": {
     "yo": ">=1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "rimraf": "*"
   },
   "engines": {
     "node": ">=0.8.0",
