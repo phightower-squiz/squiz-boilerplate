@@ -17,6 +17,9 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
 
     // A final message with some instructions
     function writeEndMessage(depsInstalled) {
+        if (options['test-mode']) {
+            return;
+        }
         this.log.writeln('\n**************    Intall Completed    ****************');
         if (!depsInstalled) {
             this.log.writeln('Warning: Dependencies were not installed, you will need to install this manually');
@@ -113,9 +116,11 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     var _ = this._;
 
     // Greet the user with the squiz logo and message
-    var logo = path.resolve(__dirname, './squiz.txt');
-    console.log(fs.readFileSync(logo, {encoding: 'utf8'}));
-    console.log('Squiz Boilerplate Generator');
+    if (!this.options['test-mode']) {
+        var logo = path.resolve(__dirname, './squiz.txt');
+        console.log(fs.readFileSync(logo, {encoding: 'utf8'}));
+        console.log('Squiz Boilerplate Generator');
+    }//end if
 
     // Read the module registry configuration to allow a display of module choices
     var registry = JSON.parse(this.readFileAsString(path.join(__dirname, '../moduleRegistry.json')));
@@ -277,7 +282,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.createDirectory = props.createDirectory;
 
         // Make sure we've not got a blank custom directory name
-        if (this.customDirectory.match(/^\s*$/g)) {
+        if (this.customDirectory && this.customDirectory.match(/^\s*$/g)) {
             this.createDirectory = false;
         }//end if
 
