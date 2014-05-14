@@ -85,7 +85,7 @@ function fetchDependencies (callback) {
     }//end if
 
     var bowerFiles = grunt.file.expand([
-        bowerrc.directory + '/**/.bower.json',
+        bowerrc.directory + '/**/*bower.json',
         config.source + '/modules/**/*bower.json'
     ]);
 
