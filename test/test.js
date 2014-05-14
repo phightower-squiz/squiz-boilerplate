@@ -3,7 +3,7 @@
 var path    = require('path');
 var rimraf  = require('rimraf');
 var helpers = require('yeoman-generator').test;
-var tmpDir  = path.join(__dirname, 'temp');
+var tmpDir  = path.join(__dirname, 'tmp');
 
 var testProject = {
     name: 'My Test Project',
@@ -21,13 +21,6 @@ var testProject = {
     unitTest: false,
     modules: []
 };
-
-// rm -rf a dir
-function removeDir(dir, cb) {
-    rimraf(dir, function () {
-        cb();
-    });
-}//end removeDir
 
 describe('Squiz Boilerplate generator test', function () {
     beforeEach(function (done) {
@@ -47,12 +40,15 @@ describe('Squiz Boilerplate generator test', function () {
             // Don't run bower or npm by default
             this.webapp.options['skip-install'] = true;
 
+            // Put the webapp in test mode which will mute certain outputs
+            this.webapp.options['test-mode'] = true;
+
             done();
         }.bind(this));
     });
 
     afterEach(function (done) {
-        //removeDir(tmpDir, done);
+        //rimraf(tmpDir, done);
         done();
     });
 
@@ -103,6 +99,50 @@ describe('Squiz Boilerplate generator test', function () {
             dir + 'source/html/_head.html',
             dir + 'source/html/_foot.html',
             dir + 'source/html/index.html'
+        ];
+
+        helpers.mockPrompt(this.webapp, testProject);
+
+        this.webapp.run({}, function () {
+            helpers.assertFiles(expected);
+            done();
+        });
+    });
+
+    it('creates expected files without a custom directory', function (done) {
+        testProject.createDirectory = false;
+        testProject.customDirectory = '';
+
+        var expected = [
+            [tmpDir + '/package.json', /"name": "my-test-project"/]
+        ];
+
+        helpers.mockPrompt(this.webapp, testProject);
+
+        this.webapp.run({}, function () {
+            helpers.assertFiles(expected);
+            done();
+        });
+    });
+
+    it ('builds a bootstrap template based on user selections', function (done) {
+        testProject.bootstrap = true;
+
+        // We might need some extra time out to allow the script to fetch the packages
+        // from a remote install - 10 seconds
+        this.timeout(1000*10);
+
+        // Need to test that a custom build brings in the components we want, and not
+        // the ones that aren't needed. Difficult to test so we'll test a couple
+        this.webapp.build = 'custom';
+        this.webapp.bootstrapComponentsCSS = ['type', 'code'];
+        this.webapp.bootstrapComponentsJS = [];
+        this.webapp.includeBootstrap = true;
+
+        // Expected new files
+        var expected = [
+            [tmpDir + '/source/styles/imports/bootstrap.scss', /\n@import "bootstrap-sass\/lib\/type";/],
+            tmpDir + '/source/styles/imports/bootstrap_variables.scss'
         ];
 
         helpers.mockPrompt(this.webapp, testProject);
