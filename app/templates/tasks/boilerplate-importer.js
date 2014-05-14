@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 
     // Get the HTML tag output for bower dependencies
     function getBowerDepTags(type, template, callback) {
-        // Defer requiring this library, it does a require('bower') which is slow
+        // Defer requiring this library
         if (!bowerdeps) {
             bowerdeps = require('../lib/bowerdeps');
         }//end if
