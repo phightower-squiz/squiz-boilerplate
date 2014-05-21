@@ -16,16 +16,7 @@
 
 // Clear fix class for containers of floated elements
 .clearfix {
-    &:after,
-    &:before {
-        display: table;
-        line-height: 0;
-        content: "";
-    }
-    &:after {
-        clear: both;
-    }
-    *zoom: 1;
+    @extend %clearfix;
 }
 
 // Hide from both screenreaders and browsers: h5bp.com/u

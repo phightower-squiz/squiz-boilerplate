@@ -102,3 +102,48 @@
     #{$prop}: #{$tmp}em;
     #{$prop}: calc(#{$numerator}em / #{$denominator});
 }
+
+//  Spritesheet mixin (adewezlopez@squiz.net)
+//  Loops through your spritesheet and creates classes for you to easily add icons to your elements, or you can extend them for use with pseudo elements.
+
+//  1. Set your spritesheet in a grid of your choosing and enter the width and height of each cell in the variables below.
+//  2. Enter the column length (horizontal count of cells)
+//  3. Put your spritesheets in dist/css/mysource_files/
+//  4. Name the cells as you wish, in the order as they appear in the spritesheet (left to right, top to bottom)
+//  5. Use the icons by extending the class (@extend) e.g.
+
+//  a[href$="doc"],
+//  a[href$="docx"] {
+//    &:before {
+//      content: '';
+//      @include inline-block();
+//      vertical-align: middle;
+//      @extend .icn-doc;
+//    }
+//  }
+
+$sprite__icon-width: 50px;
+$sprite__icon-height: 50px;
+$sprite__column-length: 10;
+
+$icon-names:
+icn-pdf,
+icn-doc,
+icn-xls;
+
+$x-count: 0;
+$y-count: 0;
+
+@each $name in $icon-names {
+  $i: index($icon-names, $name);
+  .#{$name} {
+    @include sq-svg-background($spritesheet__src);
+    background-position: $x-count * -$sprite__icon-width $y-count * -$sprite__icon-height;
+  }
+  @if $i % $sprite__column-length == 0 {
+    $x-count: 0;
+    $y-count: $y-count+1;
+  } @else {
+    $x-count: $x-count+1;
+  }
+}
