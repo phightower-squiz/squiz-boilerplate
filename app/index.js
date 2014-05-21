@@ -13,10 +13,9 @@ var lingo  = require('lingo');
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
 
-    this.cachedDeps = options['cached-deps'] || false;
-
     // A final message with some instructions
     function writeEndMessage(depsInstalled) {
+        this.emit('buildComplete');
         if (options['test-mode']) {
             return;
         }
@@ -34,7 +33,7 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
 
     this.on('end', function () {
         if (!options['skip-install']) {
-            this.log.writeln('Installing dependencies using npm and bower. Cache: ' + this.cachedDeps);
+            this.log.writeln('Installing dependencies using npm and bower.');
 
             // Need to make sure custom directory is made current before
             // running NPM and bower install commands
@@ -44,11 +43,11 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
 
             this.npmInstall(null, {
                 skipInstall: options['skip-install'],
-                cacheMin: this.cachedDeps ? 999999 : 0
+                cacheMin: options['npm-cache'] ? 999999 : 0
             }, function () {
                 this.bowerInstall(null, {
                     skipInstall: options['skip-install'],
-                    offline: this.cachedDeps,
+                    offline: options['bower-offline'],
                     forceLatest: true // Supplies --force-latest in the bower install
                 }, function () {
                     this.emit('dependenciesInstalled');
