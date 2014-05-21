@@ -217,11 +217,6 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'ieConditionals',
         message: 'Should IE conditional tags be added to the body?',
         "default": true
-    }, {
-        type: 'confirm',
-        name: 'unitTest',
-        message: 'Include Unit Tests? (Useful if you are developing new additions to the boilerplate)',
-        "default": false
     }];
 
     function getModuleChoices() {
@@ -514,10 +509,6 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
         this.copy('source/html/parse.html', dir + 'source/html/parse.html');
     }//end if
 
-    if (this.unitTest) {
-        this.directory('test', dir + 'test');
-    }//end if
-
     this.mkdir(dir + 'source/html/fragments');
 
     if (this.includeBootstrap) {
@@ -534,10 +525,4 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
 
     this.template('source/html/_foot.html', dir + 'source/html/_foot.html');
     this.template('source/html/index.html', dir + 'source/html/index.html');
-
-    /*if (this.includeFoundation) {
-        this.copy('foundation/settings.scss', 'source/styles/imports/foundation_settings.scss');
-        this.copy('foundation/_tmp.scss', 'source/styles/imports/foundation.scss');
-        this.copy('foundation/_tmp.html', 'source/html/fragments/foundation.html');
-    }*/
 };
