@@ -41,7 +41,7 @@ describe('Squiz Boilerplate generator test', function () {
     //after(clearTmpDir);
 
     beforeEach(function (done) {
-        this.timeout(30*1000);
+        this.timeout(10*60*1000);
         helpers.testDirectory(tmpDir, function (err) {
             if (err) {
                 return done(err);
@@ -75,7 +75,7 @@ describe('Squiz Boilerplate generator test', function () {
     });
 
     it('creates expected files with a custom directory', function (done) {
-
+        this.timeout(10*60*1000);
         // Test that it creates a custom directory and copies expected files
         testProject.createDirectory = true;
         testProject.customDirectory = 'gen';
@@ -127,6 +127,7 @@ describe('Squiz Boilerplate generator test', function () {
     });
 
     it('creates expected files without a custom directory', function (done) {
+        this.timeout(10*60*1000);
         testProject.createDirectory = false;
         testProject.customDirectory = '';
 
@@ -149,8 +150,7 @@ describe('Squiz Boilerplate generator test', function () {
         testProject.bootstrap = true;
 
         // We might need some extra time out to allow the script to fetch the packages
-        // from a remote install - 10 seconds
-        this.timeout(1000*10);
+        this.timeout(5*60*1000);
 
         // Need to test that a custom build brings in the components we want, and not
         // the ones that aren't needed. Difficult to test so we'll test a couple
