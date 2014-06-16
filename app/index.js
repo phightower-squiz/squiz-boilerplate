@@ -322,6 +322,11 @@ function fetchBootstrapComponentInfo($elem, _) {
 // Customise Bootstrap //
 /////////////////////////
 SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
+
+    var self = this;
+    self.bootstrapHTML = '';
+    self.bootstrapCSS  = '';
+
     if (!this.includeBootstrap) {
         return;
     }//end if
@@ -397,8 +402,9 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
 
             content += imports.join('\n');
 
-            // Write out a temporary file
-            fs.writeFileSync(path.join(__dirname, 'templates/bootstrap/_tmp.scss'), content);
+            // Store the bootstrap content
+            self.bootstrapCSS = content;
+
         }//end buildBootstrapSass
 
         // Build the bootstrap JS choices into a temporary file
@@ -422,8 +428,8 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
 
             content += imports.join('\n');
 
-            // Write out a temporary file
-            fs.writeFileSync(path.join(__dirname, 'templates/bootstrap/_tmp.html'), content);
+            // Store bootstrap import tags.
+            self.bootstrapHTML = content;
         }//end buildBootstrapSass
 
         var prompts = [{
@@ -513,9 +519,11 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
 
     if (this.includeBootstrap) {
         this.copy('bootstrap/variables.scss', dir + 'source/styles/imports/bootstrap_variables.scss');
-        this.copy('bootstrap/_tmp.scss',      dir + 'source/styles/imports/bootstrap.scss');
-        this.copy('bootstrap/_tmp.html',      dir + 'source/html/fragments/bootstrap.html');
-    }
+         
+        // Write out the imports
+        this.write(dir + 'source/styles/imports/bootstrap.scss', this.bootstrapCSS);
+        this.write(dir + 'source/html/fragments/bootstrap.html', this.bootstrapHTML);
+    }//end if
 
     if (this.ie8) {
         this.template('source/html/_head-ie8.html', dir + 'source/html/_head.html');
