@@ -1,7 +1,7 @@
 {
   "squiz-module-back-to-top": {
     "name": "Back to top link pattern",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.0.2"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.0.3"
   },
   "squiz-module-datatables": {
     "name": "Data Tables",
