@@ -46,7 +46,7 @@
 }
 
 // Box shadow (won't work in IE8 or older)
-@mixin sq-box-shadow($args: 6px 6px 6px rgba(0,0,0,0.3)) {
+@mixin sq-box-shadow($args...) {
     -webkit-box-shadow: $args;
      -moz-box-shadow: $args;
           box-shadow: $args;
