@@ -539,9 +539,7 @@ module.exports = function (grunt) {
             'imagemin',
             'svgmin',
             'uglify',
-            'prettify',
-            'jsbeautifier',
-            'cssbeautifier'
+            'prettify'
         ]);
     });
 
