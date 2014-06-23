@@ -37,7 +37,7 @@
   },
   "squiz-module-quick-search": {
     "name": "Quick search pattern",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.3"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.4"
   },
   "squiz-module-secondary-nav": {
     "name": "Secondary Navigation pattern",
