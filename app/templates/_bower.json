@@ -8,7 +8,7 @@
     %>"<%= module.name %>": "<%= module.repository %>",
     <% })} %>
     <% if (includeBootstrap) { %>
-    "bootstrap-sass": "*",
+    "bootstrap-sass-official": "*",
     <% } %>
     "modernizr": "~2.7.x",
     "jquery": "*",

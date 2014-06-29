@@ -396,7 +396,7 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
             // Only selected choices are output as uncommented directives.
             lessComponents.each(function () {
                 var value = $(this).val().replace('.less', '');
-                var sassFile = 'bootstrap-sass/lib/' + value;
+                var sassFile = 'bootstrap-sass-official/assets/stylesheets/bootstrap/' + value;
                 imports.push(getSassImport(sassFile, _.indexOf(selectedWithDeps, value) === -1));
             });
 

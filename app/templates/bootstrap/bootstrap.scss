@@ -2,12 +2,12 @@
 // the parts of Bootstrap that you want to use.
 
 // Bootstrap dependencies
-@import "bootstrap-sass/lib/variables";
-@import "bootstrap-sass/lib/mixins";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/mixins";
 
 // The CSS following this has been copied and placed directly in this file. This is because the
 // resets contained in scaffolding.scss may be undesirable. Uncomment this at your own risk.
-// @import "bootstrap-sass/lib/scaffolding";
+// @import "bootstrap-sass-official/assets/stylesheets/bootstrap/scaffolding";
 
 // Responsive images (ensure images don't scale beyond their parents)
 .img-responsive {
@@ -41,6 +41,6 @@
 
 // Resets
 // You won't normally need this, they are covered by the core boilerplate using necolas' normalize CSS
-// @import "bootstrap-sass/lib/normalize";
+// @import "bootstrap-sass-official/assets/stylesheets/bootstrap/normalize";
 
 // Components
