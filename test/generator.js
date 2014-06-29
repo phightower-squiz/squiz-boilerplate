@@ -161,7 +161,7 @@ describe('Squiz Boilerplate generator test', function () {
 
         // Expected new files
         var expected = [
-            [tmpDir + '/source/styles/imports/bootstrap.scss', /\n@import "bootstrap-sass\/lib\/type";/],
+            [tmpDir + '/source/styles/imports/bootstrap.scss', /\n@import "bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/type";/],
             tmpDir + '/source/styles/imports/bootstrap_variables.scss'
         ];
 
