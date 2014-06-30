@@ -32,8 +32,7 @@
 
 // 16:9 Ratio container for embedded video
 // This container is suitable for something like youtube videos
-.video-container
-{
+.video-container {
     position: relative;
     padding-bottom: 56.25%; // Video area
     padding-top: 30px; // 30px controls container
@@ -44,8 +43,7 @@
 
 .video-container iframe,
 .video-container object,
-.video-container embed
-{
+.video-container embed {
     position: absolute;
     top: 0;
     left: 0;

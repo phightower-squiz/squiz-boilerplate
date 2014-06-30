@@ -12,15 +12,16 @@
 
 /*
  * Table of Contents
- * 1. Global
- * Modules
+ *
+ * - Global
+ * - Modules
 {{toc}}
  */
 
 
 /*
 --------------------
-1. Global
+Global
 --------------------
 */
 
