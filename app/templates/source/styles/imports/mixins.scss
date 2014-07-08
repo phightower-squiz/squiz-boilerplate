@@ -125,8 +125,27 @@
 $sprite__icon-width: 50px;
 $sprite__icon-height: 50px;
 $sprite__column-length: 10;
+$sprite__width: 400px;
+$sprite__height: 1000px;
+
 
 $icon-names:
+icn-search,
+icn-home,
+icn-play,
+icn-pause,
+icn-prev,
+icn-next,
+icn-burger,
+icn-close,
+icn-yt,
+icn-fb,
+icn-tw,
+icn-ln,
+icn-marker,
+icn-ext,
+icn-error,
+icn-valid,
 icn-pdf,
 icn-doc,
 icn-xls;
@@ -139,11 +158,29 @@ $y-count: 0;
   .#{$name} {
     @include sq-svg-background($spritesheet__src);
     background-position: $x-count * -$sprite__icon-width $y-count * -$sprite__icon-height;
+    background-repeat: no-repeat;
   }
   @if $i % $sprite__column-length == 0 {
     $x-count: 0;
     $y-count: $y-count+1;
   } @else {
     $x-count: $x-count+1;
+  }
+}
+
+// Mixin to set up your icons for use with a before pseudo elements
+
+@mixin icn-before() {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  display: block;
+}
+
+@mixin background-resize($percent-x, $percent-y, $position-x, $position-y) {
+  background-size: $sprite__width*$percent-x $sprite__height*$percent-y;
+  background-position: $percent-x*$position-x $percent-y*$position-y;
+  .lt-ie9 & {
+    background-size: $sprite__width $sprite__height;
   }
 }
