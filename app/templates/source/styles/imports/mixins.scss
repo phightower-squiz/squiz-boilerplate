@@ -177,10 +177,12 @@ $y-count: 0;
   display: block;
 }
 
+// Background resize for sprites, $percent-* is the decimal percentage you'd like to resize to.
+
 @mixin background-resize($percent-x, $percent-y, $position-x, $position-y) {
   background-size: $sprite__width*$percent-x $sprite__height*$percent-y;
   background-position: $percent-x*$position-x $percent-y*$position-y;
   .lt-ie9 & {
-    background-size: $sprite__width $sprite__height;
+     background-position: $position-x $position-y;
   }
 }
