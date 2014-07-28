@@ -251,7 +251,7 @@ module.exports = function (grunt) {
     tasks.prettify = {
         options: {
             indent: 4,
-            unformatted: ['a', 'pre', 'code']
+            unformatted: ['a', 'pre', 'code', 'p', 'span', 'b', 'i', 'strong', 'em']
         },
         all: {
             expand: true,
