@@ -197,6 +197,11 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'bootstrap',
         message: 'Include components from Twitter Bootstrap 3?',
         "default": false
+    },, {
+        type: 'confirm',
+        name: 'bourbon',
+        message: 'Include Bourbon mixins (http://bourbon.io)?',
+        "default": false
     }, {
         type: 'input',
         name: 'mediumMQ',
@@ -253,6 +258,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         // 3rd party frameworks
         this.includeFoundation = props.foundation;
         this.includeBootstrap  = props.bootstrap;
+        this.includeBourbon    = props.bourbon;
 
         // IE 8 and conditionals
         this.ie8            = props.ie8;
@@ -517,14 +523,20 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
 
     this.mkdir(dir + 'source/html/fragments');
 
+    if (this.includeBourbon) {
+        this.copy('bourbon/bourbon.scss', dir + 'source/styles/imports/bourbon.scss');
+    }//end if
+
+    // Bootstrap
     if (this.includeBootstrap) {
-        this.copy('bootstrap/variables.scss', dir + 'source/styles/imports/bootstrap_variables.scss');
+        this.copy('bootstrap/variables.scss', dir + 'source/styles/imports/bootstrap.scss');
          
         // Write out the imports
         this.write(dir + 'source/styles/imports/bootstrap.scss', this.bootstrapCSS);
         this.write(dir + 'source/html/fragments/bootstrap.html', this.bootstrapHTML);
     }//end if
 
+    // IE 8
     if (this.ie8) {
         this.template('source/html/_head-ie8.html', dir + 'source/html/_head.html');
     } else {

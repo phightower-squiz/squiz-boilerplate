@@ -10,6 +10,9 @@
     <% if (includeBootstrap) { %>
     "bootstrap-sass-official": "*",
     <% } %>
+    <% if (includeBourbon) { %>
+    "bourbon": "*",
+    <% } %>
     "modernizr": "~2.7.x",
     "jquery": "*",
     "qunit": "~1.13.0"
