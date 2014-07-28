@@ -1,6 +1,6 @@
 {
   "name": "generator-squiz-boilerplate",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "description": "The Squiz Boilerplate generator for Yeoman",
   "keywords": [
     "yeoman-generator"
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "yeoman-generator": "~0.14.0",
-    "lingo": "*",
+    "slang": "*",
     "cheerio": "*",
     "request": "*"
   },

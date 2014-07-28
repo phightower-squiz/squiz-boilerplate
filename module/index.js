@@ -6,7 +6,7 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var lingo = require('lingo');
+var slang  = require('slang');
 
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator() {
     yeoman.generators.Base.apply(this, arguments);
@@ -85,7 +85,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             return props.jqueryPlugin;
         }.bind(this),
         default: function (props) {
-            return lingo.camelcase(props.name);
+            return slang.camelize(props.name);
         }.bind(this)
     }, {
         type: 'confirm',
@@ -150,7 +150,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         this.unitTests = props.unitTests;
 
         this.cssName = _.slugify(props.name);
-        this.camelCaseName = lingo.camelcase(props.name);
+        this.camelCaseName = slang.camelize(props.name);
 
         cb();
     }.bind(this));

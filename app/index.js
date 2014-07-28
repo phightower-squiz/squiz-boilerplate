@@ -8,7 +8,7 @@ var util   = require('util');
 var fs     = require('fs');
 var path   = require('path');
 var yeoman = require('yeoman-generator');
-var lingo  = require('lingo');
+var slang  = require('slang');
 
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
@@ -125,7 +125,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     var registry = JSON.parse(this.readFileAsString(path.join(__dirname, '../moduleRegistry.json')));
 
     var currentDir = path.basename(process.cwd());
-    var projectName = lingo.capitalize(currentDir.replace(/[\-_]+/gm, ' '));
+    var projectName = slang.capitalize(currentDir.replace(/[\-_]+/gm, ' '));
 
     var prompts = [{
         type: 'input',
