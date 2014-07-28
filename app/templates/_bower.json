@@ -13,8 +13,8 @@
     <% if (includeBourbon) { %>
     "bourbon": "*",
     <% } %>
-    "modernizr": "~2.7.x",
+    "modernizr": "~2.x",
     "jquery": "*",
-    "qunit": "~1.13.0"
+    "qunit": "~1.x"
   }
 }
