@@ -529,7 +529,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
 
     // Bootstrap
     if (this.includeBootstrap) {
-        this.copy('bootstrap/variables.scss', dir + 'source/styles/imports/bootstrap.scss');
+        this.copy('bootstrap/variables.scss', dir + 'source/styles/imports/bootstrap_variables.scss');
          
         // Write out the imports
         this.write(dir + 'source/styles/imports/bootstrap.scss', this.bootstrapCSS);

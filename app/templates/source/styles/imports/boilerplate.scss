@@ -10,5 +10,5 @@
 
 // Import bootstrap variables for use in all templates
 <% if (includeBootstrap) { %>
-@import "bootstrap.scss";
+@import "bootstrap_variables.scss";
 <% } %>
