@@ -197,7 +197,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         name: 'bootstrap',
         message: 'Include components from Twitter Bootstrap 3?',
         "default": false
-    },, {
+    }, {
         type: 'confirm',
         name: 'bourbon',
         message: 'Include Bourbon mixins (http://bourbon.io)?',
@@ -425,7 +425,7 @@ SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
 
                 // Determine if this value matches anything in the selected props array
                 var jsFile = _.isUndefined(_.find(props, function (val) {
-                    var test = new RegExp("^" + value.replace(/\.js$/, ''));
+                    var test = new RegExp('^' + value.replace(/\.js$/, ''));
                     return val.value.match(test);
                 }));
 
