@@ -20,7 +20,7 @@
     "grunt-contrib-qunit": "~0.4.x",
     "grunt-contrib-nodeunit": "*",
     "grunt-usemin": "~2.0.0",
-    "grunt-modernizr": "~0.4.0",
+    "grunt-modernizr": "~0.5.x",
     "grunt-newer": "~0.6.0",
     "grunt-svgmin": "~0.2.0",
     "grunt-sass": "~0.10.0",
