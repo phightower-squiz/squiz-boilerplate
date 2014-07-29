@@ -16,3 +16,7 @@ _tmp*
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# Generated Files #
+###################
+.last_check.txt

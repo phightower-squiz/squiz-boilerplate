@@ -26,6 +26,7 @@
       "email": "ttran@squiz.com.au"
     }
   ],
+  "private": true,
   "scripts": {
     "test": "mocha --reporter spec"
   },
@@ -35,10 +36,13 @@
     "url": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate.git"
   },
   "dependencies": {
-    "yeoman-generator": "~0.14.0",
+    "yeoman-generator": "~0.17.x",
     "slang": "*",
     "cheerio": "*",
-    "request": "*"
+    "request": "*",
+    "moment": "*",
+    "semver": "*",
+    "chalk": "*"
   },
   "peerDependencies": {
     "yo": ">=1.0.0"

@@ -9,6 +9,8 @@ var fs     = require('fs');
 var path   = require('path');
 var yeoman = require('yeoman-generator');
 var slang  = require('slang');
+var moment = require('moment');
+var chalk  = require('chalk');
 
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
@@ -110,6 +112,107 @@ function enforceEms(value, defaultValue) {
     return defaultValue;
 }//end enforceEms
 
+/**
+ * Update this repository to the latest version
+  */
+function updateVersion(yo, cb) {
+    // Only load these when required
+    var request = require('request');
+    var semver  = require('semver');
+    var current = yo.pkg.version;
+    var repoPath  = 'https://gitlab.squiz.net/boilerplate/squiz-boilerplate.git';
+    var remoteUrl = 'https://gitlab.squiz.net/boilerplate/squiz-boilerplate/raw/master/package.json';
+
+    request(remoteUrl, function(err, resp, html) {
+        if (err) {
+            throw chalk.red('Unable to read remote package url: ' + remoteUrl);
+        }//end if
+
+        var remotePkg = JSON.parse(html);
+
+        // Is this package out of date?
+        if (semver.lt(current, remotePkg.version)) {
+
+            var prompts = [{
+                type: 'confirm',
+                name: 'update',
+                message: 'The boilerplate is out of date (current: ' + chalk.cyan(current) + ', ' +
+                    'remote: ' + chalk.cyan(remotePkg.version) + ')' +
+                    '. Do you want to update it?',
+                'default': true
+            }, {
+                type: 'confirm',
+                name: 'auto',
+                message: 'Would you like the installer to try and update it automatically?',
+                'default': true
+            }];
+
+            yo.prompt(prompts, function (props) {
+                var options = ['install', '-g', 'git+' + repoPath];
+                if (props.update && props.auto) {
+                    // Run the update by manually spawning the npm install -g command
+                    var npm     = yo.spawnCommand('npm', options);
+                    yo.log.writeln('Updating repository...');
+                    npm.on('exit', function(err) {
+                        if (err === 1) {
+                            yo.log.writeln('Npm install failed, please run manually:');
+                            yo.log.writeln(chalk.yellow('\tnpm ' + options.join(' ')));
+                            process.exit(1);
+                        }//end if
+                        yo.log.writeln('All done, re-run the yeoman command to generate a new project');
+                        yo.log.writeln(chalk.yellow('\tyo squiz-boilerplate'));
+                        this.writeFileFromString(moment().toISOString(), path.resolve(__dirname, '../.last_check.txt'));
+                        process.exit(0);
+                    });
+                } else if (!props.auto) {
+                    yo.log.writeln('To update this generator manually run the following in your terminal:');
+                    yo.log.writeln(chalk.yellow('\tnpm ' + options.join(' ')));
+                    yo.log.writeln('Then re-launch the generator by running:');
+                    yo.log.writeln(chalk.yellow('\tyo squiz-boilerplate'));
+                } else {
+                    cb();
+                }//end if
+            });
+        } else {
+            yo.log.writeln(chalk.green('Up to date.'));
+            cb();
+        }//end if
+    });
+}
+
+/**
+ * Check for newer versions of this boilerplate
+  */
+SquizBoilerplateGenerator.prototype.versionCheck = function versionCheck() {
+    var cb = this.async();
+    this.log.writeln('Current Version: %s', this.pkg.version);
+
+    var tmpCheck  = path.join(__dirname, '../.last_check.txt');
+    var now       = moment();
+    var elapsed   = 2; // Maximum number of days to elapse before re-checking
+
+    if (fs.existsSync(tmpCheck)) {
+        var last = moment(this.readFileAsString(tmpCheck));
+        var diff = now.diff(last, 'days');
+        if (last.isValid() &&  diff > elapsed) {
+            this.log.writeln('Checking version... (Last checked: %s days ago)', chalk.red(diff));
+            updateVersion(this, function() {
+                this.writeFileFromString(now.toISOString(), tmpCheck);
+                cb();
+            }.bind(this));
+        } else {
+            cb();
+        }//end if
+    } else {
+        // No check has occured, it's likely it was just installed
+        this.writeFileFromString(now.toISOString(), tmpCheck);
+        cb();
+    }//end if
+};
+
+/**
+ * Run the generator prompts
+ */
 SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
     var _ = this._;
