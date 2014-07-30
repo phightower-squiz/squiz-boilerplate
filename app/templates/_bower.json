@@ -11,7 +11,7 @@
     "bootstrap-sass-official": "*",
     <% } %>
     <% if (includeBourbon) { %>
-    "bourbon": "*",
+    "bourbon": "3.x",
     <% } %>
     "modernizr": "~2.x",
     "jquery": "*",
