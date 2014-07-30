@@ -297,14 +297,18 @@ module.exports = function (grunt) {
     //////////////////
 
     tasks.modernizr = {
-        devFile: '<%= config.dest %>/js/vendor/modernizr.min.js',
-        outputFile: '<%= config.dest %>/js/vendor/modernizr.min.js',
-        files: [
-            '<%= config.dest %>/js/{,*/}*.js',
-            '<%= config.dest %>/styles/{,*/}*.css',
-            '!<%= config.dest %>/js/vendor/*'
-        ],
-        uglify: false
+        dist: {
+            devFile: '<%= config.dest %>/js/vendor/modernizr.min.js',
+            outputFile: '<%= config.dest %>/js/vendor/modernizr.min.js',
+            files: {
+                src: [
+                    '<%= config.dest %>/js/{,*/}*.js',
+                    '<%= config.dest %>/styles/{,*/}*.css',
+                    '!<%= config.dest %>/js/vendor/*'
+                ]
+            },
+            uglify: false
+        }
     };
 
     tasks.uglify = {
