@@ -18,7 +18,6 @@
     "grunt-contrib-imagemin": "~0.2.0",
     "grunt-contrib-watch": "~0.5.2",
     "grunt-contrib-qunit": "~0.4.x",
-    "grunt-contrib-nodeunit": "*",
     "grunt-usemin": "~2.0.0",
     "grunt-modernizr": "~0.5.x",
     "grunt-newer": "~0.6.0",

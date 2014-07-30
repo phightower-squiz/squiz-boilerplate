@@ -601,24 +601,6 @@ module.exports = function (grunt) {
         grunt.config('config').file_dest = 'files';
     });
 
-    tasks.nodeunit = {
-        all: ['test/*.js']
-    };
-
-    // Build tests
-    grunt.registerTask('build_test', [], function () {
-        grunt.loadNpmTasks('grunt-contrib-nodeunit');
-        grunt.task.run([
-            'clean:test',
-            'clean:tmp',
-            'set_test_config',
-            'build',
-            'nodeunit',
-            'clean:test',
-            'clean:distFragments'
-        ]);
-    });
-
     // HTTP server
     grunt.registerTask('serve', function () {
         grunt.loadNpmTasks('grunt-contrib-connect');

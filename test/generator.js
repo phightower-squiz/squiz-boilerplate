@@ -1,15 +1,16 @@
+/*global describe, beforeEach, it, before*/
 /**
  * Tests to figure out whether the generator itself is creating
  * the right files without errors
  */
-
-/*global describe, beforeEach, it*/
+'use strict';
 
 var path    = require('path');
 var rimraf  = require('rimraf');
 var helpers = require('yeoman-generator').test;
 var tmpDir  = path.join(__dirname, 'tmp');
 var assert  = require('assert');
+var exec    = require('child_process').exec;
 
 var testProject = {
     name: 'My Test Project',
@@ -23,22 +24,20 @@ var testProject = {
     mediumMQ: '37.5em',
     wideMQ: '60em',
     ie8: false,
+    bourbon: true,
     ieConditionals: false,
     unitTest: false,
     modules: []
 };
 
-function clearTmpDir(done) {
-    // 5 mins to clear directory
-    this.timeout(5*60*1000);
-    rimraf(tmpDir, done);
-}
-
 describe('Squiz Boilerplate generator test', function () {
 
     // Make sure we've cleaned up for testing
-    before(clearTmpDir);
-    //after(clearTmpDir);
+    before(function clearTmpDir(done) {
+        // 5 mins to clear directory
+        this.timeout(5*60*1000);
+        rimraf(tmpDir, done);
+    });
 
     beforeEach(function (done) {
         this.timeout(10*60*1000);
@@ -107,6 +106,7 @@ describe('Squiz Boilerplate generator test', function () {
             dir + 'source/styles/imports/placeholders.scss',
             dir + 'source/styles/imports/utilities.scss',
             dir + 'source/styles/imports/variables.scss',
+            dir + 'source/styles/imports/bourbon.scss',
             dir + 'tasks/boilerplate-importer.js',
             dir + 'tasks/boilerplate-substitute.js',
             dir + 'tasks/htmlcs.js',
@@ -181,7 +181,7 @@ describe('Squiz Boilerplate generator test', function () {
 
             // We need each module selected to appear in the bower.json
             expected.push(
-                [tmpDir + '/bower.json', new RegExp("\\s{4}\"" + prop + "\": \"(.*)\"", "g")]
+                [tmpDir + '/bower.json', new RegExp('\\s{4}"' + prop + '": "(.*)"', 'g')]
             );
         }//end for
         testProject.modules = modules;
@@ -231,7 +231,16 @@ describe('Squiz Boilerplate generator test', function () {
                 tmpDir + '/source/bower_components/squiz-module-google-analytics/bower.json'
             ]);
 
-            done();
+            var cwd = process.cwd();
+            process.chdir(tmpDir);
+            assert(process.cwd() === tmpDir, 'The current working directory was changed correctly');
+
+            exec('grunt optimise', function(err, stdout, stderr) {
+                console.log(stdout, stderr);
+                assert(typeof(err) !== 'undefined', 'The optimise phase has run without error');
+                process.chdir(cwd);
+                done();
+            });
         }.bind(this));
     });
 });
