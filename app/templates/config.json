@@ -19,5 +19,24 @@
         "Opera 12.1",
         <% if (ie8) { %>"IE 8",<% } %>
         "IE 9"
-    ]
+    ],
+    "defer": {
+        "test": {
+            "grunt-contrib-jshint": "0.10.0",
+            "grunt-contrib-qunit": "0.5.2",
+            "grunt-html-validation": "0.1.18",
+            "grunt-lib-phantomjs": "*"
+        },
+        "optimise": {
+            "grunt-contrib-imagemin": "0.7.1",
+            "grunt-contrib-cssmin": "0.10.0",
+            "grunt-contrib-uglify": "0.5.1",
+            "grunt-autoprefixer": "*",
+            "grunt-modernizr": "*",
+            "grunt-svgmin": "0.4.0",
+            "grunt-cssbeautifier": "0.1.2",
+            "grunt-prettify": "0.3.5",
+            "grunt-jsbeautifier": "0.2.7"
+        }
+    }
 }

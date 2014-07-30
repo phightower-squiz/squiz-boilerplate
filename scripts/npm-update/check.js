@@ -9,6 +9,7 @@ var chalk  = require('chalk');
 var exec   = require('child_process').exec;
 
 var pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../', 'app/templates/_package.json'), 'utf8'));
+var config = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../', 'app/templates/config.json'), 'utf8'));
 
 var checks = [];
 
@@ -32,9 +33,15 @@ function checkVersion(name, version) {
 
 for (var pkgName in pkg.dependencies) {
     checks.push(checkVersion(pkgName, pkg.dependencies[pkgName]));
-}//end ofr
+}//end for
 
-console.log('Checking npm versions for ' + chalk.yellow('app/templates/_package.json'));
+for (var type in config.defer) {
+    for (var pkgName in config.defer[type]) {
+        checks.push(checkVersion(pkgName, config.defer[type][pkgName]));
+    }//end for
+}
+
+console.log('Checking npm versions...');
 async.parallel(checks, function done() {
     console.log('All Done.');
 });

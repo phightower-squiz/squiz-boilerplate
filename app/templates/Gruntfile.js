@@ -8,6 +8,9 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
+    // Deferred loading of grunt tasks from NPM
+    var defer = require('./lib/defer.js');
+
     // Task config
     var tasks = {};
 
@@ -539,31 +542,22 @@ module.exports = function (grunt) {
 
     // Run optimisation tasks
     grunt.registerTask('optimise', [], function() {
-        _.each([
-            'grunt-contrib-imagemin',
-            'grunt-contrib-cssmin',
-            'grunt-contrib-uglify',
-            'grunt-svgmin',
-            'grunt-modernizr',
-            'grunt-jsbeautifier',
-            'grunt-prettify',
-            'grunt-cssbeautifier',
-            'grunt-autoprefixer'
-        ], function(task) {
-            grunt.loadNpmTasks(task);
+        var done = this.async();
+        defer(tasks.pkg, tasks.config.defer.optimise, grunt, function() {
+            var optimiseTasks = [
+                'modernizr',
+                'cssmin',
+                'imagemin',
+                'svgmin',
+                'uglify',
+                'prettify'
+            ];
+            if (tasks.config.autoprefixer) {
+                optimiseTasks.push('autoprefixer');
+            }
+            grunt.task.run(optimiseTasks);
+            done();
         });
-        var optimiseTasks = [
-            'modernizr',
-            'cssmin',
-            'imagemin',
-            'svgmin',
-            'uglify',
-            'prettify'
-        ];
-        if (tasks.config.autoprefixer) {
-            optimiseTasks.push('autoprefixer');
-        }
-        grunt.task.run(optimiseTasks);
     });
 
     ///////////
@@ -572,10 +566,11 @@ module.exports = function (grunt) {
 
     // Code Quality Tests
     grunt.registerTask('test', [], function () {
-        grunt.loadNpmTasks('grunt-contrib-jshint');
-        grunt.loadNpmTasks('grunt-contrib-qunit');
-        grunt.loadNpmTasks('grunt-html-validation');
-        grunt.task.run(['jshint', 'validation', 'htmlcs', 'qunit']);
+        var done = this.async();
+        defer(tasks.pkg, tasks.config.defer.test, grunt, function() {
+            grunt.task.run(['jshint', 'validation', 'htmlcs', 'qunit']);
+            done();
+        });
     });
 
     // Setup test config
