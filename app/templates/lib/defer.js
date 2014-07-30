@@ -28,14 +28,21 @@ module.exports = function defer(pkg, additional, grunt, done) {
         return !exists;
     });
 
+    if (newDeps.length >= 1) {
+        console.log('+ ------------------------------------------- +');
+        console.log('|    Loading dependencies, please wait...     |');
+        console.log('| (this should only happen on the first run)  |');
+        console.log('+ ------------------------------------------- +');
+    }//end if
+
     async.eachSeries(newDeps, function(item, next) {
         var command = 'npm install ' + item.name + '@' +item.version + ' --save';
-        console.log('Installing deferred dependency via NPM (%s)', command);
+        console.log('Installing via NPM (%s)', command);
         var npm = exec(command, function(err, stdout, stderr) {
-            console.log(stdout);
             if (err) {
                 throw stderr;
             }
+            grunt.loadNpmTasks(item.name);
         });
         npm.on('exit', next);
     }, done);
