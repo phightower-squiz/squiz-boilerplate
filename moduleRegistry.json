@@ -47,6 +47,10 @@
     "name": "Accessible Skip Links for Squiz Boilerplate",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.0.2"
   },
+  "squiz-module-spritesheet": {
+    "name": "SVG Spritesheet helper classes with PNG fallback",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.0.1"
+  },
   "squiz-module-typeahead": {
     "name": "Twitter typeahead module for boilerplate",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-typeahead.git#0.0.2"
