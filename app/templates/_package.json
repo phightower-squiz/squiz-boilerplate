@@ -32,6 +32,7 @@
     "grunt-jsbeautifier": "0.2.3",
     "grunt-prettify": "0.3.x",
     "grunt-lib-phantomjs": "*",
+    "grunt-autoprefixer": "*",
     "regexp-quote": "*",
     "lodash": "~2.4.1",
     "async": "~0.2.5"

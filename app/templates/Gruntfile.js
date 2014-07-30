@@ -384,6 +384,20 @@ module.exports = function (grunt) {
         }
     };
 
+    tasks.autoprefixer = {
+        dist: {
+            options: {
+                browsers: tasks.config.browsers
+            },
+            files: [{
+                expand: true,
+                cwd: '<%= config.dest %>/styles',
+                src: '*.css',
+                dest: '<%= config.dest %>/styles'
+            }]
+        }
+    };
+
     ///////////
     // Tests //
     ///////////
@@ -533,18 +547,23 @@ module.exports = function (grunt) {
             'grunt-modernizr',
             'grunt-jsbeautifier',
             'grunt-prettify',
-            'grunt-cssbeautifier'
+            'grunt-cssbeautifier',
+            'grunt-autoprefixer'
         ], function(task) {
             grunt.loadNpmTasks(task);
         });
-        grunt.task.run([
+        var optimiseTasks = [
             'modernizr',
             'cssmin',
             'imagemin',
             'svgmin',
             'uglify',
             'prettify'
-        ]);
+        ];
+        if (tasks.config.autoprefixer) {
+            optimiseTasks.push('autoprefixer');
+        }
+        grunt.task.run(optimiseTasks);
     });
 
     ///////////
