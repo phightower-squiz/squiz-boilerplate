@@ -84,6 +84,12 @@ This will remove any content output in the destination directory. Useful for pur
 
 # Revision History
 
+## `2.1.0`
+* Added deferred module loading for `test` and `optimise` grunt tasks
+* Bourbon added as an install oppion
+* Now prompts to create a directory via the generator
+* Version checking performed every 2 days to warn if the generator is out of date when it is run
+
 ## `2.0.7`
 * Favicon re-worked to pass validation
 * X-Compatible-UA meta tag removed to pass validation (add in only if necessary)
