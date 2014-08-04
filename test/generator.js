@@ -45,6 +45,7 @@ var options = {
 describe('Squiz Boilerplate generator test', function () {
 
     var runGen;
+    var dummy = helpers.createDummyGenerator();
 
     // Make sure we've cleaned up for testing
     before(function clearTmpDir(done) {
@@ -59,7 +60,7 @@ describe('Squiz Boilerplate generator test', function () {
         runGen = helpers
             .run(path.join(__dirname, '../app'))
             .inDir(tmpDir)
-            .withGenerators([[helpers.createDummyGenerator(), 'squiz-boilerplate:app']]);
+            .withGenerators([[dummy, 'squiz-boilerplate:app']]);
 
         done();
     });
@@ -76,11 +77,6 @@ describe('Squiz Boilerplate generator test', function () {
         testProject.customDirectory = 'gen';
 
         var dir = tmpDir + '/gen/';
-
-        var expectedContent = [
-            [dir + 'package.json', /"name": "my-test-project"/],
-            [dir + '/bower.json', /"name": "my-test-project"/]
-        ];
 
         var expected = [
             dir + '.bowerrc',
@@ -115,14 +111,15 @@ describe('Squiz Boilerplate generator test', function () {
             dir + 'source/html/_head.html',
             dir + 'source/html/_foot.html',
             dir + 'source/html/index.html'
-        ];
+       ];
 
         runGen
             .withOptions(options)
             .withPrompt(testProject)
             .on('end', function() {
                 assert.file(expected);
-                assert.fileContent(expectedContent);
+                assert.fileContent(dir + 'package.json', /"name": "my-test-project"/);
+                assert.fileContent(dir + '/bower.json', /"name": "my-test-project"/);
                 done();
             });
     });
@@ -132,15 +129,11 @@ describe('Squiz Boilerplate generator test', function () {
         testProject.createDirectory = false;
         testProject.customDirectory = '';
 
-        var expected = [
-            [tmpDir + '/package.json', /"name": "my-test-project"/]
-        ];
-
         runGen
             .withOptions(options)
             .withPrompt(testProject)
             .on('end', function() {
-                assert.fileContent(expected);
+                assert.fileContent(tmpDir + '/package.json', /"name": "my-test-project"/);
                 done();
             });
     });
@@ -166,16 +159,13 @@ describe('Squiz Boilerplate generator test', function () {
             tmpDir + '/source/styles/imports/bootstrap_variables.scss'
         ];
 
-        var expectedContent = [
-            [tmpDir + '/source/styles/imports/bootstrap.scss', /\n@import "bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/type";/]
-        ];
-
         ///////////////////
         // Squiz Modules //
         ///////////////////
 
         var moduleRegistry = JSON.parse(fs.readFileSync(path.join(__dirname, '../moduleRegistry.json'), 'utf8'));
         var modules = [];
+        var moduleContent = [];
 
         // Loop all of the modules and make them selected
         for (var prop in moduleRegistry) {
@@ -185,7 +175,7 @@ describe('Squiz Boilerplate generator test', function () {
             });
 
             // We need each module selected to appear in the bower.json
-            expectedContent.push(
+            moduleContent.push(
                 [tmpDir + '/bower.json', new RegExp('\\s{4}"' + prop + '": "(.*)"', 'g')]
             );
         }//end for
@@ -198,7 +188,10 @@ describe('Squiz Boilerplate generator test', function () {
             .withPrompt(testProject)
             .on('end', function() {
                 assert.file(expected);
-                //assert.fileContent(expectedContent);
+                //assert.fileContent(tmpDir + '/source/styles/imports/bootstrap.scss', /\n@import "bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/type";/);
+                moduleContent.forEach(function(value){
+                    assert.fileContent.apply(this, value);
+                });
                 done();
             });
     });
@@ -217,27 +210,29 @@ describe('Squiz Boilerplate generator test', function () {
                 })
             )
             .withPrompt(testProject)
-            .on('buildComplete', function() {
-                assert.file([
-                    tmpDir + '/Gruntfile.js',
-                    tmpDir + '/dist/index.html',
-                    tmpDir + '/dist/mysource_files/robots.txt',
-                    tmpDir + '/dist/js/vendor/jquery.min.js',
-                    tmpDir + '/dist/js/vendor/modernizr.min.js',
-                    tmpDir + '/dist/js/global.js',
-                    tmpDir + '/dist/js/plugins.min.js',
+            .on('end', function() {
+                this.generator.on('buildComplete', function() {
+                    assert.file([
+                        tmpDir + '/Gruntfile.js',
+                        tmpDir + '/dist/index.html',
+                        tmpDir + '/dist/mysource_files/robots.txt',
+                        tmpDir + '/dist/js/vendor/jquery.min.js',
+                        tmpDir + '/dist/js/vendor/modernizr.min.js',
+                        tmpDir + '/dist/js/global.js',
+                        tmpDir + '/dist/js/plugins.min.js',
 
-                    // Bower squiz modules
-                    tmpDir + '/source/bower_components/squiz-module-google-analytics/bower.json'
-                ]);
+                        // Bower squiz modules
+                        tmpDir + '/source/bower_components/squiz-module-google-analytics/bower.json'
+                    ]);
 
-                assert.fileContent([
-                    tmpDir + '/dist/styles/main.css',
-                    // The content exists with keyword replacements
-                    / \* file:    main\.css/
-                ]);
+                    assert.fileContent(tmpDir + '/dist/styles/main.css',
+                        // The content exists with keyword replacements
+                        / \* file:    main\.css/);
 
-                done();
+                    done();
+                });
+                
+                
             });
 
         // this.webapp.on('buildComplete', function() {
