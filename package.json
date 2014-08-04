@@ -50,7 +50,8 @@
   "devDependencies": {
     "mocha": "*",
     "rimraf": "*",
-    "async": "*"
+    "async": "*",
+    "lodash": "*"
   },
   "engines": {
     "node": ">=0.8.0",
