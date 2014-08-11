@@ -2,14 +2,26 @@
 
 module.exports = function (grunt) {
 
-    // Load grunt tasks automatically
-    //require('load-grunt-tasks')(grunt, {pattern: ['grunt-*', '!grunt-lib-*']});
-
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
     // Deferred loading of grunt tasks from NPM
-    var defer = require('./lib/defer.js');
+    require('./lib/defer.js')(grunt, [
+        'grunt-contrib-connect',
+        'grunt-contrib-jshint',
+        'grunt-contrib-qunit',
+        'grunt-contrib-imagemin',
+        'grunt-contrib-cssmin',
+        'grunt-contrib-uglify',
+        'grunt-autoprefixer',
+        'grunt-modernizr',
+        'grunt-svgmin',
+        'grunt-cssbeautifier',
+        'grunt-prettify',
+        'grunt-jsbeautifier',
+        { 'grunt-html-validation': ['validation'] },
+        { 'grunt-lib-phantomjs': ['htmlcs', 'qunit'] }
+    ]);
 
     // Task config
     var tasks = {};
@@ -328,21 +340,21 @@ module.exports = function (grunt) {
         }
     };
 
-    tasks.imagemin = {
-        dist: {
-            files: [{
-                expand: true,
-                cwd: '<%= config.dest %>/<%= config.file_dest %>',
-                src: '{,*/}*.{gif,jpeg,jpg,png}',
-                dest: '<%= config.dest %>/<%= config.file_dest %>'
-            }, {
-                expand: true,
-                cwd: '<%= config.dest %>/styles/<%= config.file_dest %>',
-                src: '{,*/}*.{gif,jpeg,jpg,png}',
-                dest: '<%= config.dest %>/styles/<%= config.file_dest %>'
-            }]
-        }
-    };
+    // tasks.imagemin = {
+    //     dist: {
+    //         files: [{
+    //             expand: true,
+    //             cwd: '<%= config.dest %>/<%= config.file_dest %>',
+    //             src: '{,*/}*.{gif,jpeg,jpg,png}',
+    //             dest: '<%= config.dest %>/<%= config.file_dest %>'
+    //         }, {
+    //             expand: true,
+    //             cwd: '<%= config.dest %>/styles/<%= config.file_dest %>',
+    //             src: '{,*/}*.{gif,jpeg,jpg,png}',
+    //             dest: '<%= config.dest %>/styles/<%= config.file_dest %>'
+    //         }]
+    //     }
+    // };
 
     tasks.svgmin = {
         dist: {
@@ -534,77 +546,30 @@ module.exports = function (grunt) {
     grunt.initConfig(tasks);
 
     // Load any tasks from the tasks directory
-    grunt.loadTasks('tasks');
-
-    // Load global tasks
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-clean');
+    //grunt.loadTasks('tasks');
 
     // Run optimisation tasks
-    grunt.registerTask('optimise', [], function() {
-        var done = this.async();
-        defer(tasks.pkg, tasks.config.defer.optimise, grunt, function() {
-            var optimiseTasks = [
-                'modernizr',
-                'cssmin',
-                'imagemin',
-                'svgmin',
-                'uglify',
-                'prettify'
-            ];
-            if (tasks.config.autoprefixer) {
-                optimiseTasks.push('autoprefixer');
-            }
-            grunt.task.run(optimiseTasks);
-            done();
-        });
-    });
+    var optimiseTasks = [
+        'modernizr',
+        'cssmin',
+        'svgmin',
+        'uglify',
+        'prettify'
+    ];
+    if (tasks.config.autoprefixer) {
+        optimiseTasks.push('autoprefixer');
+    }//end if
+    grunt.registerTask('optimise', optimiseTasks);
 
     ///////////
     // Tests //
     ///////////
 
     // Code Quality Tests
-    grunt.registerTask('test', [], function () {
-        var done = this.async();
-        defer(tasks.pkg, tasks.config.defer.test, grunt, function() {
-            grunt.task.run(['jshint', 'validation', 'htmlcs', 'qunit']);
-            done();
-        });
-    });
-
-    // Setup test config
-    grunt.registerTask('set_test_config', 'Alter the configuration for testing', function () {
-
-        // Copy the html source file into it's location for testing. It'll be picked up
-        // by the default build functions
-        var htmlSourceFile = grunt.config('config').source + '/html/_test.html';
-        grunt.file.copy('test/fixtures/index.html', htmlSourceFile);
-        grunt.config('boilerplate-importer').html.files = htmlSourceFile;
-        grunt.config('copy').html.src = '_test.html';
-
-        // These variables are output to the resulting template by default, replace them
-        // with something expected that can be tested
-        tasks.pkg.version = '0.0.0';
-        tasks.pkg.name = 'boilerplate-test';
-        var sub = grunt.config('substitute');
-        sub.template.options.replacements = _.extend(sub.template.options.replacements, tasks.pkg);
-        sub.html.options.replacements = _.extend(sub.html.options.replacements, tasks.pkg);
-        grunt.config('substitute', sub);
-
-        // Output a predictable file destination variable
-        grunt.config('config').file_dest = 'files';
-    });
+    grunt.registerTask('test', ['jshint', 'validation', 'htmlcs', 'qunit']);
 
     // HTTP server
-    grunt.registerTask('serve', function () {
-        grunt.loadNpmTasks('grunt-contrib-connect');
-        grunt.task.run([
-            'build',
-            'connect:livereload',
-            'watch'
-        ]);
-    });
+    grunt.registerTask('serve', ['build', 'connect:livereload', 'watch']);
 
     // Task for adding module banner headings to usemin prepared concatenations
     grunt.registerTask('add_module_banners', 'Adds comment banners to the top of each module js file', function () {
@@ -653,7 +618,7 @@ module.exports = function (grunt) {
             }//end if
             subs.forEach(function (sub) {
                 var content = grunt.file.read(file);
-                var keyword = new RegExp("{{" + sub.name + "}}", "gim");
+                var keyword = new RegExp('{{' + sub.name + '}}', 'gim');
                 var newContent = content.replace(keyword, sub.content);
                 if (content !== newContent) {
                     grunt.log.writeln('Replacing ' + sub.name.green + ' in file ' + file.cyan);
@@ -664,70 +629,56 @@ module.exports = function (grunt) {
     });
 
     // Build only the tasks necessary when JS is edited
-    grunt.registerTask('build_js', [], function () {
-        _.each([
-            'grunt-contrib-concat',
-            'grunt-contrib-copy',
-            'grunt-regex-replace',
-            'grunt-contrib-jshint',
-            'grunt-usemin'
-        ], function(task) {
-            grunt.loadNpmTasks(task);
-        });
-        grunt.task.run([
-            'jshint',
-            'copy:html',
-            'regex-replace:comments',
-            'substitute:html',
-            'boilerplate-importer',
-            'useminPrepare',
-            'add_module_banners',
-            'concat',
-            'substitute',
-            'regex-replace',
-            'usemin',
-            'substitute_file_fragments',
-            'clean:distFragments'
-        ]);
-    });
+    grunt.registerTask('build_js', [
+        'jshint',
+        'copy:html',
+        'regex-replace:comments',
+        'substitute:html',
+        'boilerplate-importer',
+        'useminPrepare',
+        'add_module_banners',
+        'concat',
+        'substitute',
+        'regex-replace',
+        'usemin',
+        'substitute_file_fragments',
+        'clean:distFragments'
+    ]);
 
     // Defer load of required npm tasks
-    // https://github.com/gruntjs/grunt/issues/975
-    grunt.registerTask('build', [], function () {
-        _.each([
-            'grunt-contrib-concat',
-            'grunt-contrib-copy',
-            'grunt-regex-replace',
-            'grunt-sass',
-            'grunt-usemin',
-            'grunt-newer'
-        ], function(task) {
-            grunt.loadNpmTasks(task);
-        });
-        grunt.task.run([
-            'copy:html',
-            'regex-replace:comments',
-            'substitute:html',
-            'boilerplate-importer',
-            'newer:copy:files',
-            'newer:copy:favicon',
-            'newer:copy:moduleFiles',
-            'newer:copy:moduleCSSFiles',
-            'newer:copy:moduleFonts',
-            'sass',
-            'useminPrepare',
-            'add_module_banners',
-            'concat',
-            'substitute',
-            'regex-replace',
-            'usemin',
-            'substitute_file_fragments',
-            'clean:distFragments'
-        ])
-    });
+    grunt.registerTask('build', [
+        'copy:html',
+        'regex-replace:comments',
+        'substitute:html',
+        'boilerplate-importer',
+        'newer:copy:files',
+        'newer:copy:favicon',
+        'newer:copy:moduleFiles',
+        'newer:copy:moduleCSSFiles',
+        'newer:copy:moduleFonts',
+        'sass',
+        'useminPrepare',
+        'add_module_banners',
+        'concat',
+        'substitute',
+        'regex-replace',
+        'usemin',
+        'substitute_file_fragments',
+        'clean:distFragments'
+    ]);
 
     // Run the whole lot
     grunt.registerTask('all', ['build', 'optimise', 'test']);
 
     grunt.registerTask('default', ['build']);
+
+    require('jit-grunt')(grunt, {
+        validation:             'grunt-html-validation',
+        substitute:             'tasks/boilerplate-substitute.js',
+        htmlcs:                 'tasks/htmlcs.js',
+        'boilerplate-importer': 'tasks/boilerplate-importer.js'
+    });
+
+    // Not compatible with jit-grunt
+    grunt.loadNpmTasks('grunt-usemin');
 };
