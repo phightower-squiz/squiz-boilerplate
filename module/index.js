@@ -3,10 +3,15 @@
  */
 'use strict';
 
-var util = require('util');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var slang  = require('slang');
+var util    = require('util');
+var path    = require('path');
+var fs      = require('fs');
+var async   = require('async');
+var yeoman  = require('yeoman-generator');
+var exec    = require('child_process').exec;
+var slang   = require('slang');
+var chalk   = require('chalk');
+var pkgRoot = path.resolve(process.cwd(), 'source/bower_components');
 
 var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenerator() {
     yeoman.generators.Base.apply(this, arguments);
@@ -15,17 +20,45 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+    this.registry = JSON.parse(this.readFileAsString(path.join(__dirname, '../moduleRegistry.json')));
 };
 
 util.inherits(SquizBoilerplateGenerator, yeoman.generators.Base);
 
 SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     var cb = this.async();
+    var prompts = [{
+        type: 'list',
+        name: 'type',
+        message: 'Do you want a custom module, or use an existing module?',
+        choices: [{
+            name: 'I want to create a new custom module',
+            checked: true,
+            value: 'custom'
+        },{
+            name: 'I want to pick an existing Squiz Boilerplate Module',
+            checked: false,
+            value: 'existing'
+        }]
+    }];
+
+    this.prompt(prompts, function (props) {
+        this.type = props.type;
+        cb();
+    }.bind(this));
+};
+
+SquizBoilerplateGenerator.prototype.createCustomModule = function() {
+    var cb = this.async();
+    if (this.type !== 'custom') {
+        cb();
+        return;
+    }//end if
+
     var _ = this._;
+    var self = this;
 
     var dest = 'source/modules/';
-
-    var registry = JSON.parse(this.readFileAsString(path.join(__dirname, '../moduleRegistry.json')));
 
     var prompts = [{
         type: 'input',
@@ -39,8 +72,8 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
 
             var prefix = 'squiz-module-';
 
-            if (_.has(registry, prefix + slug)) {
-                var existingModule = registry[prefix + slug];
+            if (_.has(self.registry, prefix + slug)) {
+                var existingModule = self.registry[prefix + slug];
                 return 'There is already a module registered with this name "' +
                     (prefix + slug) + ' (' + existingModule.name + ')' +
                      '", please specify a different name';
@@ -156,32 +189,124 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     }.bind(this));
 };
 
-SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
-    this.mkdir(this.dir);
+function isModuleInstalled(name) {
+    return fs.existsSync(path.resolve(pkgRoot, name));
+}
 
-    this.template('css/variables.scss', this.dir + '/css/variables.scss');
-    this.template('README.md', this.dir + '/README.md');
-    this.template('_bower.json', this.dir + '/bower.json');
+SquizBoilerplateGenerator.prototype.pickExistingModule = function() {
+    var cb = this.async();
+    if (this.type !== 'existing') {
+        cb();
+        return;
+    }//end if
 
-    // Copy the core example stylesheet with each specified varation
-    this._.each(this.stylesheets, function (sassFile) {
-        this.template('css/styles.scss', this.dir + '/css/' + sassFile.name);
+    var _ = this._;
+    var self = this;
+
+    // Prompt for the available list of modules
+    var prompts = [{
+        type: 'checkbox',
+        name: 'modules',
+        message: 'Select the Squiz modules you would like to use (or de-select those you want to remove)',
+        choices: _.map(self.registry, function (config, name) {
+            var installed = isModuleInstalled(name);
+            return {
+                name: config.name,
+                checked: installed,
+                value: {
+                    name: name,
+                    installed:  installed,
+                    repository: config.repository
+                }
+            };
+        })
+    }, {
+        type: 'confirm',
+        name: 'exitPrompt',
+        message: 'You\'ve select to remove module/s, are you sure you want to do this?',
+        when: function (props) {
+            self.removeModules =
+                _.chain(self.registry)
+                .map(function (config, id) {
+                    config.id = id;
+                    return config;
+                })
+                .filter(function (config) {
+                    return isModuleInstalled(config.id) && !_.any(props.modules, { name: config.id });
+                })
+                .value();
+            return _.size(self.removeModules) >= 1;
+        },
+        'default': false
+    }];
+
+    this.prompt(prompts, function (props) {
+        this.modules = props.modules;
+        cb();
     }.bind(this));
+};
 
-    if (this.javascript) {
-        this.template('js/global.js', this.dir + '/js/global.js');
-        if (this.jqueryPlugin) {
-            this.template('js/plugin.js', this.dir + '/js/plugin.js');
+SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
+    var _ = this._;
+    if (this.type === 'custom') {
+        // It's a custom module, create it based on user choices
+        this.mkdir(this.dir);
+
+        this.template('css/variables.scss', this.dir + '/css/variables.scss');
+        this.template('README.md', this.dir + '/README.md');
+        this.template('_bower.json', this.dir + '/bower.json');
+
+        // Copy the core example stylesheet with each specified varation
+        this._.each(this.stylesheets, function (sassFile) {
+            this.template('css/styles.scss', this.dir + '/css/' + sassFile.name);
+        }.bind(this));
+
+        if (this.javascript) {
+            this.template('js/global.js', this.dir + '/js/global.js');
+            if (this.jqueryPlugin) {
+                this.template('js/plugin.js', this.dir + '/js/plugin.js');
+            }//end if
         }//end if
-    }//end if
 
-    if (this.html) {
-        this.template('html/index.html', this.dir + '/html/index.html');
-    }//end if
+        if (this.html) {
+            this.template('html/index.html', this.dir + '/html/index.html');
+        }//end if
 
-    if (this.unitTests) {
-        this.mkdir(this.dir + '/tests');
-        this.template('tests/spec.html', this.dir + '/tests/spec.html');
-        this.template('tests/spec.js', this.dir + '/tests/spec.js');
+        if (this.unitTests) {
+            this.mkdir(this.dir + '/tests');
+            this.template('tests/spec.html', this.dir + '/tests/spec.html');
+            this.template('tests/spec.js', this.dir + '/tests/spec.js');
+        }//end if
+    } else {
+        var allModules = _.map(this.registry, function (config, name) {
+            config.id = name;
+            return config;
+        });
+
+        // Process modules to be installed/removed via bower
+        async.forEachSeries(allModules, function(module, next) {
+            var installed = isModuleInstalled(module.id);
+            var remove    = installed && _.any(this.removeModules, { id: module.id });
+            var install   = !installed && _.any(this.modules, { name: module.id });
+            if (remove) {
+                console.log(chalk.red('Removing module: ') + chalk.yellow(module.id));
+                exec('bower ' + ['uninstall', module.id, '--save'].join(' '), function(err) {
+                    next(err);
+                });
+            } else if (install) {
+                console.log(chalk.green('Installing module: ') + chalk.yellow(module.id));
+                exec('bower ' + ['install', module.repository, '--save', '--force-latest'].join(' '), function(err) {
+                        next(err);
+                    });
+            } else {
+                next();
+            }//end if
+        }.bind(this), function(err) {
+            if (err) {
+                console.log(chalk.red('Install issues encountered.'));
+            } else {
+                console.log(chalk.green('Done.'));
+            }
+        });
     }//end if
 };
