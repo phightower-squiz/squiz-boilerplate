@@ -11,7 +11,8 @@ var fs      = require('fs');
 var helpers = require('yeoman-generator').test;
 var assert  = require('yeoman-generator').assert;
 var tmpDir  = path.join(__dirname, 'tmp');
-//var exec    = require('child_process').exec;
+var exec    = require('child_process').exec;
+var async   = require('async');
 var _       = require('lodash');
 
 var testProject = {
@@ -46,6 +47,19 @@ describe('Squiz Boilerplate generator test', function () {
 
     var runGen;
     var dummy = helpers.createDummyGenerator();
+
+    function runInstall(cb) {
+        runGen
+            .withOptions(
+                _.extend(options, {
+                    'skip-install': false
+                })
+            )
+            .withPrompt(testProject)
+            .on('end', function() {
+                this.generator.on('buildComplete', cb);
+            });
+    }
 
     // Make sure we've cleaned up for testing
     before(function clearTmpDir(done) {
@@ -203,54 +217,41 @@ describe('Squiz Boilerplate generator test', function () {
         testProject.createDirectory = false;
         testProject.customDirectory = '';
 
-        runGen
-            .withOptions(
-                _.extend(options, {
-                    'skip-install': false
-                })
-            )
-            .withPrompt(testProject)
-            .on('end', function() {
-                this.generator.on('buildComplete', function() {
-                    assert.file([
-                        tmpDir + '/Gruntfile.js',
-                        tmpDir + '/dist/index.html',
-                        tmpDir + '/dist/mysource_files/robots.txt',
-                        tmpDir + '/dist/js/vendor/jquery.min.js',
-                        tmpDir + '/dist/js/vendor/modernizr.min.js',
-                        tmpDir + '/dist/js/global.js',
-                        tmpDir + '/dist/js/plugins.min.js',
+        runInstall(function(){
 
-                        // Bower squiz modules
-                        tmpDir + '/source/bower_components/squiz-module-google-analytics/bower.json'
-                    ]);
+            assert.file([
+                tmpDir + '/Gruntfile.js',
+                tmpDir + '/dist/index.html',
+                tmpDir + '/dist/mysource_files/robots.txt',
+                tmpDir + '/dist/js/vendor/jquery.min.js',
+                tmpDir + '/dist/js/vendor/modernizr.min.js',
+                tmpDir + '/dist/js/global.js',
+                tmpDir + '/dist/js/plugins.min.js',
 
-                    assert.fileContent(tmpDir + '/dist/styles/main.css',
-                        // The content exists with keyword replacements
-                        / \* file:    main\.css/);
+                // Bower squiz modules
+                tmpDir + '/source/bower_components/squiz-module-google-analytics/bower.json'
+            ]);
 
-                    done();
+            assert.fileContent(tmpDir + '/dist/styles/main.css',
+                // The content exists with keyword replacements
+                / \* file:    main\.css/);
+
+            // Run grunt tasks
+            async.forEachSeries(['optimise', 'test'], function(task, next) {
+                console.log('Excuting: `grunt ' + task + '`');
+                var gp = exec('grunt ' + task, {}, function(err) {
+                    assert(typeof(err) !== null, 'The ' + task + ' task has run without error');
+                    next();
                 });
-                
-                
-            });
 
-        // this.webapp.on('buildComplete', function() {
-            
+                gp.stdout.on('data', function(data) {
+                    console.log(data);
+                });
 
-        //     // var cwd = process.cwd();
-        //     // process.chdir(tmpDir);
-        //     // assert(process.cwd() === tmpDir, 'The current working directory was changed correctly');
-
-        //     // exec('grunt optimise', function(err, stdout, stderr) {
-        //     //     console.log(stdout, stderr);
-        //     //     assert(typeof(err) !== 'undefined', 'The optimise phase has run without error');
-        //     //     process.chdir(cwd);
-        //     //     done();
-        //     // });
-        //     // @todo - this has proven difficult to test, doesn't seem to run well under `npm test`, but runs
-        //     // fine when done manually :/ Could be a path issue.
-        //     done();
-        // }.bind(this));
+                gp.stderr.on('data', function(data) {
+                    console.log(data);
+                });
+            }, done);
+        });
     });
 });
