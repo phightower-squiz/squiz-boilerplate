@@ -83,6 +83,12 @@ textarea {
 @-ms-viewport{
     width: device-width;
 }
+
+// Print style that shouldn't belong to print.scss to avoid the css beautifier from killing
+// the @ syntax inside media queries
+@page {
+    margin: 0.5cm;
+}
 <% if (includeBootstrap) { %>
 
 /*

@@ -664,7 +664,8 @@ module.exports = function (grunt) {
         'regex-replace',
         'usemin',
         'substitute_file_fragments',
-        'clean:distFragments'
+        'clean:distFragments',
+        'cssbeautifier'
     ]);
 
     // Run the whole lot
