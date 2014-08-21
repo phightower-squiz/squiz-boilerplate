@@ -50,7 +50,7 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
                 this.bowerInstall(null, {
                     skipInstall: options['skip-install'],
                     offline: options['bower-offline'],
-                    forceLatest: true // Supplies --force-latest in the bower install
+                    forceLatest: !this.ie8 // Supplies --force-latest in the bower install
                 }, function () {
                     this.emit('dependenciesInstalled');
                 }.bind(this));
