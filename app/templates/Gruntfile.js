@@ -19,6 +19,7 @@ module.exports = function (grunt) {
         'grunt-cssbeautifier',
         'grunt-prettify',
         'grunt-jsbeautifier',
+        { 'grunt-squiz-boilerplate': ['boilerplate'] },
         { 'grunt-html-validation': ['validation'] },
         { 'grunt-lib-phantomjs': ['htmlcs', 'qunit'] }
     ]);
@@ -75,17 +76,42 @@ module.exports = function (grunt) {
     };
 
     // Analyses import directives and creates appropriate output
-    tasks['boilerplate-importer'] = {
+    tasks.boilerplate = {
         html: {
             options: {
-                dest: '<%= config.dest %>',
-                ignored: tasks.config.bower_ignore
+                dest: tasks.config.dest,
+                filePrefixes: [
+                    module: [
+                        tasks.config.source + '/modules/',
+                        tasks.bowerrc.directory + '/' + tasks.config.module_prefix,
+                    ],
+                    bower: tasks.bowerrc.directory + '/',
+                    source: tasks.config.source + '/',
+                    tmp:    tasks.config.tmp + '/',
+                    dist:   tasks.config.dest + '/'
+                ],
+                sass: {
+                    includePaths: [
+                       tasks.bowerrc.directory,
+                       tasks.config.source + '/styles/imports/',
+                       __dirname
+                    ]
+                },
+                banner:  function(file) {
+
+                    // var basename = path.basename(file);
+                    // if (basename.indexOf('variables') === -1) {
+                    //     return '/*-- ' + path.basename(file) + ' --*/\n';
+                    // }
+                    return;
+                };
             },
-            files: [{
+            files: {
                 src: [
-                    '<%= config.dest %>/*.html'
+                    '<%= config.source %>/html/*.html',
+                    '!<%= config.source %>/html/_*.html'
                 ]
-            }]
+            }
         }
     };
 
@@ -142,12 +168,6 @@ module.exports = function (grunt) {
             }]
         },
 
-        html: {
-            expand: true,
-            cwd: '<%= config.source %>/html/',
-            dest: '<%= config.dest %>',
-            src: '*.html'
-        },
         favicon: {
             expand: true,
             cwd: '<%= config.source %>/html/',
@@ -186,40 +206,6 @@ module.exports = function (grunt) {
             files: {
                 src: '<%= config.dest %>/_*.html'
             }
-        }
-    };
-
-    tasks.useminPrepare = {
-        options: {
-            dest: '<%= config.dest %>',
-            root: __dirname,
-            flow: {
-                html: {
-                    // Only allow concatenation
-                    steps: {'js':  ['concat'], 'css': ['concat']},
-                    post: {}
-                }
-            }
-        },
-        html: '<%= config.dest %>/*.html'
-    };
-
-    tasks.usemin = {
-        options: {
-            assetsDirs: ['<%= config.dest %>']
-        },
-        html: ['<%= config.dest %>/{,*/}*.html']
-    };
-
-    tasks['regex-replace'] = {
-        // Looks for comment syntax of <!--@@ ... @@--> to replace in html files
-        comments: {
-            src: [tasks.config.dest + '/*.html'],
-            actions: [{
-                name: 'internal',
-                search: /([\s\t]*)?<\!--@@(?:[^@@]+)@@-->/gm,
-                replace: ''
-            }]
         }
     };
 
@@ -339,6 +325,7 @@ module.exports = function (grunt) {
         }
     };
 
+    // Only if you really want imagemin
     // tasks.imagemin = {
     //     dist: {
     //         files: [{
@@ -518,24 +505,6 @@ module.exports = function (grunt) {
         }
     };
 
-    tasks.sass = {
-        dist: {
-            options: {
-                includePaths: [
-                    '<%= bowerrc.directory %>',
-                   '<%= config.source %>/styles/imports/',
-                   __dirname
-                ]
-            },
-            files: [{
-                src: '**/*.css',
-                expand: true,
-                cwd: '<%= config.tmp %>/styles',
-                dest: '<%= config.dest %>/styles'
-            }]
-        }
-    };
-
     tasks.cssbeautifier = {
         files: [
             '<%= config.dest %>/styles/*.css'
@@ -571,84 +540,18 @@ module.exports = function (grunt) {
     // HTTP server
     grunt.registerTask('serve', ['build', 'connect:livereload', 'watch']);
 
-    // Task for adding module banner headings to usemin prepared concatenations
-    grunt.registerTask('add_module_banners', 'Adds comment banners to the top of each module js file', function () {
-        var concatConfig = grunt.config('concat') || {};
-        if (_.has(concatConfig, 'generated')) {
-            concatConfig.generated.options = {
-                process: function (src, filePath) {
-                    // Only place module banners on the right files (i.e. module js files)
-                    if (filePath.indexOf(tasks.config.source + '/modules') !== -1 ||
-                        filePath.indexOf(tasks.bowerrc.directory + '/squiz-module-') !== -1) {
-                        var parts = filePath.split('/');
-                        var module = parts[parts.length - 3]; // source/<folder>/<module_name>
-                        return '\n/*-- module:' + module.replace(/^squiz\-module\-/, '') + ' --*/\n' + src;
-                    }//end if
-                    return src;
-                }
-            };
-            grunt.config('concat', concatConfig);
-        }//end if
-    });
-
-    // Task to sub in the output of one HTML file into the contents of another
-    // e.g. dist/index.html has a keyword of {{_head_html}}
-    //    - the content of the file _head.html is subbed in allowing for re-use of common HTML patterns that only run
-    //       directives once
-    grunt.registerTask('substitute_file_fragments', 'Sub in the output of a dist/*.html file with the content of another', function () {
-
-        // Get a list of files and determine what may need to be replaced
-        var files = grunt.file.expand(grunt.config('config').dest + '/*.html');
-        var subs = _.map(files, function (file) {
-            var subName = file.replace(/\./, '_').replace(grunt.config('config').dest + '/', '');
-            if (subName.match(/^_/)) {
-                return {
-                    name: subName,
-                    content: grunt.file.read(file)
-                };
-            }
-            return false;
-        });
-        subs = _.compact(subs);
-        // Perform the replacements
-        // This happens once for each _ prefixed file, not ideal but it works
-        files.forEach(function (file) {
-            if (file.match(/\/_/)) {
-                return;
-            }//end if
-            subs.forEach(function (sub) {
-                var content = grunt.file.read(file);
-                var keyword = new RegExp('{{' + sub.name + '}}', 'gim');
-                var newContent = content.replace(keyword, sub.content);
-                if (content !== newContent) {
-                    grunt.log.writeln('Replacing ' + sub.name.green + ' in file ' + file.cyan);
-                    grunt.file.write(file, newContent);
-                }//end if
-            });
-        });
-    });
-
     // Build only the tasks necessary when JS is edited
     grunt.registerTask('build_js', [
         'jshint',
-        'copy:html',
-        'regex-replace:comments',
         'substitute:html',
         'boilerplate-importer',
-        'useminPrepare',
         'add_module_banners',
-        'concat',
         'substitute',
-        'regex-replace',
-        'usemin',
-        'substitute_file_fragments',
         'clean:distFragments'
     ]);
 
     // Defer load of required npm tasks
     grunt.registerTask('build', [
-        'copy:html',
-        'regex-replace:comments',
         'substitute:html',
         'boilerplate-importer',
         'newer:copy:files',
@@ -656,14 +559,7 @@ module.exports = function (grunt) {
         'newer:copy:moduleFiles',
         'newer:copy:moduleCSSFiles',
         'newer:copy:moduleFonts',
-        'sass',
-        'useminPrepare',
-        'add_module_banners',
-        'concat',
         'substitute',
-        'regex-replace',
-        'usemin',
-        'substitute_file_fragments',
         'clean:distFragments',
         'cssbeautifier'
     ]);
@@ -676,8 +572,7 @@ module.exports = function (grunt) {
     require('jit-grunt')(grunt, {
         validation:             'grunt-html-validation',
         substitute:             'tasks/boilerplate-substitute.js',
-        htmlcs:                 'tasks/htmlcs.js',
-        'boilerplate-importer': 'tasks/boilerplate-importer.js'
+        htmlcs:                 'tasks/htmlcs.js'
     });
 
     // Not compatible with jit-grunt

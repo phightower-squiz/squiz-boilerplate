@@ -3,9 +3,9 @@
     We're bringing this in seperately to avoid any confusion. If desired this could be replaced with a jQuery CDN tag instead of locally sourced library.
     (2 paths are required here to catch the right path for 2.1+ and below)
 @@-->
-    <!-- build:js js/vendor/jquery.min.js -->
-        <!-- import:js {{bowerdir}}/jquery/jquery.js -->
-        <!-- import:js {{bowerdir}}/jquery/dist/jquery.js -->
+    <!-- build:js dist:js/vendor/jquery.min.js -->
+        <!-- import:js bower:jquery/jquery.js -->
+        <!-- import:js bower:jquery/dist/jquery.js -->
     <!-- endbuild -->
 
 <!--@@
@@ -14,17 +14,12 @@
     including things like jQuery plugins. Naming the file .min.js will allow the generated
     file to be picked up in the optimisation phase and minified reducing it's final file size.
 @@-->
-    <!-- build:js js/plugins.min.js -->
-        <!-- import:js {{source}}/js/plugins.js -->
-        <!-- import:bowerJS --><% if (includeBootstrap) { %>
-        <!-- import:content {{source}}/html/fragments/bootstrap.html -->
-        <% } %><% if (flexslider) { %>
-        <!-- import:js {{bowerdir}}/flexslider/jquery.flexslider.js -->
-        <% } %><% if (typeahead) { %>
-        <!-- import:js {{bowerdir}}/typeahead.js/dist/typeahead.js -->
-        <% } %><% if (dataTable) { %>
-        <!-- import:js {{bowerdir}}/datatables/media/js/jquery.dataTables.js -->
-        <% } %><!-- import:js module:**/js/plugin.js -->
+    <!-- build:js dist:js/plugins.min.js -->
+        <!-- import:js source:js/plugins.js -->
+        <!-- import:content module:**/html/_plugin.html --><% if (includeBootstrap) { %>
+        <!-- import:content source:html/fragments/bootstrap.html -->
+        <% } %>
+        <!-- import:js module:**/js/plugin.js -->
     <!-- endbuild -->
 
 <!--@@
@@ -32,7 +27,7 @@
     All the scripts that do the configuration and invocation of plugins, or any small ad-hoc
     javascript required to enhance the page.
 @@-->
-    <!-- build:js js/global.js -->
-        <!-- import:js {{source}}/js/global.js -->
+    <!-- build:js dist:js/global.js -->
+        <!-- import:js source:js/global.js -->
         <!-- import:js module:**/js/global.js -->
     <!-- endbuild -->

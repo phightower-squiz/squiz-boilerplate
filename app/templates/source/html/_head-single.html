@@ -1,10 +1,22 @@
-        <!-- build:css({{dest}}) styles/main.css -->
-            <!-- import:sass {{source}}/styles/global.scss [<link rel="stylesheet" href="styles/{{source}}/global.css" />] -->
-            <!-- import:bowerCSS -->
-            <!-- import:sassMQ {{source}}/styles/medium.scss [<link rel="stylesheet" href="styles/{{source}}/medium.css" media="(min-width: <%= mediumMQ %>)" />] -->
-            <!-- import:sassMQ {{source}}/styles/wide.scss [<link rel="stylesheet" href="styles/{{source}}/wide.css" media="(min-width: <%= wideMQ %>)" />] -->
-            <!-- import:sassMQ {{source}}/styles/print.scss [<link rel="stylesheet" href="styles/{{source}}/print.css" media="print" />] -->
+        <!-- build:sass dist:styles/main.css -->
+            <!-- build:css tmp:styles/global.scss -->
+                <!-- import:css source:styles/global.scss -->
+                <!-- import:content module:**/html/_css.html -->
+            <!-- endbuild -->
+            <!-- import:css module:**/css/variables.scss -->
+            <!-- build:css tmp:styles/medium.scss { "media": "(min-width: <%= mediumMQ %>)" } -->
+                <!-- import:css source:styles/medium.scss -->
+                <!-- import:css module:**/css/medium.scss -->
+            <!-- endbuild -->
+            <!-- build:css tmp:styles/wide.scss { "media": "(min-width: <%= wideMQ %>)" } -->
+                <!-- import:css source:styles/wide.scss -->
+                <!-- import:css module:**/css/wide.scss -->
+            <!-- endbuild -->
+            <!-- build:css tmp:styles/print.scss { "media": "print" } -->
+                <!-- import:css source:styles/print.scss -->
+                <!-- import:css module:**/css/print.scss -->
+            <!-- endbuild -->
         <!-- endbuild -->
-        <!-- build:js js/vendor/modernizr.min.js -->
-            <!-- import:js {{bowerdir}}/modernizr/modernizr.js -->
+        <!-- build:js dist:js/vendor/modernizr.min.js -->
+            <!-- import:js bower:modernizr/modernizr.js -->
         <!-- endbuild -->
