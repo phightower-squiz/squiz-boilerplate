@@ -3,12 +3,10 @@
 @import "mixins.scss";
 @import "placeholders.scss";
 @import "grid.scss";
-
 <% if (includeBourbon) { %>
 @import "bourbon.scss";
 <% } %>
-
-// Import bootstrap variables for use in all templates
 <% if (includeBootstrap) { %>
+// Import bootstrap variables for use in all templates
 @import "bootstrap_variables.scss";
 <% } %>
