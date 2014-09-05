@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = function (grunt) {
-
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
@@ -80,16 +79,62 @@ module.exports = function (grunt) {
         html: {
             options: {
                 dest: tasks.config.dest,
-                filePrefixes: [
-                    module: [
-                        tasks.config.source + '/modules/',
-                        tasks.bowerrc.directory + '/' + tasks.config.module_prefix,
-                    ],
+                filePrefixes: {
+                    module: {
+                        prefixes: [
+                            tasks.config.source + '/modules/',
+                            tasks.bowerrc.directory + '/' + tasks.config.module_prefix,
+                        ],
+                        sort: function(files) {
+                            var depCache = {};
+
+                            if (!files.length) {
+                                return files;
+                            }
+                            grunt.log.verbose.writeln('initial %s file order: ', 'module'.yellow, files);
+                            // Pick out all of the information from a file including
+                            // bower dependencies and module (directory) names
+                            var tmp = _.map(files, function(file, index) {
+                                var f = {};
+                                f.file  = file;
+                                f.index = index;
+                                f.parts = file.split(/\//);
+                                f.name  = f.parts[2];
+                                f.path  = f.parts.slice(0, 3).join('/');
+                                var files = grunt.file.expand(f.path + '/*bower.json');
+                                if (files.length) {
+                                    f.bower = grunt.file.readJSON(files.shift());
+                                    if (_.has(f.bower, 'dependencies')) {
+                                        _.each(f.bower.dependencies, function(source, name) {
+                                            if (!_.has(depCache, name)) {
+                                                depCache[name] = [];
+                                            }
+                                            depCache[name].push(f.file);
+                                        });
+                                    }
+                                }
+                                return f;
+                            });
+                            
+                            _.each(tmp, function(f) {
+                                // Move dependents to a later position in the array
+                                var dependents = _.has(depCache, f.name) ? depCache[f.name] : [];
+                                _.each(dependents, function(file) {
+                                    var currentIndex = _.indexOf(files, file);
+                                    var newIndex  = f.index + 1;
+                                    files.splice(newIndex, 0, files.splice(currentIndex, 1)[0]);
+                                });
+                            });
+
+                            grunt.log.verbose.writeln('modified %s file order: ', 'module'.yellow, files);
+                            return files;
+                        }
+                    },
                     bower: tasks.bowerrc.directory + '/',
                     source: tasks.config.source + '/',
                     tmp:    tasks.config.tmp + '/',
                     dist:   tasks.config.dest + '/'
-                ],
+                },
                 sass: {
                     includePaths: [
                        tasks.bowerrc.directory,
@@ -104,7 +149,7 @@ module.exports = function (grunt) {
                     //     return '/*-- ' + path.basename(file) + ' --*/\n';
                     // }
                     return;
-                };
+                }
             },
             files: {
                 src: [
@@ -544,7 +589,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_js', [
         'jshint',
         'substitute:html',
-        'boilerplate-importer',
+        'boilerplate',
         'add_module_banners',
         'substitute',
         'clean:distFragments'
@@ -553,7 +598,7 @@ module.exports = function (grunt) {
     // Defer load of required npm tasks
     grunt.registerTask('build', [
         'substitute:html',
-        'boilerplate-importer',
+        'boilerplate',
         'newer:copy:files',
         'newer:copy:favicon',
         'newer:copy:moduleFiles',
@@ -572,9 +617,7 @@ module.exports = function (grunt) {
     require('jit-grunt')(grunt, {
         validation:             'grunt-html-validation',
         substitute:             'tasks/boilerplate-substitute.js',
-        htmlcs:                 'tasks/htmlcs.js'
+        htmlcs:                 'tasks/htmlcs.js',
+        boilerplate:            'grunt-squiz-boilerplate' 
     });
-
-    // Not compatible with jit-grunt
-    grunt.loadNpmTasks('grunt-usemin');
 };
