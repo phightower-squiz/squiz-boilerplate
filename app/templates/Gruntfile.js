@@ -85,7 +85,7 @@ module.exports = function (grunt) {
                             tasks.config.source + '/modules/',
                             tasks.bowerrc.directory + '/' + tasks.config.module_prefix,
                         ],
-                        sort: function(files) {
+                        filter: function(files) {
                             var depCache = {};
 
                             if (!files.length) {
