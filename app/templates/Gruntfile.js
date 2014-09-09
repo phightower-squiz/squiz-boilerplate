@@ -595,7 +595,6 @@ module.exports = function (grunt) {
         'jshint',
         'substitute:html',
         'boilerplate',
-        'add_module_banners',
         'substitute',
         'clean:distFragments'
     ]);
