@@ -116,7 +116,6 @@ describe('Squiz Boilerplate generator test', function () {
             dir + 'source/styles/imports/utilities.scss',
             dir + 'source/styles/imports/variables.scss',
             dir + 'source/styles/imports/bourbon.scss',
-            dir + 'tasks/boilerplate-importer.js',
             dir + 'tasks/boilerplate-substitute.js',
             dir + 'tasks/htmlcs.js',
             dir + 'lib/bowerdeps.js',
