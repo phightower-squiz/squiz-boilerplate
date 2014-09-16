@@ -210,7 +210,7 @@ module.exports = function (grunt) {
             files: [{
                 src: [
                     '<%= config.source %>/modules/**/files/*.*',
-                    '<%= bowerrc.source %>/squiz-module-*/files/*.*'
+                    '<%= bowerrc.directory %>/squiz-module-*/files/*.*'
                 ],
                 expand: true,
                 flatten: true,
