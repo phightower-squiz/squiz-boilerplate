@@ -149,7 +149,7 @@ module.exports = function (grunt) {
                         || (file.indexOf(tasks.config.source + '/squiz-module-') !== -1);
                     if (isModule) {
                         var moduleName = file.split(/\//g)[2];
-                        if (/\.(s)?css/.test(basename) && basename.indexOf('variables') === -1) {
+                        if (/\.((s)?css|js)/.test(basename) && basename.indexOf('variables') === -1) {
                              return '/*-- module:' + moduleName + ' --*/\n';
                         }
                     }
