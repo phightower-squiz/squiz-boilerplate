@@ -75,6 +75,16 @@ module.exports = function (grunt) {
         }
     };
 
+    // Which HTML files to build
+    var htmlFiles = [].concat(grunt.option('file') ?
+        // if --file name.html is specified
+        ['<%= config.source %>/html/' + grunt.option('file')] :
+        // else build all *.html files without _ prefix
+        [
+            '<%= config.source %>/html/*.html',
+            '!<%= config.source %>/html/_*.html'
+        ]);
+
     // Analyses import directives and creates appropriate output
     tasks.boilerplate = {
         html: {
@@ -157,10 +167,7 @@ module.exports = function (grunt) {
                 }
             },
             files: {
-                src: [
-                    '<%= config.source %>/html/*.html',
-                    '!<%= config.source %>/html/_*.html'
-                ]
+                src: htmlFiles
             }
         }
     };
