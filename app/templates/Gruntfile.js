@@ -221,7 +221,7 @@ module.exports = function (grunt) {
                 ],
                 expand: true,
                 flatten: true,
-                dest: '<%= config.dest %>/files/'
+                dest: '<%= config.dest %>/<%= config.file_dest %>/'
             }]
         },
 
