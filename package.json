@@ -42,7 +42,8 @@
     "request": "*",
     "moment": "*",
     "semver": "*",
-    "chalk": "*"
+    "chalk": "*",
+    "async": "*"
   },
   "peerDependencies": {
     "yo": ">=1.0.0"
@@ -50,7 +51,6 @@
   "devDependencies": {
     "mocha": "*",
     "rimraf": "*",
-    "async": "*",
     "lodash": "*"
   },
   "engines": {
