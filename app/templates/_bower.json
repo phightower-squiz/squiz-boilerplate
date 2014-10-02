@@ -14,7 +14,11 @@
     "bourbon": "3.x",
     <% } %>
     "modernizr": "~2.x",
+    <% if (ie8) { %>
+    "jquery": "~1.x",
+    <% } else { %>
     "jquery": "*",
+    <% } %>
     "qunit": "~1.x"
   }
 }
