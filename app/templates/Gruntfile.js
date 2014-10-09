@@ -153,17 +153,17 @@ module.exports = function (grunt) {
                        __dirname
                     ]
                 },
-                banner:  function(file) {
+                banner:  function(file, content) {
                     var basename = path.basename(file);
                     var isModule = (file.indexOf(tasks.config.source + '/modules/') !== -1)
                         || (file.indexOf(tasks.config.source + '/squiz-module-') !== -1);
                     if (isModule) {
                         var moduleName = file.split(/\//g)[2];
                         if (/\.((s)?css|js)/.test(basename) && basename.indexOf('variables') === -1) {
-                             return '/*-- module:' + moduleName + ' --*/\n';
+                             return '\n/*-- module:' + moduleName + ' --*/\n' + content;
                         }
                     }
-                    return;
+                    return content;
                 }
             },
             files: {
