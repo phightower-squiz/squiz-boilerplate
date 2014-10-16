@@ -412,6 +412,21 @@ module.exports = function (grunt) {
         }
     };
 
+    tasks.assemble = {
+        options: {
+            flatten:true,
+            partials: ['<%= config.source %>/html/partials/**/*.hbs'],
+            layout: ['<%= config.source %>/html/layouts/default.hbs'],
+            data: ['<%= config.source %>/html/data/*.{json,yml}']
+        },
+        pages: {
+            files: {
+                // Assemble from temp into dist
+                '<%= config.dest  %>/': ['<%= config.source  %>/html/*.hbs']
+            }
+        }
+    };
+
     ///////////
     // Tests //
     ///////////
@@ -642,6 +657,7 @@ module.exports = function (grunt) {
         'regex-replace',
         'usemin',
         'substitute_file_fragments',
+        'assemble',
         'clean:distFragments'
     ]);
 
@@ -664,6 +680,7 @@ module.exports = function (grunt) {
         'regex-replace',
         'usemin',
         'substitute_file_fragments',
+        'assemble',
         'clean:distFragments',
         'cssbeautifier'
     ]);
