@@ -5,7 +5,7 @@
         <!-- build:sass dist:styles/global.css -->
                 <!-- import:css source:styles/global.scss -->
                 <!-- import:css module:**/css/variables.scss,module:**/css/global.scss -->
-                <!-- import:content module:**/html/_bowercss.html -->
+                <!-- import:content module:**/imports/_css.html -->
         <!-- endbuild -->
         <!-- build:sass dist:styles/medium.css { "media": "(min-width: <%= mediumMQ %>)" } -->
                 <!-- import:css source:styles/medium.scss -->
@@ -14,11 +14,11 @@
         <!-- build:sass dist:styles/wide.css { "media": "(min-width: <%= wideMQ %>)" } -->
                 <!-- import:css source:styles/wide.scss -->
                 <!-- import:css module:**/css/variables.scss,module:**/css/wide.scss -->
-        <!-- endbuild --><% if (ie8) { %>
+        <!-- endbuild -->
         <!--[if lte IE 8]>
             <link rel="stylesheet" href="styles/medium.css" />
             <link rel="stylesheet" href="styles/wide.css" />
-        <![endif]--><% } %>
+        <![endif]-->
         <!-- build:sass dist:styles/print.css { "media": "print" } -->
             <!-- import:css source:styles/print.scss -->
             <!-- import:css module:**/css/print.scss -->
