@@ -7,9 +7,6 @@
         _.each(modules, function (module) {
     %>"<%= module.name %>": "<%= module.repository %>",
     <% })} %>
-    <% if (includeBootstrap) { %>
-    "bootstrap-sass-official": "*",
-    <% } %>
     <% if (includeBourbon) { %>
     "bourbon": "3.x",
     <% } %>
