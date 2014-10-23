@@ -90,61 +90,15 @@ module.exports = function (grunt) {
         html: {
             options: {
                 dest: tasks.config.dest,
-                filePrefixes: {
-                    module: {
-                        prefixes: [
-                            tasks.config.source + '/modules/',
-                            tasks.bowerrc.directory + '/' + tasks.config.module_prefix,
-                        ],
-                        filter: function(files) {
-                            var depCache = {};
-
-                            if (!files.length) {
-                                return files;
-                            }
-                            grunt.log.verbose.writeln('initial %s file order: ', 'module'.yellow, files);
-                            // Pick out all of the information from a file including
-                            // bower dependencies and module (directory) names
-                            var tmp = _.map(files, function(file, index) {
-                                var f = {};
-                                f.file  = file;
-                                f.index = index;
-                                f.parts = file.split(/\//);
-                                f.name  = f.parts[2];
-                                f.path  = f.parts.slice(0, 3).join('/');
-                                var files = grunt.file.expand(f.path + '/*bower.json');
-                                if (files.length) {
-                                    f.bower = grunt.file.readJSON(files.shift());
-                                    if (_.has(f.bower, 'dependencies')) {
-                                        _.each(f.bower.dependencies, function(source, name) {
-                                            if (!_.has(depCache, name)) {
-                                                depCache[name] = [];
-                                            }
-                                            depCache[name].push(f.file);
-                                        });
-                                    }
-                                }
-                                return f;
-                            });
-                            
-                            _.each(tmp, function(f) {
-                                // Move dependents to a later position in the array
-                                var dependents = _.has(depCache, f.name) ? depCache[f.name] : [];
-                                _.each(dependents, function(file) {
-                                    var currentIndex = _.indexOf(files, file);
-                                    var newIndex  = f.index + 1;
-                                    files.splice(newIndex, 0, files.splice(currentIndex, 1)[0]);
-                                });
-                            });
-
-                            grunt.log.verbose.writeln('modified %s file order: ', 'module'.yellow, files);
-                            return files;
-                        }
-                    },
-                    bower: tasks.bowerrc.directory + '/',
-                    source: tasks.config.source + '/',
-                    tmp:    tasks.config.tmp + '/',
-                    dist:   tasks.config.dest + '/'
+                prefixes: {
+                    module: [
+                        tasks.config.source + '/modules/',
+                        tasks.bowerrc.directory + '/' + tasks.config.module_prefix,
+                    ],
+                    bower:  [tasks.bowerrc.directory + '/'],
+                    source: [tasks.config.source + '/'],
+                    tmp:    [tasks.config.tmp + '/'],
+                    dist:   [tasks.config.dest + '/']
                 },
                 sass: {
                     includePaths: [
@@ -164,6 +118,15 @@ module.exports = function (grunt) {
                         }
                     }
                     return content;
+                },
+                browserify: {
+                    // Set this to true to enable source map comments to be
+                    // written out after the browserified content
+                    debug: true,
+
+                    // Wrapped content will write out start and end inline
+                    // comments to identify where the JS has been browserified
+                    wrapped: true
                 }
             },
             files: {

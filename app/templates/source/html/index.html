@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>{{name}} - (version {{version}})</title>
-<% if (ie8) { %><!-- import:content source:html/_head-ie8.html --><% } else { %><!-- import:content source:html/_head-single.html --><% } %>
+<% if (ie8) { %><!-- import:content source:html/fragments/_head-ie8.html --><% } else { %><!-- import:content source:html/fragments/_head-single.html --><% } %>
     </head>
     <% if (ieConditionals) { %><!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
     <!--[if IE 7]><body class="no-js lt-ie9 lt-ie8"><![endif]-->
@@ -28,6 +28,6 @@
         </footer><!-- /.footer -->
     <!--endnoindex-->
     </div><!-- /#page-wrapper -->
-<!-- import:content source:html/_foot.html -->
+<!-- import:content source:html/fragments/_foot.html -->
     </body>
 </html>

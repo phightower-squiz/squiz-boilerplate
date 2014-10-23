@@ -23,13 +23,10 @@ var testProject = {
     email: 'noreply@squiz.net',
     version: '0.0.1',
     matrix: true,
-    bootstrap: false,
     mediumMQ: '37.5em',
     wideMQ: '60em',
     ie8: false,
-    bourbon: true,
     ieConditionals: false,
-    unitTest: false,
     modules: []
 };
 
@@ -115,14 +112,13 @@ describe('Squiz Boilerplate generator test', function () {
             dir + 'source/styles/imports/placeholders.scss',
             dir + 'source/styles/imports/utilities.scss',
             dir + 'source/styles/imports/variables.scss',
-            dir + 'source/styles/imports/bourbon.scss',
             dir + 'tasks/boilerplate-substitute.js',
             dir + 'tasks/htmlcs.js',
-            dir + 'lib/bowerdeps.js',
             dir + 'lib/htmlcs/htmlcs_combined.js',
             dir + 'source/html/parse.html',
-            dir + 'source/html/_head.html',
-            dir + 'source/html/_foot.html',
+            dir + 'source/html/fragments/_head-ie8.html',
+            dir + 'source/html/fragments/_head-single.html',
+            dir + 'source/html/fragments/_foot.html',
             dir + 'source/html/index.html'
        ];
 
@@ -152,11 +148,6 @@ describe('Squiz Boilerplate generator test', function () {
     });
 
     it ('builds a custom project based on user selections', function (done) {
-        ///////////////
-        // BOOTSTRAP //
-        ///////////////
-        testProject.bootstrap = true;
-
         // We might need some extra time out to allow the script to fetch the packages
         this.timeout(5*60*1000);
 
@@ -164,13 +155,6 @@ describe('Squiz Boilerplate generator test', function () {
         // the ones that aren't needed. Difficult to test so we'll test a couple
         // @todo - options not being passed, this test is failing
         testProject.build = 'custom';
-        testProject.bootstrapComponentsCSS = ['type', 'code'];
-        testProject.bootstrapComponentsJS = [];
-
-        // Expected new files
-        var expected = [
-            tmpDir + '/source/styles/imports/bootstrap_variables.scss'
-        ];
 
         ///////////////////
         // Squiz Modules //
@@ -200,8 +184,6 @@ describe('Squiz Boilerplate generator test', function () {
             .withOptions(options)
             .withPrompt(testProject)
             .on('end', function() {
-                assert.file(expected);
-                //assert.fileContent(tmpDir + '/source/styles/imports/bootstrap.scss', /\n@import "bootstrap-sass-official\/assets\/stylesheets\/bootstrap\/type";/);
                 moduleContent.forEach(function(value){
                     assert.fileContent.apply(this, value);
                 });
@@ -230,6 +212,8 @@ describe('Squiz Boilerplate generator test', function () {
                 // Bower squiz modules
                 tmpDir + '/source/bower_components/squiz-module-google-analytics/bower.json'
             ]);
+
+            assert.file([tmpDir + '/dist/styles/main.css']);
 
             assert.fileContent(tmpDir + '/dist/styles/main.css',
                 // The content exists with keyword replacements

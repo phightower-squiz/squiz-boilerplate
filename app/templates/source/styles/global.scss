@@ -89,26 +89,6 @@ textarea {
 @page {
     margin: 0.5cm;
 }
-<% if (includeBootstrap) { %>
-
-/*
---------------------
-Bootstrap
---------------------
-*/
-@import "bootstrap.scss";
-<% } %>
-
-<% if (includeFoundation) { %>
-
-/*
---------------------
-Foundation
---------------------
-*/
-@import "foundation_settings.scss";
-@import "foundation.scss";
-<% } %>
 
 /*
 --------------------
