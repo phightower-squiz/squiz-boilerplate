@@ -155,3 +155,9 @@
     *display: inline;
     zoom: 1;
 }
+
+@mixin sq-list-reset() {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
