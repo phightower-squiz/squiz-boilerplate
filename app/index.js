@@ -296,11 +296,6 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         message: 'Is this a design cutup for Squiz Matrix?',
         "default": true
     }, {
-        type: 'confirm',
-        name: 'bourbon',
-        message: 'Include Bourbon mixins (http://bourbon.io)?',
-        "default": false
-    }, {
         type: 'input',
         name: 'mediumMQ',
         message: 'Set min width media query for medium/tablet (pixel units will be auto-converted to ems)',
@@ -409,10 +404,6 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     }//end if
 
     this.mkdir(dir + 'source/html/fragments');
-
-    if (this.includeBourbon) {
-        this.copy('bourbon/bourbon.scss', dir + 'source/styles/imports/bourbon.scss');
-    }//end if
 
     // Copy html fragments across
     this.directory('source/html/fragments', dir + 'source/html/fragments');

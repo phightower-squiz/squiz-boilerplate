@@ -3,19 +3,16 @@
   "version": "<%= version %>",
   "private": true,
   "dependencies": {
-    <% if (modules.length >= 1) {
-        _.each(modules, function (module) {
-    %>"<%= module.name %>": "<%= module.repository %>",
-    <% })} %>
-    <% if (includeBourbon) { %>
-    "bourbon": "3.x",
-    <% } %>
-    "modernizr": "~2.x",
     <% if (ie8) { %>
     "jquery": "~1.x",
     <% } else { %>
     "jquery": "*",
     <% } %>
-    "qunit": "~1.x"
+    "qunit": "~1.x",
+    <% if (modules.length >= 1) {
+        _.each(modules, function (module) {
+    %>"<%= module.name %>": "<%= module.repository %>",
+    <% })} %>
+    "modernizr": "~2.x"
   }
 }
