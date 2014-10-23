@@ -19,39 +19,23 @@
     overflow: visible;
     position: static;
     width: auto;
-    }
+}
 
 // Re-usable list reset
 %list-reset {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    @include sq-list-reset;
 }
 
 %inline-block {
-    display: inline-block;
-    *display: inline;
-    zoom: 1;
+    @include sq-inline-block;
 }
 
 %border-box {
-    -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+    @include sq-border-box;
 }
 
 %flex-box {
-    .no-js &,
-    .no-flexbox & {
-        display: table;
-    }
-    .flexbox & {
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-    }
+    @include sq-flex-box;
 }
 
 // Image replacement
