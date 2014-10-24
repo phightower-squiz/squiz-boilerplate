@@ -33,12 +33,18 @@
     filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$msRotVal});
 }
 
+@mixin sq-border-box() {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
 
 @mixin sq-box-shadow($params) {
     -webkit-box-shadow: $params;
        -moz-box-shadow: $params;
             box-shadow: $params;
 }
+
 // Glow effect taken from foundation
 @mixin sq-block-glowing-effect($selector:focus, $fade-time:300ms, $glowing-effect-color:blue) {
     -webkit-transition: -webkit-box-shadow $fade-time, border-color $fade-time ease-in-out;
