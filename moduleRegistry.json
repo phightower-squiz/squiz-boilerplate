@@ -11,10 +11,6 @@
     "name": "Data Tables",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-datatables.git#0.1.0"
   },
-  "squiz-module-flexslider": {
-    "name": "Flexslider",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-flexslider.git#0.0.1"
-  },
   "squiz-module-font-awesome": {
     "name": "Font Awesome",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.1.0"
@@ -35,13 +31,25 @@
     "name": "Matrix form styles/validation",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.1.0"
   },
+  "squiz-module-matrix-jsapi": {
+    "name": "",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-js-api.git#0.0.1"
+  },
   "squiz-module-navbar": {
     "name": "Nav bar",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.1.0"
   },
+  "squiz-module-parallax": {
+    "name": "Parallax",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-parallax.git#0.0.1"
+  },
   "squiz-module-quick-search": {
     "name": "Quick search",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.1.0"
+  },
+  "squiz-module-responsive-tables": {
+    "name": "Responsive Tables",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-responsive-tables.git#0.0.1"
   },
   "squiz-module-secondary-nav": {
     "name": "Secondary Navigation",
@@ -50,6 +58,10 @@
   "squiz-module-skip-links": {
     "name": "Skip links",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.1.0"
+  },
+  "squiz-module-slick": {
+    "name": "Slick slider",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-slick.git#0.0.1"
   },
   "squiz-module-spritesheet": {
     "name": "Spritesheet",
@@ -61,6 +73,6 @@
   },
   "squiz-module-typeahead": {
     "name": "Twitter typeahead (Autocomplete)",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-typeahead.git#0.0.2"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-typeahead.git#0.1.0"
   }
 }
