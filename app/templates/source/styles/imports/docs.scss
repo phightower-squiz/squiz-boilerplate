@@ -1,3 +1,47 @@
+$demo-menu__bg:  #222;
+$demo-menu__text: #fff;
+
+
+/////////////
+// Colours //
+/////////////
+
+$squiz-blue: #58b8d7;
+$squiz-light-blue: #ACD8E5;
+$squiz-green: #85b96b;
+$squiz-teal: #8fc2bb;
+$squiz-coffee: #e1b8a6;
+$squiz-purple: #968ab4;
+$squiz-tan: #d0c9ac;
+$squiz-cadet-blue: #a1b4c5;
+$squiz-grey: #d2cfc0;
+$squiz-peach: #ecc0b4;
+$squiz-light-green: #c9dfb7;
+$squiz-yellow: #f0ce37;
+$squiz-light-yellow: #ebeca0;
+$squiz-red: #e33030;
+$squiz-dark-purple: #7a769e;
+
+// Give them friendly names in an array so we can
+// loop them and create classes later on
+$squiz-colours:
+    ("blue", $squiz-blue),
+    ("light-blue", $squiz-light-blue),
+    ("green", $squiz-green),
+    ("teal", $squiz-teal),
+    ("coffee", $squiz-coffee),
+    ("purple", $squiz-purple),
+    ("dark-purple", $squiz-dark-purple),
+    ("tan", $squiz-tan),
+    ("cadet-blue", $squiz-cadet-blue),
+    ("grey", $squiz-grey),
+    ("peach", $squiz-peach),
+    ("light-green", $squiz-light-green),
+    ("yellow", $squiz-yellow),
+    ("light-yellow", $squiz-light-yellow),
+    ("red", $squiz-red),
+    ("white", #fff);
+
 body {
     font-family: 'Open Sans', sans-serif;
 }

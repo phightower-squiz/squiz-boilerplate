@@ -408,5 +408,9 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     // Copy html fragments across
     this.directory('source/html/fragments', dir + 'source/html/fragments');
 
+    // Copy documentation across
+    this.directory('source/html/docs', dir + 'source/html/docs');
+    this.directory('source/js/docs', dir + 'source/js/docs');
+
     this.template('source/html/index.html', dir + 'source/html/index.html');
 };
