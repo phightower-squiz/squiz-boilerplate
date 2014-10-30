@@ -99,7 +99,6 @@ describe('Squiz Boilerplate generator test', function () {
             dir + 'source/files/robots.txt',
             dir + 'source/js/global.js',
             dir + 'source/js/plugins.js',
-            dir + 'source/modules/README.md',
             dir + 'source/styles/global.scss',
             dir + 'source/styles/medium.scss',
             dir + 'source/styles/wide.scss',
