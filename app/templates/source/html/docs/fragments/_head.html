@@ -1,0 +1,31 @@
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="favicon.ico">
+        <!--[if IE]><link rel="shortcut icon" href="favicon.ico"><![endif]-->
+        <link rel="apple-touch-icon-precomposed" href="{{file_dest}}/logo-144x144.png">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,300italic,600italic' rel='stylesheet' type='text/css'>
+        <!-- build:sass dist:styles/main.css -->
+            <!-- build:css tmp:styles/global.scss -->
+                <!-- import:css source:styles/global.scss -->
+                <!-- import:content module:**/import/_css.html -->
+                <!-- import:css source:styles/imports/docs.scss -->
+                <!-- import:css module:**/css/variables.scss -->
+                <!-- import:css module:**/css/global.scss -->
+            <!-- endbuild -->
+            <!--@@ Import some styles for the text highlighting @@-->
+            <!-- import:css node_modules/grunt-squiz-boilerplate/node_modules/highlight.js/styles/github.css -->
+            <!-- build:css tmp:styles/medium.scss { "media": "(min-width: 37.5em)" } -->
+                <!-- import:css source:styles/medium.scss -->
+                <!-- import:css module:**/css/medium.scss -->
+            <!-- endbuild -->
+            <!-- build:css tmp:styles/wide.scss { "media": "(min-width: 60em)" } -->
+                <!-- import:css source:styles/wide.scss -->
+                <!-- import:css module:**/css/wide.scss -->
+            <!-- endbuild -->
+            <!-- build:css tmp:styles/print.scss { "media": "print" } -->
+                <!-- import:css source:styles/print.scss -->
+                <!-- import:css module:**/css/print.scss -->
+            <!-- endbuild -->
+        <!-- endbuild -->
+        <!-- build:js dist:js/vendor/modernizr.min.js -->
+            <!-- import:js bower:modernizr/modernizr.js -->
+        <!-- endbuild -->

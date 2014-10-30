@@ -29,6 +29,8 @@ module.exports = function (grunt) {
 
     var _ = grunt.util._;
 
+    var handlebars = require('handlebars');
+
     ///////////////////
     // Configuration //
     ///////////////////
@@ -36,6 +38,17 @@ module.exports = function (grunt) {
     tasks.bower   = grunt.file.readJSON('bower.json');
     tasks.bowerrc = grunt.file.readJSON('.bowerrc');
     tasks.pkg     = grunt.file.readJSON('package.json');
+
+    ////////////////////////
+    // Documentation Mode //
+    ////////////////////////
+    var docMode = grunt.option('docs') || grunt.option('doc');
+    if (docMode) {
+        grunt.log.writeln('=== Documentation Mode ==='.yellow);
+
+        // Hard code the destination directory
+        tasks.config.dest = 'doc';
+    }
 
     //////////////////
     // Grunt Server //
@@ -85,6 +98,11 @@ module.exports = function (grunt) {
             '!<%= config.source %>/html/_*.html'
         ]);
 
+    // Documentation mode changes the files we need to source from
+    if (docMode) {
+        htmlFiles = ['<%= config.source %>/html/docs/*.html'];
+    }
+
     // Analyses import directives and creates appropriate output
     tasks.boilerplate = {
         html: {
@@ -109,8 +127,10 @@ module.exports = function (grunt) {
                 },
                 banner:  function(file, content) {
                     var basename = path.basename(file);
+                    var dirname  = path.dirname(file);
                     var isModule = (file.indexOf(tasks.config.source + '/modules/') !== -1)
                         || (file.indexOf(tasks.bowerrc.directory + '/squiz-module-') !== -1);
+
                     if (isModule) {
                         var moduleName = file.split(/\//g)[2];
                         if (/\.((s)?css|js)/.test(basename) && basename.indexOf('variables') === -1) {
@@ -127,13 +147,82 @@ module.exports = function (grunt) {
                     // Wrapped content will write out start and end inline
                     // comments to identify where the JS has been browserified
                     wrapped: true
-                }
+                },
+                // Intercept the markdown tree and transform it
+                // markdownParser: function(tokens, file, cb) {
+                //     if (/README\.md$/i.test(file)) {
+                //         // Bump the heading levels by 1
+                //         tokens.forEach(function(token) {
+                //             if (token.type === 'heading' &&
+                //                 token.hasOwnProperty('depth')) {
+                //                 token.depth += 1;
+                //             }
+                //         });
+                //     }
+                //     cb(null, tokens);
+                // }
             },
             files: {
                 src: htmlFiles
             }
         }
     };
+
+    // Documentation builder
+    tasks.boilerplate.doc = _.extend({}, tasks.boilerplate.html, {
+        options: _.extend({}, tasks.boilerplate.html.options, {
+            banner:  function(file, content) {
+                var basename = path.basename(file);
+                var dirname  = path.dirname(file);
+                var isModule = (file.indexOf(tasks.config.source + '/modules/') !== -1)
+                    || (file.indexOf(tasks.bowerrc.directory + '/squiz-module-') !== -1);
+
+                if (isModule) {
+                    var moduleName = file.split(/\//g)[2];
+                    var templates = {
+                        moduleDemo:
+                            '<section class="demo" id="{{moduleName}}">' +
+                                '<div class="demo__inner">' +
+                                    '{{#bower.version}}<div class="demo__git-version">Version: {{.}}</div>{{/bower.version}}' +
+                                    '{{#bower._source}}<a class="demo__git-link" href="{{.}}" target="_blank"><span class="fa fa-external-link"></span> Gitlab</a>{{/bower._source}}' +
+                                    '{{&content}}' +
+                                    '<div class="demo__bower">' +
+                                    '{{#bower.dependencies}}<h2>Bower Dependencies</h2><ul>{{/bower.dependencies}}' +
+                                    '{{#each bower.dependencies}}' +
+                                        '<li>{{@key}} (version: {{this}})</li>' +
+                                    '{{/each}}' +
+                                    '{{#bower.dependencies}}</ul>{{/bower.dependencies}}' +
+                                    '</div>' +
+                                    '<div class="demo__example">' +
+                                        '<h2>Examples</h2>' +
+                                        '<!-- import:content {{moduleDir}}/html/*.html -->' +
+                                    '</div>' +
+                                '</div>' +
+                            '</section>'
+                    };
+
+                    var tplvars = {
+                        moduleName: moduleName,
+                        content: content,
+                        moduleDir: dirname
+                    };
+
+                    // Bower info
+                    var bowerFile = path.join(dirname, '.bower.json');
+                    if (grunt.file.exists(bowerFile)) {
+                        tplvars.bower = JSON.parse(grunt.file.read(bowerFile));
+                    }
+
+                    // Demo markdown content
+                    if (basename === 'README.md') {
+                        var demoContent = handlebars.compile(templates.moduleDemo)(tplvars);
+                        return demoContent;
+                    }
+                }
+                return content;
+            }
+        })
+    });
 
     tasks.copy = {
         files: {
@@ -517,7 +606,9 @@ module.exports = function (grunt) {
                 '<%= config.source %>/html/**/*.html',
                 '<%= config.source %>/modules/**/html/*.html',
                 '<%= config.source %>/styles/{,*/}*.scss',
+                '<%= config.source %>/modules/**/*.md',
                 '<%= config.source %>/modules/**/css/*.scss',
+                '<%= bowerrc.directory %>/squiz-module-*/*.md',
                 '<%= bowerrc.directory %>/squiz-module-*/html/*.html',
                 '<%= bowerrc.directory %>/squiz-module-*/css/*.scss'
             ],
@@ -564,7 +655,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_js', [
         'jshint',
         'substitute:html',
-        'boilerplate',
+        (docMode) ? 'boilerplate:doc' : 'boilerplate',
         'substitute',
         'clean:distFragments'
     ]);
@@ -572,7 +663,7 @@ module.exports = function (grunt) {
     // Defer load of required npm tasks
     grunt.registerTask('build', [
         'substitute:html',
-        'boilerplate',
+        (docMode) ? 'boilerplate:doc' : 'boilerplate',
         'newer:copy:files',
         'newer:copy:favicon',
         'newer:copy:moduleFiles',
@@ -592,6 +683,6 @@ module.exports = function (grunt) {
         validation:             'grunt-html-validation',
         substitute:             'tasks/boilerplate-substitute.js',
         htmlcs:                 'tasks/htmlcs.js',
-        boilerplate:            'grunt-squiz-boilerplate' 
+        boilerplate:            'grunt-squiz-boilerplate'
     });
 };
