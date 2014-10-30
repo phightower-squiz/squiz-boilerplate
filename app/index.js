@@ -22,20 +22,64 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
             return;
         }
         this.log.writeln('\n**************    Intall Completed    ****************');
+
+        if (this.createDirectory) {
+            this.log.writeln('\nBoilerplate files installed to directory: ' + chalk.yellow(this.customDirectory) + '\n');
+        }
+
         if (!depsInstalled) {
             this.log.writeln('Warning: Dependencies were not installed, you will need to install this manually');
             this.log.writeln('Run the following commands in the boilerplate directory');
-            this.log.writeln('\n\tnpm install');
-            this.log.writeln('\tbower install\n');
+            this.log.writeln(chalk.cyan('\n\tnpm install'));
+            this.log.writeln(chalk.cyan('\tbower install\n'));
         }//end if
 
         this.log.writeln('Please make sure you read the wiki documentation for instructions on using this boilerplate.');
-        this.log.writeln('https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home\n');
+        this.log.writeln(chalk.cyan('https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home'));
+
+        this.log.writeln('\nYou can use some of the following commands to get started:');
+        this._.each([
+            {
+                task: 'build',
+                description: 'Build all HTML files'
+            },
+            {
+                task: 'watch',
+                description: 'Re-build your project whenever files are changed'
+            },
+            {
+                task: 'serve',
+                description: 'Similar to ' + chalk.yellow('watch') + ', but with a http server and live reload.'
+            },
+            {
+                task: 'test',
+                description: 'Test your project for HTML, JS and accessibility issues'
+            },
+            {
+                task: 'optimise',
+                description: 'Optimise the output of your project files (e.g. minify)'
+            },
+            {
+                task: 'build --docs',
+                description: 'Export documentation based on README.md files'
+            },
+            {
+                task: 'build --file index.html',
+                description: 'Restrict the build to an individual html file'
+            }
+        ], function(item){
+            this.log.writeln('\t' + chalk.cyan('grunt ') + chalk.yellow(item.task) + ' ' + item.description);
+        }.bind(this));
+
+        this.log.writeln('\n\n' + chalk.green('Done.'));
     }
 
     this.on('end', function () {
         if (!options['skip-install']) {
-            this.log.writeln('Installing dependencies using npm and bower.');
+            this.log.writeln('+---------------------------------------------+');
+            this.log.writeln('| Installing dependencies using npm and bower.|');
+            this.log.writeln('| This may take a few minutes...              |');
+            this.log.writeln('+---------------------------------------------+');
 
             // Need to make sure custom directory is made current before
             // running NPM and bower install commands
