@@ -1,58 +1,66 @@
 {
+  "squiz-module-accordion": {
+    "name": "Accordion and Tabs",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-accordion.git#0.0.2"
+  },
   "squiz-module-back-to-top": {
-    "name": "Back to top link pattern",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.0.3"
+    "name": "Back to top",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.1.0"
   },
   "squiz-module-datatables": {
     "name": "Data Tables",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-datatables.git#0.0.1"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-datatables.git#0.1.0"
   },
   "squiz-module-flexslider": {
-    "name": "Flexslider - slideshow/carousel library",
+    "name": "Flexslider",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-flexslider.git#0.0.1"
   },
   "squiz-module-font-awesome": {
-    "name": "Font Awesome for Squiz Boilerplate",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.0.2"
+    "name": "Font Awesome",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.1.0"
   },
   "squiz-module-google-analytics": {
     "name": "Google Analytics helpers",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-google-analytics.git#0.0.3"
   },
   "squiz-module-header-logo": {
-    "name": "Header logo pattern",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-header-logo.git#0.0.2"
+    "name": "Header logo",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-header-logo.git#0.1.0"
   },
   "squiz-module-magnific-popup": {
-    "name": "Magnific Popup library - lightboxes, gallery popups",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git#0.0.1"
+    "name": "Magnific Popup",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git#0.1.0"
   },
   "squiz-module-matrix-form": {
-    "name": "Styling and validation for Squiz Matrix custom form accessible output",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.0.3"
+    "name": "Matrix form styles/validation",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.1.0"
   },
   "squiz-module-navbar": {
-    "name": "Nav bar (Bootstrap compatible) and accessible hover dropdown menu solution",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.0.4"
+    "name": "Nav bar",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.1.0"
   },
   "squiz-module-quick-search": {
-    "name": "Quick search pattern",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.0.4"
+    "name": "Quick search",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.1.0"
   },
   "squiz-module-secondary-nav": {
-    "name": "Secondary Navigation pattern",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-secondary-nav.git#0.0.1"
+    "name": "Secondary Navigation",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-secondary-nav.git#0.1.0"
   },
   "squiz-module-skip-links": {
-    "name": "Accessible Skip Links for Squiz Boilerplate",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.0.2"
+    "name": "Skip links",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.1.0"
   },
   "squiz-module-spritesheet": {
-    "name": "SVG Spritesheet helper classes with PNG fallback",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.0.1"
+    "name": "Spritesheet",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.1.0"
+  },
+  "squiz-module-twitter-bootstrap": {
+    "name": "Twitter Bootstrap",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-twitter-bootstrap.git#0.1.0"
   },
   "squiz-module-typeahead": {
-    "name": "Twitter typeahead module for boilerplate",
+    "name": "Twitter typeahead (Autocomplete)",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-typeahead.git#0.0.2"
   }
 }
