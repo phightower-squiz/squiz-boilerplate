@@ -19,15 +19,15 @@ After the prerequites are sorted it's time to get the install the boilerplate ge
 npm install -g git+https://gitlab.squiz.net/boilerplate/generator-squiz-boilerplate.git
 ```
 
-# Starting a new cutup
+## Installing from existing repository
+
+If this is an existing project and you've checked it out of a Git repository and want to get it up and running then after cloning this repository you will need to run the following:
 
 ```
-mkdir new_project && cd new_project
-yo squiz-boilerplate
+npm install
+bower install
+grunt
 ```
-
-These commands will create a new directory, initialise the boilerplate with all of the necessary files. This command will ask you a series of questions which will help setting up the initial choices for the build. Subsequent changes can be made to the projects Gruntfile.js which can be tweaked for any custom
-build options that the boilerplate doesn't already offer.
 
 # Tasks
 
@@ -83,6 +83,18 @@ grunt clean
 This will remove any content output in the destination directory. Useful for purging the directory before a rebuild. **Note:** this will remove the entire directory.
 
 # Revision History
+
+## `3.0.0`
+* Fixed an issue where selecting an IE 8 compatible project still resulted in jQuery 2.+ being installed
+* Removal of bootstrap and bourbon as generator options, these have been moved to external modules to be included as required.
+* Mixins adjusted to be more consistent and also to allow the option of using a mixin vs a placeholder. With some instances of usage libsass got confused and broke rules out of containing @media queries.
+* Incorporated a bunch of changes from more recent best practice into the boilerplate template
+* HTML Parser has been re-written removing `grunt-usemin` and a few other now redundant packages. This brings some changes to the way the import and build directives are used which has prompted the major semver number update.
+* Added `import:markdown` parser
+* Added `import:browswerify` parser
+* Huge batch of updated modules to support the updated parsing syntax
+* New documentation option that parses local README.md to create a documentation site build at `docs`. Can be run by adding the argument `--docs` to the end of any grunt command.
+* Added a `--file` argument that can be supplied the name of a html file located in `source/html`. When used only this file will be built which can save on unnecessary processing time if there are many files and `grunt serve` is being used.
 
 ## `2.1.0`
 * Added deferred module loading for `test` and `optimise` grunt tasks
