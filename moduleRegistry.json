@@ -7,17 +7,21 @@
     "name": "Back to top",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.1.0"
   },
+  "squiz-module-breadcrumbs": {
+    "name": "Breadcrumbs",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-breadcrumbs.git#0.0.2"
+  },
   "squiz-module-datatables": {
     "name": "Data Tables",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-datatables.git#0.1.0"
   },
+  "squiz-module-datepicker": {
+    "name": "Datepicker",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate-datepicker.git#0.0.1"
+  },
   "squiz-module-font-awesome": {
     "name": "Font Awesome",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.1.0"
-  },
-  "squiz-module-google-analytics": {
-    "name": "Google Analytics helpers",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-google-analytics.git#0.0.3"
   },
   "squiz-module-header-logo": {
     "name": "Header logo",
@@ -38,6 +42,10 @@
   "squiz-module-navbar": {
     "name": "Nav bar",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.1.0"
+  },
+  "squiz-module-pagination": {
+    "name": "Pagination",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-pagination.git#0.0.1"
   },
   "squiz-module-parallax": {
     "name": "Parallax",
