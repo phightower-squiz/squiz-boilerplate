@@ -13,7 +13,7 @@
   },
   "squiz-module-datatables": {
     "name": "Data Tables",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-datatables.git#0.1.0"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-datatables.git#0.1.1"
   },
   "squiz-module-datepicker": {
     "name": "Datepicker",
@@ -36,12 +36,16 @@
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.1.0"
   },
   "squiz-module-matrix-jsapi": {
-    "name": "",
+    "name": "Matrix JS API wrapper",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-js-api.git#0.0.1"
   },
   "squiz-module-navbar": {
     "name": "Nav bar",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.1.0"
+  },
+  "squiz-module-off-canvas-nav": {
+    "name": "Off Canvas Navigation",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-off-canvas-nav.git#0.0.1"
   },
   "squiz-module-pagination": {
     "name": "Pagination",
