@@ -49,8 +49,20 @@ body {
 main {
     font-weight: 300;
     margin-top: 1em;
-    max-width: 1152px;
-    margin-left: 300px;
+}
+
+@media (min-width: 37.5em) {
+    main {
+        margin-left: 300px;
+        max-width: 1152px;
+    }
+
+    .demo-heading-list {
+        position: absolute;
+        top: 4em;
+        width: 280px;
+        z-index: 500;
+    }
 }
 
 h1, h2 {
@@ -195,10 +207,6 @@ hr {
 
 // Navigation
 .demo-heading-list {
-    position: absolute;
-    top: 4em;
-    width: 280px;
-    z-index: 500;
     @extend %list-reset;
     border-right: 1px solid #ccc;
     @include sq-font-size(.8);
