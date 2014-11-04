@@ -27,6 +27,10 @@
     "name": "Header logo",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-header-logo.git#0.1.0"
   },
+  "squiz-module-interactive-map": {
+    "name": "Interactive Map",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-interactive-map.git#0.0.1"
+  },
   "squiz-module-magnific-popup": {
     "name": "Magnific Popup",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git#0.1.0"
