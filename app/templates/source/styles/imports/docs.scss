@@ -91,22 +91,24 @@ h1, h2 {
     }
 }
 
-table {
-    width: 100%;
-}
+.demo__inner > {
+    table {
+        width: 100%;
 
-td, th {
-    padding: .3em .8em;
-}
+        td, th {
+            padding: .3em .8em;
+        }
 
-th {
-    background: #222;
-    color: #fff;
-    text-align: left;
-}
+        th {
+            background: #222;
+            color: #fff;
+            text-align: left;
+        }
 
-td + td {
-    border-left: 1px solid #ccc;
+        td + td {
+            border-left: 1px solid #ccc;
+        }
+    }
 }
 
 hr {
