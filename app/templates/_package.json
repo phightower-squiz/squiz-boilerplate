@@ -17,6 +17,7 @@
     "handlebars": "^2.0.0",
     "grunt-newer": "~0.6.0",
     "jshint-stylish": "~0.1.3",
+    "underscore.string": "*",
     "time-grunt": "~0.2.0",
     "regexp-quote": "*",
     "lodash": "~2.4.1",
