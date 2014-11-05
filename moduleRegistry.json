@@ -29,7 +29,7 @@
   },
   "squiz-module-interactive-map": {
     "name": "Interactive Map",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-interactive-map.git#0.0.1"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-interactive-map.git#0.0.2"
   },
   "squiz-module-magnific-popup": {
     "name": "Magnific Popup",
