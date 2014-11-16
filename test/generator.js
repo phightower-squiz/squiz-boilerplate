@@ -209,7 +209,7 @@ describe('Squiz Boilerplate generator test', function () {
                 tmpDir + '/dist/js/plugins.min.js',
 
                 // Bower squiz modules
-                tmpDir + '/source/bower_components/squiz-module-google-analytics/bower.json'
+                tmpDir + '/source/bower_components/squiz-module-accordion/bower.json'
             ]);
 
             assert.file([tmpDir + '/dist/styles/main.css']);
