@@ -1,7 +1,7 @@
 {
   "squiz-module-accordion": {
     "name": "Accordion and Tabs",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-accordion.git#0.0.2"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-accordion.git#0.0.4"
   },
   "squiz-module-back-to-top": {
     "name": "Back to top",
