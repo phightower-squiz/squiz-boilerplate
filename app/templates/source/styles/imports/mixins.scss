@@ -39,6 +39,12 @@
             box-sizing: border-box;
 }
 
+@mixin sq-reset-box-sizing() {
+    -webkit-box-sizing: content-box;
+       -moz-box-sizing: content-box;
+            box-sizing: content-box;
+}
+
 @mixin sq-box-shadow($params) {
     -webkit-box-shadow: $params;
        -moz-box-shadow: $params;
