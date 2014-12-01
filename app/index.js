@@ -444,7 +444,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.mkdir(dir + 'source/html');
 
     if (this.matrix) {
-        this.copy('source/html/parse.html', dir + 'source/html/parse.html');
+        this.copy('source/html/parse.html', dir + 'source/html/_parse.html');
     }//end if
 
     this.mkdir(dir + 'source/html/fragments');
