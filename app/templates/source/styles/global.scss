@@ -33,7 +33,9 @@ html {
     @include sq-border-box;
 }
 *, *:before, *:after {
-    box-sizing: inherit;
+    -webkit-box-sizing: inherit;
+       -moz-box-sizing: inherit;
+            box-sizing: inherit;
 }
 
 /*
