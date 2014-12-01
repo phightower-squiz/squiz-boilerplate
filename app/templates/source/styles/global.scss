@@ -29,13 +29,13 @@ Reset (normalize.css)
 // Box size all the things
 // https://squizmap.squiz.net/imp-bp/6400
 // http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
-html {
-    @include sq-border-box;
-}
 *, *:before, *:after {
     -webkit-box-sizing: inherit;
        -moz-box-sizing: inherit;
             box-sizing: inherit;
+}
+html {
+    @include sq-border-box;
 }
 
 /*
