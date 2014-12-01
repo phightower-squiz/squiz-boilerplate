@@ -84,6 +84,10 @@ This will remove any content output in the destination directory. Useful for pur
 
 # Revision History
 
+## `3.0.1`
+* Box sizing set to `border-box` using the inheritance method to all elements
+* Fixed some module qunit tests to pass jenkins daily CI tests
+
 ## `3.0.0`
 * Fixed an issue where selecting an IE 8 compatible project still resulted in jQuery 2.+ being installed
 * Removal of bootstrap and bourbon as generator options, these have been moved to external modules to be included as required.
