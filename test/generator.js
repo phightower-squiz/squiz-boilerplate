@@ -114,7 +114,7 @@ describe('Squiz Boilerplate generator test', function () {
             dir + 'tasks/boilerplate-substitute.js',
             dir + 'tasks/htmlcs.js',
             dir + 'lib/htmlcs/htmlcs_combined.js',
-            dir + 'source/html/parse.html',
+            dir + 'source/html/_parse.html',
             dir + 'source/html/fragments/_head-ie8.html',
             dir + 'source/html/fragments/_head-single.html',
             dir + 'source/html/fragments/_foot.html',
