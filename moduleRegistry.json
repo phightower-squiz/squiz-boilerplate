@@ -81,11 +81,11 @@
   },
   "squiz-module-spritesheet": {
     "name": "Spritesheet",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.1.2"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.1.3"
   },
   "squiz-module-twitter-bootstrap": {
     "name": "Twitter Bootstrap",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-twitter-bootstrap.git#0.1.0"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-twitter-bootstrap.git#0.1.1"
   },
   "squiz-module-typeahead": {
     "name": "Twitter typeahead (Autocomplete)",
