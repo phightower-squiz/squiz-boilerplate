@@ -276,6 +276,21 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
 
     var prompts = [{
         type: 'input',
+        name: 'friendlyName',
+        message: "Test 1?",
+        "default": "Test"
+    },{
+        type: 'input',
+        name: 'status',
+        message: 'Test 2?',
+        "default": "Test"
+    },{
+        type: 'input',
+        name: 'url',
+        message: 'Test 3?',
+        "default": "Test"
+    },{
+        type: 'input',
         name: 'name',
         message: 'What name would you like to give your project?',
         validate: function (input) {
@@ -384,25 +399,16 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     });
 
     this.prompt(prompts, function (props) {
-        this.name        = props.name;
-        this.email       = props.email;
-        this.version     = props.version;
-        this.description = props.description;
-        this.modules     = props.modules;
-        this.matrix      = props.matrix;
-        this.unitTest    = props.unitTest;
-
-        // IE 8 and conditionals
-        this.ie8            = props.ie8;
-        this.ieConditionals = props.ieConditionals;
+        // Add all properties from the props object
+        for (var name in props) {
+            if (_.has(props, name)) {
+                this[name] = props[name];
+            }
+        }
 
         // Media queries
         this.mediumMQ = enforceEms(props.mediumMQ, '37.5em');
         this.wideMQ   = enforceEms(props.wideMQ, '60em');
-
-        // Custom directory
-        this.customDirectory = props.customDirectory;
-        this.createDirectory = props.createDirectory;
 
         // Make sure we've not got a blank custom directory name
         if (this.customDirectory && this.customDirectory.match(/^\s*$/g)) {
@@ -431,7 +437,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.copy('_gitignore',     dir + '.gitignore');
     this.copy('config.json',    dir + 'config.json');
     this.copy('Gruntfile.js',   dir + 'Gruntfile.js');
-    this.copy('README.md',      dir + 'README.md');
+    this.template('README.md',      dir + 'README.md');
 
     // Copy these directories
     this.directory('source/files',   dir + 'source/files');
