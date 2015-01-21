@@ -276,21 +276,6 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
 
     var prompts = [{
         type: 'input',
-        name: 'friendlyName',
-        message: "Test 1?",
-        "default": "Test"
-    },{
-        type: 'input',
-        name: 'status',
-        message: 'Test 2?',
-        "default": "Test"
-    },{
-        type: 'input',
-        name: 'url',
-        message: 'Test 3?',
-        "default": "Test"
-    },{
-        type: 'input',
         name: 'name',
         message: 'What name would you like to give your project?',
         validate: function (input) {
@@ -319,12 +304,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             return props.createDirectory;
         },
         "default": function (props) {
-            return path.normalize(props.name
-                .replace(/^\s+/, '')
-                .replace(/\s+$/, '')
-                .replace(/\s+/g, '_')
-                .replace(/((?![0-9a-z\-\_\/]).)*/gi, '')
-                .toLowerCase());
+            return _.slugify(props.name);
         }
     }, {
         type: 'input',
@@ -334,21 +314,45 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     }, {
         type: 'input',
         name: 'email',
-        message: 'What email would you like to use?',
+        message: 'Enter your email address',
         "default": function () {
             return ((_.has(process.env, 'USER')) ? process.env.USER : '<name>') + '@squiz.com.au';
+        }
+    }, {
+        type: 'input',
+        name: 'url',
+        message: 'Enter a url for the site',
+        "default": function(props) {
+            return 'https://' + _.slugify(props.name) + '.clients.squiz.net';
         }
     }, {
         type: 'input',
         name: 'version',
         message: 'What version are you starting from?',
         validate: function (input) {
-            if (!input.match(/^[0-9]+\.[0-9]+\.[0-9]+$/)) {
+            if (!input.match(/\bv?(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b/gi)) {
                 return 'please use a valid SemVer number, e.g. 0.0.1';
             }
             return true;
         },
         "default": '0.0.1'
+    }, {
+        type: 'list',
+        name: 'status',
+        message: 'What is the current status of the project?',
+        choices: [{
+            name: 'In Development',
+            checked: true,
+            value: 'In Development'
+        }, {
+            name: 'UAT',
+            checked: false,
+            value: 'UAT'
+        }, {
+            name: 'Live',
+            checked: false,
+            value: 'Live'
+        }]
     }, {
         type: 'confirm',
         name: 'matrix',

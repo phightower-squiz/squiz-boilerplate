@@ -1,8 +1,8 @@
-# <%= friendlyName %>
+# <%= name %>
 
 Status: <%= status %>
 
-Static design templates for [<%= friendlyName %>]<% if (url) { %>(<%= url %>)<% } %>.
+Static design templates for [<%= name %>]<% if (url) { %>(<%= url %>)<% } %>.
 
 ## Getting Started
 

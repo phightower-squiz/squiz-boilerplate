@@ -16,7 +16,6 @@ var async   = require('async');
 var _       = require('lodash');
 
 var testProject = {
-    friendlyName: 'My Test Project',
     status: 'UAT',
     url: 'http://test.clients.squiz.net',
     name: 'My Test Project',
