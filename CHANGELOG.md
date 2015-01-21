@@ -1,5 +1,8 @@
 # Revision History
 
+## `3.0.2`
+* Parse file no longer included in parser due to uncertain results parsing non HTML content (i.e Matrix design tags).
+
 ## `3.0.1`
 * Box sizing set to `border-box` using the inheritance method to all elements
 * Fixed some module qunit tests to pass jenkins daily CI tests
