@@ -31,6 +31,10 @@
     "name": "Interactive Map",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-interactive-map.git#0.0.2"
   },
+  "squiz-module-legal-list": {
+    "name": "Legal List",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-legal-list.git#0.0.1"
+  },
   "squiz-module-magnific-popup": {
     "name": "Magnific Popup",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git#0.1.0"
@@ -42,6 +46,10 @@
   "squiz-module-matrix-jsapi": {
     "name": "Matrix JS API wrapper",
     "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-js-api.git#0.0.3"
+  },
+  "squiz-module-mediaelement": {
+    "name": "Easier install for mediaelement.js",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-mediaelement.git#0.0.1"
   },
   "squiz-module-navbar": {
     "name": "Nav bar",
@@ -81,7 +89,15 @@
   },
   "squiz-module-spritesheet": {
     "name": "Spritesheet",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.1.3"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.1.4"
+  },
+  "squiz-module-text-underline": {
+    "name": "Text Underline",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-text-underline.git#0.0.1"
+  },
+  "squiz-module-timeago": {
+    "name": "Time Ago",
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-timeago.git#0.0.1"
   },
   "squiz-module-twitter-bootstrap": {
     "name": "Twitter Bootstrap",
