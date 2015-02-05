@@ -655,7 +655,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_js', [
         'jshint',
         'substitute:html',
-        (docMode) ? 'boilerplate:doc' : 'boilerplate',
+        (docMode) ? 'boilerplate:doc' : 'boilerplate:html',
         'substitute',
         'clean:distFragments'
     ]);
@@ -663,7 +663,7 @@ module.exports = function (grunt) {
     // Defer load of required npm tasks
     grunt.registerTask('build', [
         'substitute:html',
-        (docMode) ? 'boilerplate:doc' : 'boilerplate',
+        (docMode) ? 'boilerplate:doc' : 'boilerplate:home',
         'newer:copy:files',
         'newer:copy:favicon',
         'newer:copy:moduleFiles',
