@@ -21,7 +21,8 @@
     "regexp-quote": "*",
     "lodash": "~2.4.1",
     "async": "~0.2.5",
-    "jit-grunt": "0.8.0"
+    "jit-grunt": "0.8.0",
+    "assemble": "~0.4.42"
   },
   "engines": {
     "node": ">=0.8.0"
