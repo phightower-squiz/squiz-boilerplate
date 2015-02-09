@@ -415,7 +415,7 @@ module.exports = function (grunt) {
     tasks.assemble = {
         options: {
             flatten:true,
-            partials: ['<%= config.source %>/html/partials/**/*.hbs'],
+            partials: ['<%= config.source %>/html/fragments/**/*.hbs'],
             layout: ['<%= config.source %>/html/layouts/default.hbs'],
             data: ['<%= config.source %>/html/data/*.{json,yml}']
         },

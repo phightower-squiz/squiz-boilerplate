@@ -21,7 +21,7 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
         if (options['test-mode']) {
             return;
         }
-        this.log.writeln('\n**************    Intall Completed    ****************');
+        this.log.writeln('\n**************    Install Completed    ****************');
         if (!depsInstalled) {
             this.log.writeln('Warning: Dependencies were not installed, you will need to install this manually');
             this.log.writeln('Run the following commands in the boilerplate directory');
@@ -120,8 +120,8 @@ function updateVersion(yo, cb) {
     var request = require('request');
     var semver  = require('semver');
     var current = yo.pkg.version;
-    var repoPath  = 'https://gitlab.squiz.net/boilerplate/squiz-boilerplate.git';
-    var remoteUrl = 'https://gitlab.squiz.net/boilerplate/squiz-boilerplate/raw/master/package.json';
+    var repoPath  = 'https://gitlab.squiz.net/lwoollett/squiz-boilerplate.git';
+    var remoteUrl = 'https://gitlab.squiz.net/lwoollett/squiz-boilerplate/raw/master/package.json';
 
     request(remoteUrl, function(err, resp, html) {
         if (err) {
@@ -160,7 +160,7 @@ function updateVersion(yo, cb) {
                             process.exit(1);
                         }//end if
                         yo.log.writeln('All done, re-run the yeoman command to generate a new project');
-                        yo.log.writeln(chalk.yellow('\tyo squiz-boilerplate'));
+                        yo.log.writeln(chalk.yellow('\tyo squiz-boilerplate-assemble'));
                         this.writeFileFromString(moment().toISOString(), path.resolve(__dirname, '../.last_check.txt'));
                         process.exit(0);
                     });
@@ -168,7 +168,7 @@ function updateVersion(yo, cb) {
                     yo.log.writeln('To update this generator manually run the following in your terminal:');
                     yo.log.writeln(chalk.yellow('\tnpm ' + options.join(' ')));
                     yo.log.writeln('Then re-launch the generator by running:');
-                    yo.log.writeln(chalk.yellow('\tyo squiz-boilerplate'));
+                    yo.log.writeln(chalk.yellow('\tyo squiz-boilerplate-assemble'));
                 } else {
                     cb();
                 }//end if
@@ -625,6 +625,11 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     }//end if
 
     this.mkdir(dir + 'source/html/fragments');
+    this.mkdir(dir + 'source/html/layouts');
+    this.mkdir(dir + 'source/html/pages');
+    this.mkdir(dir + 'source/html/data');
+
+    this.copy('source/html/layouts/default.hbs',      dir + 'source/html/layouts/default.hbs');
 
     if (this.includeBourbon) {
         this.copy('bourbon/bourbon.scss', dir + 'source/styles/imports/bourbon.scss');
