@@ -1,6 +1,6 @@
 # Revision History
 
-## `3.0.3`
+## `3.0.4`
 * New modules: Text Underline, Time ago jQuery plugin, Mediaelement.js helper, Legal List styles
 * Updated modules: Spritesheet improved to reduce duplicate CSS, Parallax module updated for performance improvements
 * General updates: Improved README generated, Change log split into separate file
