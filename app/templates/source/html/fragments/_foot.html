@@ -1,0 +1,27 @@
+<!--@@
+    jQuery
+    We're bringing this in seperately to avoid any confusion. If desired this could be replaced with a jQuery CDN tag instead of locally sourced library.
+    (2 paths are required here to catch the right path for 2.1+ and below)
+@@-->    <!-- build:js dist:js/vendor/jquery.min.js -->
+        <!-- import:js bower:jquery/jquery.js -->
+        <!-- import:js bower:jquery/dist/jquery.js -->
+    <!-- endbuild -->
+    <!-- import:content module:**/import/_foot.html -->
+<!--@@
+    Plugin JS
+    You can use this build directive to automatically combine supporting library files
+    including things like jQuery plugins. Naming the file .min.js will allow the generated
+    file to be picked up in the optimisation phase and minified reducing it's final file size.
+@@-->    <!-- build:js dist:js/plugins.min.js -->
+        <!-- import:js source:js/plugins.js -->
+        <!-- import:content module:**/import/_js.html -->
+        <!-- import:js module:**/js/plugin.js -->
+    <!-- endbuild -->
+<!--@@
+    Global JS
+    All the scripts that do the configuration and invocation of plugins, or any small ad-hoc
+    javascript required to enhance the page.
+@@-->    <!-- build:js dist:js/global.js -->
+        <!-- import:js source:js/global.js -->
+        <!-- import:js module:**/js/global.js -->
+    <!-- endbuild -->

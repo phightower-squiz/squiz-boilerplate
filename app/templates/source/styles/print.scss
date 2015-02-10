@@ -1,3 +1,4 @@
+<% if (ie8) { %>
 /**
  * {{name}}
  * Print CSS
@@ -8,6 +9,7 @@
  * change log:
  *     {{date}} - First revision
  */
+<% } %>
 
 // HTML 5 Boilerplate Print Stylesheet 
 * {
@@ -68,5 +70,3 @@ h2,
 h3 {
     page-break-after: avoid;
 }
-
-{{modules}}

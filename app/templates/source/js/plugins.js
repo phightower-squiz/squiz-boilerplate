@@ -4,7 +4,6 @@
  *
  * version: {{version}}
  * file:    {{file}}
- * modules: {{modules}}
  * author:  Squiz Australia
  * modified: {{date}}
  * @preserve

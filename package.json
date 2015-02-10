@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "name": "generator-squiz-boilerplate-assemble",
   "version": "2.1.4",
+=======
+  "name": "generator-squiz-boilerplate",
+  "version": "3.0.4",
+>>>>>>> 07b0feaaba174fab10a1006cb956c70d56c9f39a
   "description": "The Squiz Boilerplate generator for Yeoman",
   "keywords": [
     "yeoman-generator"

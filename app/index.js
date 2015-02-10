@@ -21,21 +21,66 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
         if (options['test-mode']) {
             return;
         }
-        this.log.writeln('\n**************    Install Completed    ****************');
+        
+        this.log.writeln('\n**************    Intall Completed    ****************');
+
+        if (this.createDirectory) {
+            this.log.writeln('\nBoilerplate files installed to directory: ' + chalk.yellow(this.customDirectory) + '\n');
+        }
+
         if (!depsInstalled) {
             this.log.writeln('Warning: Dependencies were not installed, you will need to install this manually');
             this.log.writeln('Run the following commands in the boilerplate directory');
-            this.log.writeln('\n\tnpm install');
-            this.log.writeln('\tbower install\n');
+            this.log.writeln(chalk.cyan('\n\tnpm install'));
+            this.log.writeln(chalk.cyan('\tbower install\n'));
         }//end if
 
         this.log.writeln('Please make sure you read the wiki documentation for instructions on using this boilerplate.');
-        this.log.writeln('https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home\n');
+        this.log.writeln(chalk.cyan('https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home'));
+
+        this.log.writeln('\nYou can use some of the following commands to get started:');
+        this._.each([
+            {
+                task: 'build',
+                description: 'Build all HTML files'
+            },
+            {
+                task: 'watch',
+                description: 'Re-build your project whenever files are changed'
+            },
+            {
+                task: 'serve',
+                description: 'Similar to ' + chalk.yellow('watch') + ', but with a http server and live reload.'
+            },
+            {
+                task: 'test',
+                description: 'Test your project for HTML, JS and accessibility issues'
+            },
+            {
+                task: 'optimise',
+                description: 'Optimise the output of your project files (e.g. minify)'
+            },
+            {
+                task: 'build --docs',
+                description: 'Export documentation based on README.md files'
+            },
+            {
+                task: 'build --file index.html',
+                description: 'Restrict the build to an individual html file'
+            }
+        ], function(item){
+            this.log.writeln('\t' + chalk.cyan('grunt ') + chalk.yellow(item.task) + ' ' + item.description);
+        }.bind(this));
+
+        this.log.writeln('\n\n' + chalk.green('Done.'));
     }
 
     this.on('end', function () {
         if (!options['skip-install']) {
-            this.log.writeln('Installing dependencies using npm and bower.');
+            this.log.writeln('+---------------------------------------------+');
+            this.log.writeln('| Installing dependencies using npm and bower.|');
+            this.log.writeln('| This may take a few minutes...              |');
+            this.log.writeln('+---------------------------------------------+');
 
             // Need to make sure custom directory is made current before
             // running NPM and bower install commands
@@ -50,7 +95,7 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
                 this.bowerInstall(null, {
                     skipInstall: options['skip-install'],
                     offline: options['bower-offline'],
-                    forceLatest: true // Supplies --force-latest in the bower install
+                    forceLatest: !this.ie8 // Supplies --force-latest in the bower install
                 }, function () {
                     this.emit('dependenciesInstalled');
                 }.bind(this));
@@ -260,12 +305,7 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
             return props.createDirectory;
         },
         "default": function (props) {
-            return path.normalize(props.name
-                .replace(/^\s+/, '')
-                .replace(/\s+$/, '')
-                .replace(/\s+/g, '_')
-                .replace(/((?![0-9a-z\-\_\/]).)*/gi, '')
-                .toLowerCase());
+            return _.slugify(props.name);
         }
     }, {
         type: 'input',
@@ -275,36 +315,50 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     }, {
         type: 'input',
         name: 'email',
-        message: 'What email would you like to use?',
+        message: 'Enter your email address',
         "default": function () {
             return ((_.has(process.env, 'USER')) ? process.env.USER : '<name>') + '@squiz.com.au';
+        }
+    }, {
+        type: 'input',
+        name: 'url',
+        message: 'Enter a url for the site',
+        "default": function(props) {
+            return 'https://' + _.slugify(props.name) + '.clients.squiz.net';
         }
     }, {
         type: 'input',
         name: 'version',
         message: 'What version are you starting from?',
         validate: function (input) {
-            if (!input.match(/^[0-9]+\.[0-9]+\.[0-9]+$/)) {
+            if (!input.match(/\bv?(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b/gi)) {
                 return 'please use a valid SemVer number, e.g. 0.0.1';
             }
             return true;
         },
         "default": '0.0.1'
     }, {
+        type: 'list',
+        name: 'status',
+        message: 'What is the current status of the project?',
+        choices: [{
+            name: 'In Development',
+            checked: true,
+            value: 'In Development'
+        }, {
+            name: 'UAT',
+            checked: false,
+            value: 'UAT'
+        }, {
+            name: 'Live',
+            checked: false,
+            value: 'Live'
+        }]
+    }, {
         type: 'confirm',
         name: 'matrix',
         message: 'Is this a design cutup for Squiz Matrix?',
         "default": true
-    }, {
-        type: 'confirm',
-        name: 'bootstrap',
-        message: 'Include components from Twitter Bootstrap 3?',
-        "default": false
-    }, {
-        type: 'confirm',
-        name: 'bourbon',
-        message: 'Include Bourbon mixins (http://bourbon.io)?',
-        "default": false
     }, {
         type: 'input',
         name: 'mediumMQ',
@@ -350,39 +404,16 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
     });
 
     this.prompt(prompts, function (props) {
-        this.name        = props.name;
-        this.email       = props.email;
-        this.version     = props.version;
-        this.description = props.description;
-        this.modules     = props.modules;
-        this.matrix      = props.matrix;
-        this.unitTest    = props.unitTest;
-
-        // 3rd party frameworks
-        this.includeFoundation = props.foundation;
-        this.includeBootstrap  = props.bootstrap;
-        this.includeBourbon    = props.bourbon;
-
-        // IE 8 and conditionals
-        this.ie8            = props.ie8;
-        this.cssTagStyle    = props.cssTagStyle;
-        this.ieConditionals = props.ieConditionals;
+        // Add all properties from the props object
+        for (var name in props) {
+            if (_.has(props, name)) {
+                this[name] = props[name];
+            }
+        }
 
         // Media queries
         this.mediumMQ = enforceEms(props.mediumMQ, '37.5em');
         this.wideMQ   = enforceEms(props.wideMQ, '60em');
-
-        var modules = _.pluck(props.modules, 'name');
-
-        // Module/Plugin defaults
-        this.bootstrap  = _.contains(modules, 'bootstrap-sass');
-        this.typeahead  = _.contains(modules, 'squiz-module-typeahead');
-        this.flexslider = _.contains(modules, 'squiz-module-flexslider');
-        this.dataTable  = _.contains(modules, 'squiz-module-datatables');
-
-        // Custom directory
-        this.customDirectory = props.customDirectory;
-        this.createDirectory = props.createDirectory;
 
         // Make sure we've not got a blank custom directory name
         if (this.customDirectory && this.customDirectory.match(/^\s*$/g)) {
@@ -390,203 +421,6 @@ SquizBoilerplateGenerator.prototype.askFor = function askFor() {
         }//end if
 
         cb();
-    }.bind(this));
-};
-
-////////////////////////////
-// Build helper functions //
-////////////////////////////
-
-function getSassImport(path, comment) {
-    return ((comment) ? '// ' : '') + '@import "' + path + '";';
-}//end getSassImport()
-
-function getJSImport(path, comment) {
-    return '<!--' + ((comment) ? '@@ ' : ' ') +
-                'import:js source/bower_components/' + path + ' ' +
-            ((comment) ? '@@' : '') + '-->';
-}//end getJSImport()
-
-function fetchBootstrapComponentInfo($elem, _) {
-    // Determine dependencies
-    var dependents = [];
-    if ($elem.data('dependents')) {
-        dependents = _.map($elem.attr('data-dependents').split(','), function (fileName) {
-            return fileName.replace('.less', '');
-        });
-    }//end if
-
-    // Get a trimmed name value to use as a display name
-    var name = _.trim($elem.parent().text());
-    var value = $elem.val().split('.').shift();
-
-    return {
-        name: name,
-        value: value,
-        dependents: dependents
-    };
-}//end fetchBootstrapComponentInfo()
-
-/////////////////////////
-// Customise Bootstrap //
-/////////////////////////
-SquizBoilerplateGenerator.prototype.bootstrap = function bootstrap() {
-
-    var self = this;
-    self.bootstrapHTML = '';
-    self.bootstrapCSS  = '';
-
-    if (!this.includeBootstrap) {
-        return;
-    }//end if
-
-    var cb        = this.async();
-    var _         = this._;
-    var url       = 'http://getbootstrap.com/customize/';
-
-    var $ = require('cheerio');
-    var request = require('request');
-
-    this.log.writeln('Bootstrap component selection (hint: don\'t worry you can change this later manually)');
-    this.log.writeln('Fetching remote', url);
-    request(url, function (err, resp, html) {
-        if (err) {
-            this.log.error(err);
-            cb();
-            return;
-        }//end if
-
-        var page = $.load(html);
-
-        var cssChoices = [];
-        var jsChoices  = [];
-
-        // Find all the .less components
-        var lessComponents = page('#less-section input[type="checkbox"]');
-        lessComponents.each(function () {
-            var info = fetchBootstrapComponentInfo($(this), _);
-
-            // Build the choice to present to the user
-            cssChoices = cssChoices.concat([{
-                name: info.name,
-                checked: false,
-                value: info
-            }]);
-        });
-
-        // Find all the .less components
-        var pluginComponents = page('#plugin-section input[type="checkbox"]');
-        pluginComponents.each(function () {
-            var info = fetchBootstrapComponentInfo($(this), _);
-
-            // Build the choice to present to the user
-            jsChoices = jsChoices.concat([{
-                name: info.name,
-                checked: false,
-                value: info
-            }]);
-        });
-
-        // Build the bootstrap sass output into a temporary file
-        function buildBootstrapSass(props) {
-            // Start with the content in this folder first, it's our base file
-            var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.scss'), {encoding: 'utf8'});
-            var imports = [];
-
-            var selectedWithDeps = [];
-            _.each(props, function (selection) {
-                selectedWithDeps.push(selection.value);
-                selectedWithDeps = selectedWithDeps.concat(selection.dependents);
-            });
-
-            selectedWithDeps = _.uniq(selectedWithDeps);
-
-            // Loop each component building an import directive.
-            // Only selected choices are output as uncommented directives.
-            lessComponents.each(function () {
-                var value = $(this).val().replace('.less', '');
-                var sassFile = 'bootstrap-sass-official/assets/stylesheets/bootstrap/' + value;
-                imports.push(getSassImport(sassFile, _.indexOf(selectedWithDeps, value) === -1));
-            });
-
-            content += imports.join('\n');
-
-            // Store the bootstrap content
-            self.bootstrapCSS = content;
-
-        }//end buildBootstrapSass
-
-        // Build the bootstrap JS choices into a temporary file
-        function buildBootstrapJS(props) {
-            var content = fs.readFileSync(path.join(__dirname, 'templates/bootstrap/bootstrap.html'), {encoding: 'utf8'});
-            var imports = [];
-
-            // Loop each component building an import directive.
-            // Only selected choices are output as uncommented directives.
-            pluginComponents.each(function () {
-                var value = $(this).val();
-
-                // Determine if this value matches anything in the selected props array
-                var jsFile = _.isUndefined(_.find(props, function (val) {
-                    var test = new RegExp('^' + value.replace(/\.js$/, ''));
-                    return val.value.match(test);
-                }));
-
-                imports.push(getJSImport('bootstrap-sass/js/' + value, jsFile));
-            });
-
-            content += imports.join('\n');
-
-            // Store bootstrap import tags.
-            self.bootstrapHTML = content;
-        }//end buildBootstrapSass
-
-        var prompts = [{
-            type: 'list',
-            name: 'build',
-            message: 'What type of Bootstrap build do you want?',
-            choices: [
-                {
-                    name: 'Let me choose the components',
-                    value: 'custom'
-                },
-                {
-                    name: 'Include all components and I can customise later on',
-                    value: 'all'
-                }
-            ]
-        }, {
-            type: 'checkbox',
-            name: 'bootstrapComponentsCSS',
-            message: 'Select the Bootstrap CSS components (dependencies automatically resolve)',
-            when: function (props) {
-                return props.build === 'custom';
-            },
-            choices: cssChoices
-        }, {
-            type: 'checkbox',
-            name: 'bootstrapComponentsJS',
-            message: 'Select the Bootstrap JS plugin components',
-            when: function (props) {
-                return props.build === 'custom';
-            },
-            choices: jsChoices
-        }];
-
-        this.prompt(prompts, function (props) {
-            if (props.build === 'custom') {
-                buildBootstrapSass(props.bootstrapComponentsCSS);
-                buildBootstrapJS(props.bootstrapComponentsJS);
-            } else {
-                buildBootstrapSass(_.map(lessComponents, function (component) {
-                    return fetchBootstrapComponentInfo($(component), _);
-                }));
-                buildBootstrapJS(_.map(pluginComponents, function (component) {
-                    return fetchBootstrapComponentInfo($(component), _);
-                }));
-            }//end if
-            cb();
-        }.bind(this));
     }.bind(this));
 };
 
@@ -608,7 +442,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.copy('_gitignore',     dir + '.gitignore');
     this.copy('config.json',    dir + 'config.json');
     this.copy('Gruntfile.js',   dir + 'Gruntfile.js');
-    this.copy('README.md',      dir + 'README.md');
+    this.template('README.md',      dir + 'README.md');
 
     // Copy these directories
     this.directory('source/files',   dir + 'source/files');
@@ -621,7 +455,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.mkdir(dir + 'source/html');
 
     if (this.matrix) {
-        this.copy('source/html/parse.html', dir + 'source/html/parse.html');
+        this.copy('source/html/parse.html', dir + 'source/html/_parse.html');
     }//end if
 
     this.mkdir(dir + 'source/html/fragments');
@@ -631,26 +465,12 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
 
     this.copy('source/html/layouts/default.hbs',      dir + 'source/html/layouts/default.hbs');
 
-    if (this.includeBourbon) {
-        this.copy('bourbon/bourbon.scss', dir + 'source/styles/imports/bourbon.scss');
-    }//end if
+    // Copy html fragments across
+    this.directory('source/html/fragments', dir + 'source/html/fragments');
 
-    // Bootstrap
-    if (this.includeBootstrap) {
-        this.copy('bootstrap/variables.scss', dir + 'source/styles/imports/bootstrap_variables.scss');
-         
-        // Write out the imports
-        this.write(dir + 'source/styles/imports/bootstrap.scss', this.bootstrapCSS);
-        this.write(dir + 'source/html/fragments/bootstrap.html', this.bootstrapHTML);
-    }//end if
+    // Copy documentation across
+    this.directory('source/html/docs', dir + 'source/html/docs');
+    this.directory('source/js/docs', dir + 'source/js/docs');
 
-    // IE 8
-    if (this.ie8) {
-        this.template('source/html/_head-ie8.html', dir + 'source/html/_head.html');
-    } else {
-        this.template('source/html/_head-single.html', dir + 'source/html/_head.html');
-    }//end if
-
-    this.template('source/html/_foot.html', dir + 'source/html/_foot.html');
     this.template('source/html/index.html', dir + 'source/html/index.html');
 };

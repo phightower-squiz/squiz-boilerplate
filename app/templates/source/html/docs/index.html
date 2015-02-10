@@ -2,24 +2,25 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>{{name}} - (version {{version}})</title>
-<% if (ie8) { %><!-- import:content source:html/fragments/_head-ie8.html --><% } else { %><!-- import:content source:html/fragments/_head-single.html --><% } %>
+        <title>Core - (version {{version}})</title>
+<!-- import:content source:html/docs/fragments/_head.html -->
     </head>
-    <% if (ieConditionals) { %><!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+    <!--[if lt IE 7]><body class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
     <!--[if IE 7]><body class="no-js lt-ie9 lt-ie8"><![endif]-->
     <!--[if IE 8]><body class="no-js lt-ie9"><![endif]-->
-    <!--[if gt IE 8]><!--><% } %>
+    <!--[if gt IE 8]><!-->
     <body class="no-js">
-    <% if (ieConditionals) { %><!--<![endif]--><% } %>
+    <!--<![endif]-->
     <div id="page-wrapper">
     <!--noindex-->
         <header class="header" role="banner">
-
-        </header><!-- /.header -->
+            <!-- import:content source:html/docs/fragments/demo-menu.html -->
+          </header><!-- /.header -->
     <!--endnoindex-->
+            <div class="demo-heading-list"></div>
             <!-- start main-content -->
-            <main class="main" role="main" id="main">
-
+            <main class="main" role="main">
+                <!-- import:markdown README.md -->
             </main><!-- /#main -->
             <!-- end main-content -->
     <!--noindex-->
@@ -29,5 +30,6 @@
     <!--endnoindex-->
     </div><!-- /#page-wrapper -->
 <!-- import:content source:html/fragments/_foot.html -->
+<!-- import:content source:html/docs/fragments/_foot.html -->
     </body>
 </html>

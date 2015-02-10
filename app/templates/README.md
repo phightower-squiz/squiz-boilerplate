@@ -1,35 +1,48 @@
-# Installation
+# <%= name %>
 
-Installation of the boilerplate first requires a few pre-requisites:
+Status: <%= status %>
 
-* Git: https://help.github.com/articles/set-up-git
-* Node: http://howtonode.org/how-to-install-nodejs
+Static design templates for [<%= name %>]<% if (url) { %>(<%= url %>)<% } %>.
 
-## Install Yeoman
+## Getting Started
 
-Yeoman is used to provide the boilerplate with automated generation and workflow tools in conjunction with Grunt and Bower.
+If you have just checked out this repository, you will need to run some commands to get up and running.
 
-```
-npm install -g yo
-```
+First, navigate to the root folder of this project on your local drive:
 
-After the prerequites are sorted it's time to get the install the boilerplate generator:
-
-```
-npm install -g git+https://gitlab.squiz.net/boilerplate/generator-squiz-boilerplate.git
+```bash
+cd /local/path/to/<% if (customDirectory) { %><%= customDirectory %><% } else { %><%= name %><% } %>
 ```
 
-# Starting a new cutup
+Install Node modules:
 
+```bash
+npm install
 ```
-mkdir new_project && cd new_project
-yo squiz-boilerplate
+
+Install Bower modules:
+
+```bash
+bower install
 ```
 
-These commands will create a new directory, initialise the boilerplate with all of the necessary files. This command will ask you a series of questions which will help setting up the initial choices for the build. Subsequent changes can be made to the projects Gruntfile.js which can be tweaked for any custom
-build options that the boilerplate doesn't already offer.
+Run Grunt to compile dist files:
 
-# Tasks
+```bash
+grunt
+```
+
+Run a local web server to view the design templates:
+
+```bash
+grunt serve
+```
+
+View the files on the local web server using a browser:
+
+http://localhost:9002
+
+## Tasks
 
 To call a specific task the syntax is as follows:
 ```
@@ -82,48 +95,8 @@ grunt clean
 
 This will remove any content output in the destination directory. Useful for purging the directory before a rebuild. **Note:** this will remove the entire directory.
 
-# Revision History
+## Help
 
-## `2.1.0`
-* Added deferred module loading for `test` and `optimise` grunt tasks
-* Bourbon added as an install oppion
-* Now prompts to create a directory via the generator
-* Version checking performed every 2 days to warn if the generator is out of date when it is run
+Reference articles on Squiz Boilerplate are available at the official wiki:
 
-## `2.0.7`
-* Favicon re-worked to pass validation
-* X-Compatible-UA meta tag removed to pass validation (add in only if necessary)
-
-## `2.0.5`
-* Removed redundant root folder
-* Fixed sq-flex table cell fallback formatting
-
-## `2.0.0rc1` - Yeoman generator conversion
-
-* Grunt init replaced with [Yeoman](http://yeoman.io) Generator
-* Keyword replacement syntax changed from `@@` to `{{` and `}}` delimiters. Entire keyword system has been replaced
-* New HTML directives added to allow for more flexible customisation of the final build process
-* Sass pre-processor changed to compass to improve performance and give access to compass mixins
-* Directory structure altered to remove the need for `core` and `libs`.
-* Dependency management passed over to [Bower](http://bower.io) for both external libraries and internal modules. Each module now exists in it's own git repository.
-* Added core support for Bootstrap Sass allowing for customised components from this framework to be used seamlessly with the boilerplate
-* Modules themselves have changed to reduce duplication between bootstrap components and reviewed to reduce complexity
-* Re-usable fragments of HTML introduced as a keyword replacement allowing for multiple HTML source files to re-use elements of templated HTML already processed by the boilerplate during builds.
-* Option to install IE 8 compatible version. For those cut ups that don't require IE 8 a single CSS file containing `@media` queries can be generated.
-* Split modules into 'custom' and 'shared' clearly identifying those modules managed as bower dependencies.
-
-## `1.x`  - First release
-
-* New configuration file `config.json` that replaces `modules.json`.
-* Grunt tasks split into separate css, html, css, files and documentation to improve performance of the watch task
-* New dynamic file location replacements with the `@@files` variable in CSS and HTML files. Default is `mysource_files` instead of `files`
-* Dynamic generation of CSS link tags based on `config.json`
-* Removed individual example file generation for simplicity and performance
-* Removed module numbering system in generated files for simplicity and performance
-* Added new JS beautify task
-* Added new Markdown to HTML document generation for docs
-* Replaced some of the previously complicated and custom file concatenation with default grunt concat task
-
-## `0.9a` - Alpha release
-
-* Added new HTML prettify task
+[Squiz Boilerplate Wiki](https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home)

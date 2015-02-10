@@ -127,7 +127,7 @@ SquizBoilerplateGenerator.prototype.createCustomModule = function() {
         when: function (props) {
             return props.javascript;
         }.bind(this),
-        default: true
+        default: false
     }, {
         type: 'confirm',
         name: 'html',

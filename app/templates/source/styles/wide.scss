@@ -1,3 +1,4 @@
+<% if (ie8) { %>
 /**
  * version: {{version}}
  * file:    {{file}}
@@ -11,11 +12,9 @@
  */
 
 @import "boilerplate.scss";
-
+<% } %>
 /*
 --------------------
 Modules
 --------------------
 */
-
-{{modules}}

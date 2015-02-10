@@ -1,0 +1,29 @@
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="favicon.ico">
+        <!--[if IE]><link rel="shortcut icon" href="favicon.ico"><![endif]-->
+        <link rel="apple-touch-icon-precomposed" href="{{file_dest}}/logo-144x144.png">
+        <!-- build:sass dist:styles/global.css -->
+                <!-- import:css source:styles/global.scss -->
+                <!-- import:css module:**/css/variables.scss,module:**/css/global.scss -->
+                <!-- import:content module:**/import/_css.html -->
+        <!-- endbuild -->
+        <!-- build:sass dist:styles/medium.css { "media": "(min-width: <%= mediumMQ %>)" } -->
+                <!-- import:css source:styles/medium.scss -->
+                <!-- import:css module:**/css/variables.scss,module:**/css/medium.scss -->
+        <!-- endbuild -->
+        <!-- build:sass dist:styles/wide.css { "media": "(min-width: <%= wideMQ %>)" } -->
+                <!-- import:css source:styles/wide.scss -->
+                <!-- import:css module:**/css/variables.scss,module:**/css/wide.scss -->
+        <!-- endbuild -->
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="styles/medium.css" />
+            <link rel="stylesheet" href="styles/wide.css" />
+        <![endif]-->
+        <!-- build:sass dist:styles/print.css { "media": "print" } -->
+            <!-- import:css source:styles/print.scss -->
+            <!-- import:css module:**/css/print.scss -->
+        <!-- endbuild -->
+        <!-- build:js dist:js/vendor/modernizr.min.js -->
+            <!-- import:js bower:modernizr/modernizr.js -->
+        <!-- endbuild -->
+        <!-- import:content module:**/import/_head.html -->

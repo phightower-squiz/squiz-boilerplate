@@ -1,0 +1,255 @@
+$demo-menu__bg:  #222;
+$demo-menu__text: #fff;
+
+
+/////////////
+// Colours //
+/////////////
+
+$squiz-blue: #58b8d7;
+$squiz-light-blue: #ACD8E5;
+$squiz-green: #85b96b;
+$squiz-teal: #8fc2bb;
+$squiz-coffee: #e1b8a6;
+$squiz-purple: #968ab4;
+$squiz-tan: #d0c9ac;
+$squiz-cadet-blue: #a1b4c5;
+$squiz-grey: #d2cfc0;
+$squiz-peach: #ecc0b4;
+$squiz-light-green: #c9dfb7;
+$squiz-yellow: #f0ce37;
+$squiz-light-yellow: #ebeca0;
+$squiz-red: #e33030;
+$squiz-dark-purple: #7a769e;
+
+// Give them friendly names in an array so we can
+// loop them and create classes later on
+$squiz-colours:
+    ("blue", $squiz-blue),
+    ("light-blue", $squiz-light-blue),
+    ("green", $squiz-green),
+    ("teal", $squiz-teal),
+    ("coffee", $squiz-coffee),
+    ("purple", $squiz-purple),
+    ("dark-purple", $squiz-dark-purple),
+    ("tan", $squiz-tan),
+    ("cadet-blue", $squiz-cadet-blue),
+    ("grey", $squiz-grey),
+    ("peach", $squiz-peach),
+    ("light-green", $squiz-light-green),
+    ("yellow", $squiz-yellow),
+    ("light-yellow", $squiz-light-yellow),
+    ("red", $squiz-red),
+    ("white", #fff);
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+main {
+    font-weight: 300;
+    margin-top: 1em;
+}
+
+@media (min-width: 37.5em) {
+    main {
+        margin-left: 300px;
+        max-width: 1152px;
+    }
+
+    .demo-heading-list {
+        position: absolute;
+        top: 4em;
+        width: 280px;
+        z-index: 500;
+    }
+}
+
+h1, h2 {
+    font-weight: 300;
+}
+
+.demo + .demo {
+    border-top: 2px solid #ddd;
+    margin-top: 2em;
+    padding-top: 1em;
+}
+
+.demo {
+    position: relative;
+    & code {
+        background: #f8f8f8;
+        padding: .2em;
+        &[class*="lang-"] {
+            @extend .hljs;
+            border-radius: 4px;
+        }
+    }
+
+    blockquote {
+        color: #aaa;
+    }
+}
+
+.demo__inner > {
+    table {
+        width: 100%;
+
+        td, th {
+            padding: .3em .8em;
+        }
+
+        th {
+            background: #222;
+            color: #fff;
+            text-align: left;
+        }
+
+        td + td {
+            border-left: 1px solid #ccc;
+        }
+    }
+}
+
+hr {
+    height: 0;
+    overflow: hidden;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.demo__inner {
+    @extend %border-box;
+    margin: 1em;
+}
+
+.demo__heading {
+    @include sq-font-size(1.5);
+    font-weight: 400;
+}
+
+.demo-menu {
+    background: $demo-menu__bg;
+    overflow: hidden;
+    width: 100%;
+}
+
+.demo-menu__heading {
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 0;
+    padding: .5em;
+    @include sq-inline-block;
+    @include sq-font-size(1);
+    color: $demo-menu__text;
+}
+
+.demo-menu__heading,
+.demo-menu__list {
+    float: left;
+}
+
+.demo-menu__list {
+    @extend %list-reset;
+}
+
+.demo-menu__item {
+    @extend %border-box;
+    float: left;
+    border-right: 1px solid lighten($demo-menu__bg, 10%);
+    border-left: 1px solid darken($demo-menu__bg, 10%);
+    &:first-child {
+        border-left: 0;
+    }
+    &:last-child {
+        border-right: 0;
+    }
+}
+
+.demo-menu__link {
+    display: block;
+    overflow: hidden;
+    padding: .5em;
+    background: transparent;
+    @include sq-transition(background .5s ease);
+    &,
+    &:visited {
+        color: $demo-menu__text;
+        text-decoration: none;
+    }
+
+    &:hover,
+    &.demo-menu__link-active {
+        background: lighten($demo-menu__bg, 10%);
+    }
+}
+
+.demo__example {
+    padding-left: 20px;
+    border-left: 3px solid $squiz-blue;
+    position: relative;
+}
+
+.demo__git-link {
+    display: block;
+    padding: .3em 1em;
+    position: absolute;
+    right: 1em;
+    border-radius: 4px;
+    &,
+    &:visited {
+        text-decoration: none;
+        color: #fff;
+        background: $squiz-purple;
+    }
+    &:hover {
+        background: darken($squiz-purple, 10%);
+    }
+}
+
+// Navigation
+.demo-heading-list {
+    @extend %list-reset;
+    border-right: 1px solid #ccc;
+    @include sq-font-size(.8);
+    & a {
+        text-decoration: none;
+        &,
+        &:visited {
+            color: #222;
+            display: block;
+            padding: .4em .2em .4em 1em;
+        }
+        &:hover {
+            background: #efefef;
+        }
+    }
+}
+
+// Modules //
+
+// Skip links
+.demo .skip-links__link {
+    @extend %screen-show;
+}
+
+// Sprites
+// The white colour of the example spritesheet poses a problem, use a contrasting background
+
+#squiz-module-spritesheet .demo__example {
+    background: $squiz-purple;
+    color: #fff;
+    padding: .5em 1em;
+}
+
+.demo-sprites {
+    width: 100%;
+    & th {
+        text-align: left;
+        border-bottom: 1px solid #fff;
+        padding: .5em;
+    }
+    & td {
+        padding: .5em;
+    }
+}

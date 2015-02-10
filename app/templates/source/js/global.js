@@ -7,14 +7,13 @@
  * file:    {{file}}
  * author:  Squiz Australia
  * change log:
- *     {{date}}- First revision
+ *     {{date}} - First revision
  */
 
 /*
  * Table of Contents
  *
- * Global
- * - Core Init
+ * - Global
  * - Modules
 {{toc}}
  */
@@ -24,18 +23,8 @@
 Global
 --------------------
 */
-(function($){
-    'use strict';
-
-    /*
-    --------------------
-    Core Init
-    --------------------
-    */
-    //  Declare JS Enabled.
-    $('body').removeClass('no-js').addClass('js-enabled');
-
-}(jQuery));
+//  Declare JS Enabled.
+$('body').removeClass('no-js').addClass('js-enabled');
 
 
 /*

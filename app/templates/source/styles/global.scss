@@ -8,9 +8,7 @@
  *
  * - Reset
  * - Utilities
- * - General<% if (includeBootstrap) { %>
- * - Bootstrap<% } %><% if (includeFoundation) { %>
- * - Foundation<% } %>
+ * - General
  * - Modules
 {{toc}}
  */
@@ -26,6 +24,21 @@ Reset (normalize.css)
 */
 
 @import "normalize.scss";
+@import "normalize-opentype.scss";
+
+// Box size all the things
+// https://squizmap.squiz.net/imp-bp/6400
+// http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+// == Start box-sizing reset ==
+*, *:before, *:after {
+    -webkit-box-sizing: inherit;
+       -moz-box-sizing: inherit;
+            box-sizing: inherit;
+}
+html {
+    @include sq-border-box;
+}
+// == End box-sizing reset ==
 
 /*
 --------------------
@@ -89,31 +102,9 @@ textarea {
 @page {
     margin: 0.5cm;
 }
-<% if (includeBootstrap) { %>
-
-/*
---------------------
-Bootstrap
---------------------
-*/
-@import "bootstrap.scss";
-<% } %>
-
-<% if (includeFoundation) { %>
-
-/*
---------------------
-Foundation
---------------------
-*/
-@import "foundation_settings.scss";
-@import "foundation.scss";
-<% } %>
 
 /*
 --------------------
 Modules
 --------------------
 */
-
-{{modules}}
