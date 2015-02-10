@@ -65,7 +65,7 @@
   },
   "squiz-module-parallax": {
     "name": "Parallax",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-parallax.git#0.0.1"
+    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-parallax.git#0.0.3"
   },
   "squiz-module-quick-search": {
     "name": "Quick search",
