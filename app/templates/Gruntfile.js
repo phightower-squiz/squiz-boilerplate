@@ -618,7 +618,7 @@ module.exports = function (grunt) {
             files: [
                 'Gruntfile.js',
                 'tasks/*.js',
-                '<%= config.source %>/html/**/*.html',
+                '<%= config.source %>/html/**/*.{html,hbs,json,yml}',
                 '<%= config.source %>/modules/**/html/*.html',
                 '<%= config.source %>/styles/{,*/}*.scss',
                 '<%= config.source %>/modules/**/*.md',
