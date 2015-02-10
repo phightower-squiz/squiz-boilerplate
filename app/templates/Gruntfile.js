@@ -672,10 +672,11 @@ module.exports = function (grunt) {
         'substitute:html',
         (docMode) ? 'boilerplate:doc' : 'boilerplate:html',
         'substitute',
+        'assemble',
         'clean:distFragments'
     ]);
 
-    // Defer load of required npm tasks
+    // Defer load of required npm tasksass
     grunt.registerTask('build', [
         'substitute:html',
         (docMode) ? 'boilerplate:doc' : 'boilerplate:html',
@@ -685,6 +686,7 @@ module.exports = function (grunt) {
         'newer:copy:moduleCSSFiles',
         'newer:copy:moduleFonts',
         'substitute',
+        'assemble',
         'clean:distFragments',
         'cssbeautifier'
     ]);
