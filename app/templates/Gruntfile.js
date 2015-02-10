@@ -663,7 +663,7 @@ module.exports = function (grunt) {
     // Defer load of required npm tasks
     grunt.registerTask('build', [
         'substitute:html',
-        (docMode) ? 'boilerplate:doc' : 'boilerplate:home',
+        (docMode) ? 'boilerplate:doc' : 'boilerplate:html',
         'newer:copy:files',
         'newer:copy:favicon',
         'newer:copy:moduleFiles',
