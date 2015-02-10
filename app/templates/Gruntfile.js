@@ -518,7 +518,7 @@ module.exports = function (grunt) {
         pages: {
             files: {
                 // Assemble from temp into dist
-                '<%= config.dest  %>/': ['<%= config.source  %>/html/*.hbs']
+                '<%= config.dest  %>/': ['<%= config.source  %>/html/pages/*.hbs']
             }
         }
     };

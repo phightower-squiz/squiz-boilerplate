@@ -464,6 +464,7 @@ SquizBoilerplateGenerator.prototype.boilerplate = function boilerplate() {
     this.mkdir(dir + 'source/html/data');
 
     this.copy('source/html/layouts/default.hbs',      dir + 'source/html/layouts/default.hbs');
+    this.copy('source/html/pages/index.hbs',      dir + 'source/html/pages/index.hbs');
 
     // Copy html fragments across
     this.directory('source/html/fragments', dir + 'source/html/fragments');
