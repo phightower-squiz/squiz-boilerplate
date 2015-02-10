@@ -1,5 +1,10 @@
 # Revision History
 
+## `3.0.3`
+* New modules: Text Underline, Time ago jQuery plugin, Mediaelement.js helper, Legal List styles
+* Updated modules: Spritesheet improved to reduce duplicate CSS, Parallax module updated for performance improvements
+* General updates: Improved README generated, Change log split into separate file
+
 ## `3.0.2`
 * Parse file no longer included in parser due to uncertain results parsing non HTML content (i.e Matrix design tags).
 
