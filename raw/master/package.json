@@ -1,0 +1,68 @@
+// 20151008092347
+// https://gitlab.squiz.net/lwoollett/squiz-boilerplate/raw/master/package.json
+
+{
+  "name": "generator-squiz-boilerplate-assemble",
+  "version": "3.0.4",
+  "description": "The Squiz Boilerplate generator for Yeoman",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home",
+  "bugs": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate/issues",
+  "author": "Squiz Australia",
+  "contributors": [
+    {
+      "name": "Anthony Barnes",
+      "email": "abarnes@squiz.com.au"
+    },
+    {
+      "name": "Dianne Castillo",
+      "email": "dcastillo@squiz.com.au"
+    },
+    {
+      "name": "James Sinclair",
+      "email": "jsinclair@squiz.com.au"
+    },
+    {
+      "name": "Tim Tran",
+      "email": "ttran@squiz.com.au"
+    }
+  ],
+  "private": true,
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.squiz.net/lwoollett/squiz-boilerplate.git"
+  },
+  "dependencies": {
+    "yeoman-generator": "~0.17.x",
+    "slang": "*",
+    "cheerio": "*",
+    "request": "*",
+    "moment": "*",
+    "semver": "*",
+    "chalk": "*",
+    "async": "*"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "rimraf": "*",
+    "lodash": "*"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "Squiz"
+    }
+  ]
+}
