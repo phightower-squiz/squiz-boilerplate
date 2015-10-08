@@ -33,7 +33,7 @@
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.squiz.net/lwoollett/squiz-boilerplate.git"
+    "url": "https://github.com/phightower-squiz/squiz-boilerplate.git"
   },
   "dependencies": {
     "yeoman-generator": "~0.17.x",

@@ -36,7 +36,7 @@ var SquizBoilerplateGenerator = module.exports = function SquizBoilerplateGenera
         }//end if
 
         this.log.writeln('Please make sure you read the wiki documentation for instructions on using this boilerplate.');
-        this.log.writeln(chalk.cyan('https://gitlab.squiz.net/boilerplate/squiz-boilerplate/wikis/home'));
+        this.log.writeln(chalk.cyan('https://github.com/phightower-squiz/squiz-boilerplate/wikis/home'));
 
         this.log.writeln('\nYou can use some of the following commands to get started:');
         this._.each([
@@ -165,8 +165,8 @@ function updateVersion(yo, cb) {
     var request = require('request');
     var semver  = require('semver');
     var current = yo.pkg.version;
-    var repoPath  = 'https://gitlab.squiz.net/lwoollett/squiz-boilerplate.git';
-    var remoteUrl = 'https://gitlab.squiz.net/lwoollett/squiz-boilerplate/raw/master/package.json';
+    var repoPath  = 'https://github.com/phightower-squiz/squiz-boilerplate/squiz-boilerplate.git';
+    var remoteUrl = 'https://github.com/phightower-squiz/squiz-boilerplate/squiz-boilerplate/raw/master/package.json';
 
     request(remoteUrl, function(err, resp, html) {
         if (err) {

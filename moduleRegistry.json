@@ -1,110 +1,110 @@
 {
   "squiz-module-accordion": {
     "name": "Accordion and Tabs",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-accordion.git#0.0.7"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-accordion.git#0.0.7"
   },
   "squiz-module-back-to-top": {
     "name": "Back to top",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-back-to-top.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-back-to-top.git#0.1.0"
   },
   "squiz-module-breadcrumbs": {
     "name": "Breadcrumbs",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-breadcrumbs.git#0.0.2"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-breadcrumbs.git#0.0.2"
   },
   "squiz-module-datatables": {
     "name": "Data Tables",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-datatables.git#0.1.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-datatables.git#0.1.1"
   },
   "squiz-module-datepicker": {
     "name": "Datepicker",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-boilerplate-datepicker.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-boilerplate-datepicker.git#0.0.1"
   },
   "squiz-module-font-awesome": {
     "name": "Font Awesome",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-font-awesome.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-font-awesome.git#0.1.0"
   },
   "squiz-module-header-logo": {
     "name": "Header logo",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-header-logo.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-header-logo.git#0.1.0"
   },
   "squiz-module-interactive-map": {
     "name": "Interactive Map",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-interactive-map.git#0.0.2"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-interactive-map.git#0.0.2"
   },
   "squiz-module-legal-list": {
     "name": "Legal List",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-legal-list.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-legal-list.git#0.0.1"
   },
   "squiz-module-magnific-popup": {
     "name": "Magnific Popup",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-magnific-popup.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-magnific-popup.git#0.1.0"
   },
   "squiz-module-matrix-form": {
     "name": "Matrix form styles/validation",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-form.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-matrix-form.git#0.1.0"
   },
   "squiz-module-matrix-jsapi": {
     "name": "Matrix JS API wrapper",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-matrix-js-api.git#0.0.3"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-matrix-js-api.git#0.0.3"
   },
   "squiz-module-mediaelement": {
     "name": "Easier install for mediaelement.js",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-mediaelement.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-mediaelement.git#0.0.1"
   },
   "squiz-module-navbar": {
     "name": "Nav bar",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-navbar.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-navbar.git#0.1.0"
   },
   "squiz-module-off-canvas-nav": {
     "name": "Off Canvas Navigation",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-off-canvas-nav.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-off-canvas-nav.git#0.0.1"
   },
   "squiz-module-pagination": {
     "name": "Pagination",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-pagination.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-pagination.git#0.0.1"
   },
   "squiz-module-parallax": {
     "name": "Parallax",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-parallax.git#0.0.3"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-parallax.git#0.0.3"
   },
   "squiz-module-quick-search": {
     "name": "Quick search",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-quick-search.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-quick-search.git#0.1.0"
   },
   "squiz-module-responsive-tables": {
     "name": "Responsive Tables",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-responsive-tables.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-responsive-tables.git#0.0.1"
   },
   "squiz-module-secondary-nav": {
     "name": "Secondary Navigation",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-secondary-nav.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-secondary-nav.git#0.1.0"
   },
   "squiz-module-skip-links": {
     "name": "Skip links",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-skip-links.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-skip-links.git#0.1.0"
   },
   "squiz-module-slick": {
     "name": "Slick slider",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-slick.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-slick.git#0.0.1"
   },
   "squiz-module-spritesheet": {
     "name": "Spritesheet",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-spritesheet.git#0.1.4"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-spritesheet.git#0.1.4"
   },
   "squiz-module-text-underline": {
     "name": "Text Underline",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-text-underline.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-text-underline.git#0.0.1"
   },
   "squiz-module-timeago": {
     "name": "Time Ago",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-timeago.git#0.0.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-timeago.git#0.0.1"
   },
   "squiz-module-twitter-bootstrap": {
     "name": "Twitter Bootstrap",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-twitter-bootstrap.git#0.1.1"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-twitter-bootstrap.git#0.1.1"
   },
   "squiz-module-typeahead": {
     "name": "Twitter typeahead (Autocomplete)",
-    "repository": "https://gitlab.squiz.net/boilerplate/squiz-module-typeahead.git#0.1.0"
+    "repository": "https://github.com/phightower-squiz/squiz-boilerplate/squiz-module-typeahead.git#0.1.0"
   }
 }
