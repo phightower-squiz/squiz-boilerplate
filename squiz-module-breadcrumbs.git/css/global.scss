@@ -1,0 +1,27 @@
+.breadcrumbs {
+    @include sq-font-size(.8);
+    .has-subnav & {
+        margin-top: 36px;
+    }
+}
+
+.breadcrumbs__list {
+    @extend %list-reset;
+}
+
+.breadcrumbs__item {
+    display: inline-block;
+}
+
+.breadcrumbs__link {
+
+}
+
+.breadcrumbs__divider {
+    @include sq-inline-block;
+    margin: 0 5px;
+}
+
+.breadcrumbs__current {
+    font-weight: bold;
+}

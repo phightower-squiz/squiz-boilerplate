@@ -1,0 +1,12 @@
+{
+  "name": "squiz-module-interactive-map",
+  "description": "Interactive Map",
+  "dependencies": {
+    "leaflet": "~0.7.3",
+    "leaflet-plugins": "git+https://github.com/shramov/leaflet-plugins.git#~1.2.0"
+  },
+  "version": "0.0.4",
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

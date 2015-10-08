@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-datatables",
+  "version": "0.1.3",
+  "description": "Data Tables",
+  "license": "",
+  "private": true,
+  "dependencies": {
+    "datatables": "~1.10.x"
+  },
+  "ignore": []
+}

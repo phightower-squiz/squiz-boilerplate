@@ -1,0 +1,12 @@
+{
+  "name": "squiz-module-spritesheet",
+  "version": "0.1.5",
+  "authors": [
+    "adewezlopez@squiz.com.au",
+    "abarnes@squiz.com.au"
+  ],
+  "description": "Spritesheet",
+  "license": "",
+  "private": true,
+  "ignore": []
+}

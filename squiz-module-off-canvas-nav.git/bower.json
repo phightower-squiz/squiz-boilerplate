@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-off-canvas-nav",
+  "description": "Off Canvas Navigation",
+  "version": "0.0.2",
+  "dependencies": {
+    "hammerjs": "~2.0.4"
+  },
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

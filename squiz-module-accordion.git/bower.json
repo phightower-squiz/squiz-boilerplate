@@ -1,0 +1,8 @@
+{
+  "name": "squiz-module-accordion",
+  "version": "0.0.10",
+  "description": "Accordion and Tabs",
+  "license": "",
+  "private": true,
+  "ignore": []
+}

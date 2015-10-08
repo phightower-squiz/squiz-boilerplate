@@ -1,0 +1,20 @@
+.table-sortable {
+    & th {
+        cursor: pointer;
+        background: #222;
+        color: #fff;
+    }
+    & th:after {
+        float: right;
+    }
+    & th.sorting:after {
+        
+    }
+    & th.sorting_asc:after {
+        @include sq-arrow($direction: top, $color: #fff, $size: 5px, $height: 0px);
+    }
+    & th.sorting_desc:after {
+        // fa-sort-desc
+        @include sq-arrow($direction: bottom, $color: #fff, $size: 5px, $height: 0px);
+    }
+}

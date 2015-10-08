@@ -1,0 +1,7 @@
+// The 'sticky' back to top button positions itself offset from the side of the viewport
+// Defaults to bottom right corner.
+$back-to-top__offset: 1em !default;
+$back-to-top__size: 2em !default;
+
+$back-to-top__opacity: 55;
+$back-to-top__opacity--hover: 100;

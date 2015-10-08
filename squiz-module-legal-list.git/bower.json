@@ -1,0 +1,8 @@
+{
+  "name": "squiz-module-legal-list",
+  "description": "Legal List",
+  "version": "0.0.1",
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

@@ -1,0 +1,12 @@
+// Best Practice Article: https://central.squiz.net/imp/best-practice/accessibility/skip-links
+.skip-links__list {
+    @extend %list-reset;
+}
+
+.skip-links__link {
+    @extend %screen-hide;
+}
+
+.skip-links__link:focus {
+    @extend %screen-show;
+}

@@ -1,0 +1,18 @@
+.tt-query {
+    color: $typeahead__input-colour;
+}
+.tt-hint {
+    color: $typeahead__hint-colour;
+    @extend .quick-search__input;
+}
+.tt-dropdown-menu {
+    border: 1px solid $typeahead__border-colour;
+}
+.tt-suggestion {
+    &.tt-is-under-cursor {
+        background-color: $typeahead__suggestion--hover;
+    }
+    & p {
+        margin: 0;
+    }
+}

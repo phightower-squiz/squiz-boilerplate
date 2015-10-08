@@ -1,0 +1,131 @@
+// Match these values to the size of your spritesheet and grid size used
+$sprites__icon-grid-size: 50px !default;
+$sprites__sheet-width:    400px;
+$sprites__sheet-height:   1000px;
+$sprites__src-png: "sprites.png";
+$sprites__src-svg: "sprites.svg"; // Set this to an empty string to stop it outputting svg
+
+// Sprite icons and grid positions
+// Note: Sass doesn't support maps/lists with named properties so it's mimicked
+// here by specifying the name in even params and the position in odd params
+// Odd: Name
+// Even: row #, col #, actual width, actual height
+$sprites__icons:
+    // Format:
+    // Icon Name (will be used as css class suffix, so use a suitable css class name)
+    // Row index (starting at 0)
+    // Column index (starting at 0)
+    // Width (pixels)
+    // Height (pixels)
+
+    search,
+    (0, 0, 23, 23),
+
+    home,
+    (0, 1, 26, 24),
+
+    play,
+    (0, 2, 11, 13),
+
+    pause,
+    (0, 3, 11, 13),
+
+    prev,
+    (0, 4, 10, 13),
+
+    next,
+    (0, 5, 10, 13),
+
+    burger,
+    (0, 6, 31, 24),
+
+    close,
+    (0, 7, 19, 19),
+
+    youtube,
+    (1, 0, 41, 41),
+
+    facebook,
+    (1, 1, 41, 41),
+
+    twitter,
+    (1, 2, 41, 41),
+
+    linkedin,
+    (1, 3, 41, 41),
+
+    map-marker,
+    (1, 4, 13, 17),
+
+    external-link,
+    (1, 5, 16, 17),
+
+    pdf,
+    (2, 0, 29, 31),
+
+    doc,
+    (2, 1, 29, 31),
+
+    xls,
+    (2, 2, 29, 31)
+
+    // Add your own sprites here, just watch for commas to make sure the list
+    // format is valid. Obviously the last item in the list doesn't have a trailing comma ","
+;
+
+// Required for scale calculations (Internal calculations, you don't need to edit these)
+$sprites__columns:        stripUnit($sprites__sheet-width/$sprites__icon-grid-size);
+$sprites__rows:           stripUnit($sprites__sheet-height/$sprites__icon-grid-size);
+$sprites__width:          $sprites__columns*$sprites__icon-grid-size;
+$sprites__height:          $sprites__rows*$sprites__icon-grid-size;
+
+@mixin sq-sprite-bg($scale: 1) {
+    // The background image url
+    background-color: transparent;
+    background-repeat: no-repeat;
+    @if $sprites__src-svg != "" {
+        background-size: ($scale*stripUnit($sprites__width) + px) ($scale*stripUnit($sprites__height) + px);
+        background-image: url({{file_dest}}/#{$sprites__src-svg});
+        .no-svg & {
+            background-image: url({{file_dest}}/#{$sprites__src-png});
+        }
+    } @else {
+        background-image: url({{file_dest}}/#{$sprites__src-png});
+    }
+}
+
+// Assign a background and width/height based on the spritesheet variables
+// specified above
+@mixin sq-sprite($name, $scale: 1) {
+    $index: index($sprites__icons, $name);
+    $positionIndex: nth( $sprites__icons, $index + 1);
+
+    // Converted values to px
+    $posY: (- nth($positionIndex, 1)*$sprites__icon-grid-size);
+    $posX: (- nth($positionIndex, 2)*$sprites__icon-grid-size);
+    $width: nth($positionIndex, 3) + px;
+    $height: nth($positionIndex, 4) + px;
+
+    width: round($scale*nth($positionIndex, 3)) + px;
+    height: round($scale*nth($positionIndex, 4)) + px;
+    background-position: $posX*$scale $posY*$scale;
+}
+
+// Create a pseudo element, either :before or :after and assign it
+// a sprite background
+@mixin sq-sprite-pseudo($name, $elem: "before", $scale: 1) {
+    &:#{$elem} {
+        @include sq-sprite-bg;
+        display: block;
+        @include sq-sprite($name);
+        content: '';
+        // Place any extra output supplied for the element
+        @content;
+    }
+}
+
+// Because spelling is hard and we don't want to break any code that may
+// have used the mispelt version
+@mixin sq-sprite-psuedo($name, $elem: "before", $scale: 1) {
+    @include sq-sprite-pseudo($name, $elem, $scale);
+}

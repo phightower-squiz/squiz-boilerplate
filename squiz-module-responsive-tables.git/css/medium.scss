@@ -1,0 +1,8 @@
+.responsive-table {
+    th {
+        position: inherit;
+    }
+    td:before {
+        display: none;
+    }
+}

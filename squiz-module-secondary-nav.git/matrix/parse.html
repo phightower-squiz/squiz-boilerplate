@@ -1,0 +1,36 @@
+<MySource_AREA id_name="secondary_nav_menu" design_area="menu_normal" cache="1">
+<MySource_SET name="settings.class.normal" value="" />
+<MySource_SET name="settings.class.current" value="nav__item--current" />
+<MySource_SET name="settings.class.hierarchy" value="nav-item--active" />
+<MySource_SET name="level" value="1"/>
+<nav class="nav">
+    <ul class="nav__list" role="menu">
+        <MySource_ASSET>
+        <li class="nav__item <MySource_PRINT var="settings.class" />" role="menuitem"><a href="<MySource_PRINT var="asset_url" />" class="nav__item-link"><MySource_PRINT var="asset_short_name" /></a>
+        <MySource_SUB design_area="menu_normal">
+        <MySource_SET name="settings.class.normal" value="" />
+        <MySource_SET name="settings.class.current" value="nav__sub-item--current" />
+        <MySource_SET name="settings.class.hierarchy" value="nav__sub-item--active" />
+            <ul class="nav__sub" role="menu">
+            <MySource_ASSET>
+                <li class="nav__sub-item <MySource_PRINT var="settings.class" />" role="menuitem"><a href="<MySource_PRINT var="asset_url" />" class="nav__sub-item-link"><MySource_PRINT var="asset_short_name" /></a>
+                <MySource_SUB design_area="menu_normal">
+                <MySource_SET name="settings.class.normal" value="" />
+                <MySource_SET name="settings.class.current" value="nav__deep-item--current" />
+                <MySource_SET name="settings.class.hierarchy" value="nav__deep-item--active" />
+                    <ul class="nav__deep" role="menu">
+                    <MySource_ASSET>
+                        <li class="nav__deep-item <MySource_PRINT var="settings.class" />" role="menuitem"><a href="<MySource_PRINT var="asset_url" />" class="nav__deep-item-link"><MySource_PRINT var="asset_short_name" /></a>
+                    </li>
+                    </MySource_ASSET>
+                    </ul><!-- /.nav__deep -->
+                </MySource_SUB>
+                </li>
+            </MySource_ASSET>
+            </ul><!-- /.nav__sub -->
+        </MySource_SUB>
+        </li>
+        </MySource_ASSET>
+    </ul><!-- /.nav__list -->
+</nav><!-- end div.nav -->
+</MySource_AREA>

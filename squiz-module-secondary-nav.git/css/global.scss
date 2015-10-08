@@ -1,0 +1,60 @@
+.nav__list,
+.nav__sub,
+.nav__deep {
+    @extend %list-reset;
+}
+
+.nav__item, 
+.nav__sub-item,
+.nav__deep-item {
+    display: block;
+}
+
+.nav__item-link,
+.nav__sub-item-link,
+.nav__deep-item-link {
+    display: block;
+    padding: .5em 1em;
+    @extend %border-box;
+}
+
+.nav__deep-item-link {
+    padding-left: 1.5em;
+}
+
+.nav__item-link {
+    // link styles here
+}
+
+.nav__sub-item-link {
+    // sub link styles here
+}
+
+.nav__item-link:hover,
+.nav__sub-item-link:hover {
+    // Hover styles here
+}
+
+.nav__deep-item-link:hover {
+    // Deep link hover styles here
+}
+
+.nav__item--active .nav__item-link,
+.nav__sub-item--active .nav__sub-item-link,
+.nav__deep-item--active .nav__deep-item-link {
+    // Psuedo selector used here just for an example, replace
+    // it with your own styles
+    &:after {
+        content: " (ACTIVE)";
+    }
+}
+
+.nav__item--current .nav__item-link,
+.nav__sub-item--current .nav__sub-item-link,
+.nav__deep-item--current .nav__deep-item-link {
+    // Psuedo selector used here just for an example, replace
+    // it with your own styles
+    &:after {
+        content: " (CURRENT)";
+    }
+}

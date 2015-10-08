@@ -1,0 +1,8 @@
+{
+  "name": "squiz-module-breadcrumbs",
+  "description": "Breadcrumbs",
+  "version": "0.0.2",
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

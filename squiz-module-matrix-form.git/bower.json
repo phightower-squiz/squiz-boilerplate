@@ -1,0 +1,15 @@
+{
+  "name": "squiz-module-matrix-form",
+  "version": "0.1.3",
+  "authors": [
+    "abarnes@squiz.com.au",
+    "dcastillo@squiz.com.au"
+  ],
+  "description": "Matrix form styles/validation",
+  "keywords": [],
+  "dependencies": {
+    "jquery-validation": "~1.x"
+  },
+  "license": "Squiz",
+  "private": true
+}

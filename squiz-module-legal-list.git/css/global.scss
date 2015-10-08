@@ -1,0 +1,23 @@
+// Legal numbering for ordered lists
+.legal-list {
+    counter-reset: section;
+    & ol {
+        counter-reset: clause;
+        @include sq-list-reset;
+    }
+    & li {
+        counter-increment: clause;
+    }
+    // Sub list item indentation
+    & ol ol li {
+        @include sq-rem-attr(padding-left, 1);
+    }
+}
+.legal-list__section:before {
+    counter-increment: section;
+    content: counter(section) ". ";
+}
+.legal-list li:before,
+.legal-list li h3:before {
+    content: counter(section) "." counters(clause, ".") ". ";
+}

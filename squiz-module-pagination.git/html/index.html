@@ -1,0 +1,33 @@
+<!--@@
+    Achieving this format in Matrix requires some customisation to an asset listing's bodycopies
+    and pagination formatting.
+
+    Page Contents
+    ==============
+    <ul class="pagination">
+        <li class="pagination__item">%previous_page%</li>
+        %page_list%
+        <li class="pagination__item">%next_page%</li>
+    </ul>
+    ==============
+
+    Page Link Format
+    ================
+    <li class="pagination__item"><a class="pagination__link" href="%page_link%">%page_number%</a></li> 
+    ================
+
+    Current Page Format
+    ===================
+    <li class="pagination__item pagination__item--current">%page_number%</li>
+    ==================
+@@-->
+<ul class="pagination">
+    <li class="pagination__item">Previous</li>
+    <li class="pagination__item pagination__item--current">1</li>
+    <li class="pagination__item"><a class="pagination__link" href="?result_xxx_result_page=2">2</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="?result_xxx_result_page=3">3</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="?result_xxx_result_page=4">4</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="?result_xxx_result_page=5">5</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="?result_xxx_result_page=6">6</a></li>
+    <li class="pagination__item"><a href="?result_xxx_result_page=2">Next</a></li>
+</ul>

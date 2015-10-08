@@ -1,0 +1,19 @@
+<!--@@
+    Breadcrumb dividers use actual elements with aria-hidden as opposed to :after elements with CSS content as some readers will announce content generated with CSS
+
+    WCAG also states the last item should be unlinked if it is the current page
+@@-->
+<nav class="breadcrumbs">
+    <p id="breadcrumb__label" class="visuallyhidden">You are here:</p>
+    <ol class="breadcrumbs__list" aria-labelledby="breadcrumb__label">
+        <li class="breadcrumbs__item">
+            <a href="" class="breadcrumbs__link">Home</a>
+            <span class="breadcrumbs__divider" aria-hidden="true">&gt;<span>
+        </li>
+        <li class="breadcrumbs__item">
+            <a href="" class="breadcrumbs__link">Suite</a>
+            <span class="breadcrumbs__divider" aria-hidden="true">&gt;<span>
+        </li>
+        <li class="breadcrumbs__item breadcrumbs__current">Matrix</li>
+    </ol>
+</nav>

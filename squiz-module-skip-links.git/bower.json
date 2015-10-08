@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-skip-links",
+  "version": "0.1.0",
+  "authors": [
+    "abarnes@squiz.com.au"
+  ],
+  "description": "Skip links",
+  "keywords": [],
+  "license": "Squiz",
+  "private": true
+}

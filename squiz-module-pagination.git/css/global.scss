@@ -1,0 +1,22 @@
+.pagination {
+    @extend %list-reset;
+}
+
+.pagination__item {
+    @include sq-inline-block;
+    padding: 6px 12px;
+    padding: pxToRem(6) pxToRem(12);
+    &:first-child,
+    &:last-child {
+        border: 1px solid;
+        border-radius: 4px;
+    }
+}
+
+.pagination__item--current {
+    font-weight: bold;
+}
+
+.pagination__item a {
+    text-decoration: none;
+}

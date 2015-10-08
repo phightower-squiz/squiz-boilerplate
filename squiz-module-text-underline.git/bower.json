@@ -1,0 +1,8 @@
+{
+  "name": "squiz-module-text-underline",
+  "description": "Text Underline",
+  "version": "0.0.2",
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

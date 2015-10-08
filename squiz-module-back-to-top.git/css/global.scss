@@ -1,0 +1,12 @@
+.back-to-top {
+    text-align: center;
+    display: block;
+    width: 100%;
+    line-height: $back-to-top__size;
+    height: $back-to-top__size;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}

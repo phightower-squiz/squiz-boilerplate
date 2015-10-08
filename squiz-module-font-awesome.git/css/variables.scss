@@ -1,0 +1,10 @@
+// Variables
+// --------------------------
+
+$fa-font-path:        "{{file_dest}}" !default;
+
+// Font icon helper mixin
+@mixin sq-font-icon($code) {
+    font-family: "FontAwesome";
+    content: $code;
+}

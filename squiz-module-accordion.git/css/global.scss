@@ -1,0 +1,81 @@
+// Default states for the uber accordion target
+// This example is some simple show/hide behavior
+// .js-enabled .uber-accordion__target {
+//     display: none;
+//     &.uber-accordion__target-active {
+//         display: block;
+//     }
+// }
+
+////////////////////////
+// Accordion Examples //
+////////////////////////
+
+// Active button state examples
+.accordion__link {
+    &:after {
+        content: '+';
+        border: 1px solid;
+        @include sq-inline-block;
+        margin-left: 1em;
+        width: 1em;
+        text-align: center;
+    }
+    &.uber-accordion__button-active:after {
+        content: '-';
+    }
+}
+
+// CSS Animation examples for accordion target expand/collapse behavior
+.js-enabled .accordion__target {
+    max-height: 0;
+    overflow: hidden;
+    @include sq-transition(max-height .3s ease);
+    &.uber-accordion__target-active {
+        // Height needs to be set to something far beyond whatever the content will be
+        max-height: 100em;
+    }
+}
+
+///////////////////
+// Tabs Examples //
+///////////////////
+
+// make the buttons look like tabs
+.tabs__tab-list {
+    @extend %list-reset;
+}
+
+.tabs__item {
+    @include sq-inline-block;
+}
+
+.tabs__link {
+    padding: .5em;
+    border: 1px solid;
+    border-bottom: 0;
+    background: #eee;
+    &.uber-accordion__button-active {
+        background: #fff;
+    }
+}
+
+.js-enabled .tabs__target {
+    display: none;
+    &.uber-accordion__target-active {
+        display: block;
+    }
+}
+
+////////////////////
+// No JS Fallback //
+////////////////////
+
+// No js fallback to css :target
+// (you'll need to apply these styles, or add the class to the target elements)
+.no-js .uber-accordion__target {
+    display: none;
+    &:target {
+        display: block;
+    }
+}

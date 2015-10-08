@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-parallax",
+  "description": "Parallax",
+  "version": "0.0.5",
+  "license": "Squiz",
+  "dependencies": {
+    "raf.js": "*"
+  },
+  "private": true,
+  "ignore": []
+}

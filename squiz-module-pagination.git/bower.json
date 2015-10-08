@@ -1,0 +1,8 @@
+{
+  "name": "squiz-module-pagination",
+  "description": "Pagination",
+  "version": "0.0.2",
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

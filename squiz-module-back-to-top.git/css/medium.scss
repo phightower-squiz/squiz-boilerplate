@@ -1,0 +1,15 @@
+.back-to-top {
+    position: fixed;
+    bottom: $back-to-top__offset;
+    right: $back-to-top__offset;
+    width: $back-to-top__size;
+    height: $back-to-top__size;
+    @include sq-opacity($back-to-top__opacity);
+    &:hover {
+        @include sq-opacity($back-to-top__opacity--hover);
+    }
+}
+
+.back-to-top__text {
+    display: none;
+}

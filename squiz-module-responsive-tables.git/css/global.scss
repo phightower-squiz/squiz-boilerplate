@@ -1,0 +1,14 @@
+.responsive-table {
+    th {
+       position: absolute;
+       top: 0;
+       left: -999em;
+    }
+    // The becomes the faux heading for each table cell
+    td:before {
+        text-transform: uppercase;
+        content: attr(data-th);
+        font-weight: bold;
+        display: block;
+    }
+}

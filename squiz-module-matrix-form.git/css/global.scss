@@ -1,0 +1,241 @@
+/*
+ * Some elements taken and modified from: WTF, forms?
+ * Released under MIT and copyright 2014 Mark Otto.
+ * http://wtfforms.com
+ */
+
+.sq-form {
+    input, textarea {
+        width: 100%;
+        border: 1px solid $basic-form__border-colour;
+        padding: .5em 1em;
+    }
+
+    fieldset {
+        border: 0;
+        padding: 0;
+    }
+
+    label {
+        cursor: pointer;
+    }
+}
+
+.sq-form-question {
+    overflow: hidden;
+    padding: .5em;
+}
+
+.sq-form-question-answer {
+    ul {
+        @include sq-list-reset;
+    }
+}
+
+.sq-form input[type="text"],
+.sq-form input[type="password"],
+.sq-form textarea {
+    width: 100%;
+    @extend %border-box;
+}
+
+.lt-ie9 .sq-form input[type="text"],
+.lt-ie9 .sq-form input[type="password"],
+.lt-ie9 .sq-form textarea {
+    width: 98%; // older IE doesn't handle border box properly
+}
+
+///////////
+// Notes //
+///////////
+
+.sq-form-question-note {
+    font-size: 90%;
+    font-style: italic;
+    display: block;
+    margin-bottom: .5em;
+}
+
+.sq-form-question {
+    margin-bottom: 1em;
+    @extend %clearfix;
+}
+
+////////////
+// Errors //
+////////////
+
+.sq-form-error,
+.sq-form-required-field {
+    color: $basic-form__error-text;
+}
+
+.sq-form-error {
+    clear: left;
+}
+
+.sq-form-question-error {
+    background-color: $basic-form__error-bg;
+}
+
+////////////
+// Select //
+////////////
+
+.sq-form-question-country,
+.sq-form-question-select,
+.select {
+    select {
+        display: inline-block;
+        width: 100%;
+        margin: 0;
+        padding: .5rem 2.25rem .5rem 1rem;
+        line-height: 1.5;
+        border: 0;
+        cursor: pointer;
+        outline: 0;
+        background: $basic-form__input-colour;
+        border: 1px solid $basic-form__border-colour;
+        border-radius: 0;
+        -webkit-appearance: none;
+         -moz-appearance: none;
+              appearance: none;
+
+        &:focus:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 #000;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 .075rem $basic-form__input-colour, 0 0 0 .2rem $basic-form__highlight-colour;
+        }
+
+        &:active {
+            color: $basic-form__input-colour;
+            background-color: $basic-form__highlight-colour;
+        }
+
+        // Hide the arrow IE 10 and up
+        &::-ms-expand {
+            display: none;
+        }
+    }
+}
+
+.sq-form-question-country .sq-form-question-answer,
+.sq-form-question-select .sq-form-question-answer,
+.select {
+    position: relative;
+    display: inline-block;
+
+    // Arrow
+    &:after {
+        position: absolute;
+        top: 50%;
+        right: 1.25rem;
+        display: inline-block;
+        content: "";
+        width: 0;
+        height: 0;
+        margin-top: -.15rem;
+        pointer-events: none;
+        border-top: .35rem solid;
+        border-right: .35rem solid transparent;
+        border-bottom: .35rem solid transparent;
+        border-left: .35rem solid transparent;
+    }
+}
+
+// IE9 hack to hide the arrow
+@media screen and (min-width:0\0) {
+    .sq-form-question-country,
+    .sq-form-question-select,
+    .select {
+        select {
+            z-index: 1;
+            padding: .5rem 1.5rem .5rem 1rem;
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: #eee;
+            }
+        }
+    }
+    .sq-form-question-country.sq-form-question-answer,
+    .sq-form-question-select .sq-form-question-answer,
+    .select {
+        &:after {
+            z-index: 5;
+        }
+        &:before {
+            position: absolute;
+            top: 0;
+            right: 1rem;
+            bottom: 0;
+            z-index: 2;
+            content: "";
+            display: block;
+            width: 1.5rem;
+            background-color: #eee;
+        }
+    }
+}
+
+///////////////////////////
+// Checkboxes and Radios //
+///////////////////////////
+
+.sq-form-question-tickbox-list,
+.sq-form-question-option-list,
+.sq-form-question-tickbox-table {
+    input[type="checkbox"],
+    input[type="radio"] {
+        display: none;
+
+        &:checked ~ label:before {
+            background: $basic-form__highlight-colour;
+            border-color: $basic-form__highlight-colour;
+        }
+    }
+
+    li {
+        overflow: hidden;
+        margin-bottom: .5rem;
+    }
+
+    label:before {
+        @include sq-transition(all .3s ease);
+        width: 1em;
+        height: 1em;
+        padding: .5rem;
+        margin-right: .5rem;
+        display: inline-block;
+        margin-top: .1rem;
+        float: left;
+        content: '';
+        cursor: pointer;
+        background: $basic-form__input-colour;
+        border: 1px solid $basic-form__border-colour;
+    }
+}
+
+.sq-form-question-tickbox-table,
+.sq-form-question-tickbox-list {
+    input[type="checkbox"] {
+        &:checked ~ label:before {
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgOCA4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA4IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTYuNCwxTDUuNywxLjdMMi45LDQuNUwyLjEsMy43TDEuNCwzTDAsNC40bDAuNywwLjdsMS41LDEuNWwwLjcsMC43bDAuNy0wLjdsMy41LTMuNWwwLjctMC43TDYuNCwxTDYuNCwxeiINCgkvPg0KPC9zdmc+DQo=);
+        }
+    }
+}
+
+.sq-form-question-option-list {
+    input[type="radio"] {
+        &:checked ~ label:before {
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgOCA4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA4IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTQsMUMyLjMsMSwxLDIuMywxLDRzMS4zLDMsMywzczMtMS4zLDMtM1M1LjcsMSw0LDF6Ii8+DQo8L3N2Zz4NCg==);
+        }
+    }
+
+    label:before {
+        border-radius: 50%;
+    }
+}

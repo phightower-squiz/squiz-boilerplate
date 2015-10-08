@@ -1,0 +1,16 @@
+$sprites__prefix: "sq-icon__";
+$sprites__scale:  1;
+
+.sq-icon {
+    display: inline-block;
+    @include sq-sprite-bg($scale: $sprites__scale);
+}
+
+// Outputs a bunch of classes with sq-icon__<spritename>
+@each $item in $sprites__icons {
+    @if type-of($item) == "string" {
+        .#{$sprites__prefix}#{$item} {
+            @include sq-sprite($item, $sprites__scale);
+        }
+    }
+}

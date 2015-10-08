@@ -1,0 +1,8 @@
+{
+  "name": "squiz-module-navbar",
+  "version": "1.0.0-beta3",
+  "description": "Nav bar",
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

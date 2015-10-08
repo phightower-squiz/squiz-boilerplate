@@ -1,0 +1,68 @@
+.navbar__toggle {
+    display: none;
+}
+
+// Override the hide behavior in medium +
+.navbar__dropdown[aria-expanded="false"] {
+    display: block;
+    position: relative;
+}
+
+.navbar__list {
+    @include sq-list-reset;
+}
+
+.navbar__item {
+    @include sq-inline-block;
+    @include sq-border-box;
+
+    & > a {
+        @include sq-transition(background .3s ease);
+        display: block;
+        padding: .5em;
+        &,
+        &:visited {
+            text-decoration: none;
+        }
+    }
+
+    & > a:hover,
+    & > a.active {
+        background: #ccc;
+    }
+}
+
+.sub-nav {
+    position: absolute;
+    display: block;
+    visibility: hidden;
+    top: -9999em;
+    overflow: hidden;
+    @include sq-opacity(0);
+    @include sq-transition(opacity 100ms ease);
+    @include sq-box-shadow(0 4px 6px rgba(0,0,0,.2));
+    background: $menu-menu__sub-bg;
+    border: 1px solid $mega-menu__sub-border;
+    padding: .5em;
+}
+
+.no-js .navbar__item:hover .sub-nav,
+.no-js .navbar__item:focus .sub-nav,
+.navbar__item--active .sub-nav {
+    visibility: visible;
+    top: inherit;
+    @include sq-opacity(100);
+    z-index: $menu-menu__sub-z-index;
+}
+
+.sub-mega-nav {
+    left: 0;
+    width: 100%;
+    & .sub-nav__group {
+        @include sq-flex(1);
+    }
+}
+
+.sub-nav__group-container {
+    @include sq-flex-box;
+}

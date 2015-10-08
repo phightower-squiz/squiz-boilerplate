@@ -1,0 +1,30 @@
+// Navbar toggle (mobile menu)
+.navbar__toggle {
+    border: 1px solid $navbar__button-border;
+    background: $navbar__button-bg;
+
+    // Active & Hover states
+    &:hover,
+    &.navbar__toggle-active {
+        background: lighten($navbar__button-bg, 10%);
+    }
+}
+
+.navbar__dropdown[aria-expanded="false"] {
+    display: none;
+}
+
+.navbar__dropdown[aria-expanded="true"] {
+    display: inherit;
+}
+
+.sub-nav__group-container {
+    width: 100%;
+}
+
+.sub-nav {
+    @extend %list-reset;
+    & li {
+        padding: .5em;
+    }
+}

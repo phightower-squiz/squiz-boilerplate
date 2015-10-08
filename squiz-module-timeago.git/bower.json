@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-timeago",
+  "description": "Time Ago",
+  "version": "0.0.2",
+  "license": "Squiz",
+  "private": true,
+  "ignore": [],
+  "dependencies": {
+    "jquery-timeago": "~1.4.1"
+  }
+}

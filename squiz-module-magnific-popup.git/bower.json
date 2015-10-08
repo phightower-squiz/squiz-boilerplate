@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-magnific-popup",
+  "version": "0.1.1",
+  "description": "Magnific Popup",
+  "license": "",
+  "private": true,
+  "ignore": [],
+  "dependencies": {
+    "magnific-popup": "~1.0.0"
+  }
+}

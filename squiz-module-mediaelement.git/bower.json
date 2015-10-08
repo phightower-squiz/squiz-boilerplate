@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-mediaelement",
+  "description": "Easier install for mediaelement.js",
+  "version": "0.0.2",
+  "license": "Squiz",
+  "private": true,
+  "ignore": [],
+  "dependencies": {
+    "mediaelement": "2.*"
+  }
+}

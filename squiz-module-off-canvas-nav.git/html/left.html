@@ -1,0 +1,14 @@
+<h3>Left aligned (inside a container)</h3>
+
+<p>When used inside of the container the nav is absolutely positioned so the sliding behavior of adjacent content can be controlled. If you still want it to slide 'over' the content, just take away the .off-canvas__content wrapper</p>
+
+<div class="off-canvas">
+    <nav class="off-canvas__nav off-canvas__nav--left" id="off-canvas__nav-left" aria-expanded="false">
+        <button class="off-canvas__close" aria-controls="off-canvas__nav-left">Close</button>
+        The nav
+    </nav>
+    <div class="off-canvas__content">
+        <button class="off-canvas__toggle" aria-controls="off-canvas__nav-left">Menu</button>
+        Site content goes here
+    </div>
+</div>

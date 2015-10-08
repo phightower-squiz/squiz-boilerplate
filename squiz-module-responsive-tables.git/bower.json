@@ -1,0 +1,8 @@
+{
+  "name": "squiz-module-responsive-tables",
+  "description": "Responsive Tables",
+  "version": "0.0.3",
+  "license": "Squiz",
+  "private": true,
+  "ignore": []
+}

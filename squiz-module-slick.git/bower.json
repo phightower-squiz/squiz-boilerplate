@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-slick",
+  "version": "0.0.2",
+  "description": "Slick slider",
+  "license": "",
+  "dependencies": {
+    "slick.js": "*"
+  },
+  "private": true,
+  "ignore": []
+}

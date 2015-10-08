@@ -1,0 +1,16 @@
+{
+  "name": "squiz-module-font-awesome",
+  "version": "0.1.0",
+  "authors": [
+    "abarnes@squiz.com.au"
+  ],
+  "description": "Font Awesome",
+  "keywords": [
+    "font-awesome"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.0.3"
+  },
+  "license": "Squiz",
+  "private": true
+}

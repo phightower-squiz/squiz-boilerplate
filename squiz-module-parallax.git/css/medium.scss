@@ -1,0 +1,12 @@
+.parallax {
+    // Overflow to help with any floated content the element might have
+    overflow: hidden;
+}
+
+.parallax__layer-background {
+    overflow: hidden;
+    // Stop an image from scaling to less than it's actual width.
+    & img {
+        min-width: 100%;
+    }
+}

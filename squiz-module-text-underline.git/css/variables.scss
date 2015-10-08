@@ -1,0 +1,17 @@
+$text-underline__colour: $base-font-colour !default;
+
+// Re-appropriated from:
+// http://www.sumnoise.com/2014/03/30/underlining-links/
+@mixin sq-text-underline($colour:$text-underline__colour, $line-offset:1, $line-size:0.1) {
+  background-repeat: repeat-x;
+  background-size: #{$line-size}em #{$line-size}em;
+  background-position: 0 #{$line-offset}em;
+  text-decoration: none;
+  background-image: -webkit-linear-gradient(top, transparent 50%, $colour 50%);
+  background-image: linear-gradient(top, transparent 50%, $colour 50%);
+
+  .lt-ie9 & { // because old IE can't handle it
+    background: none;
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,44 @@
+.quick-search__form {
+    padding: 0;
+    margin: 0;
+}
+
+.quick-search__input {
+    @extend %border-box;
+    border: $quick-search__border;
+}
+
+.quick-search__submit {
+    @extend %border-box;
+    display: block;
+    border: $quick-search__border;
+    background-color: #fff;
+    line-height: 0;
+    cursor: pointer;
+    user-select: none;
+    @include sq-transition(background-color 0.5s ease);
+    &:hover,
+    &:focus {
+        background-color: #ddd;
+    }
+}
+
+.quick-search__submit {
+    border-left: none;
+}
+
+
+.quick-search__input-wrapper {
+    margin: 0 auto;
+}
+
+.quick-search__input-group {
+    @extend %flex-box;
+}
+
+.quick-search__input,
+.quick-search__submit {
+    padding: 8px 2%;
+    @extend %border-box;
+    @include sq-flex(0 0 1);
+}

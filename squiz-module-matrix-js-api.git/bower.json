@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-matrix-jsapi",
+  "description": "Matrix JS API wrapper",
+  "version": "0.0.4",
+  "license": "",
+  "private": true,
+  "dependencies": {
+    "sinon": "~1.7.3"
+  },
+  "ignore": []
+}

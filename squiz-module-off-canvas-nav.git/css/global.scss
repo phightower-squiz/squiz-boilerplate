@@ -1,0 +1,79 @@
+
+.off-canvas__nav {
+    // Position fixed in the first instance, but when used inside .off-canvas__container this
+    // will be changed to position: absolute;
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    bottom: 0;
+    width: $off-canvas__nav-width;
+    background-color: $off-canvas__nav-bg;
+    @include sq-box-shadow(inset -1.5em 0 1.5em -0.75em rgba(0, 0, 0, 0.25));
+    z-index: 1000;
+    color: $off-canvas__nav-text;
+
+    //background: linear-gradient(135deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+    &.off-canvas__nav--left {
+        left: 0;
+        @include sq-transform(translateX(-100%));
+    }
+
+    &.off-canvas__nav--right {
+        right: 0;
+        @include sq-transform(translateX(100%));
+    }
+
+    &.off-canvas--active {
+        visibility: visible;
+        @include sq-transition(unquote("transform 0.5s, visibility 0s"));
+
+        // Left aligned
+        &.off-canvas__nav--left {
+            @include sq-transform(translateX(0%));
+            & ~ .off-canvas__content {
+                left: $off-canvas__nav-width;
+            }
+        }
+
+        // Right aligned
+        &.off-canvas__nav--right {
+            @include sq-transform(translateX(0%));
+            & ~ .off-canvas__content {
+                left: -$off-canvas__nav-width;
+            }
+        }
+    }
+    
+    @include sq-transition(unquote("transform 0.5s, visibility 0s 0.5s")); 
+}
+
+.off-canvas__content {
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    position: relative;
+    padding: 1em;
+    @extend sq-border-box;
+    @include sq-transition(left 0.5s);
+}
+
+// Use the container if you need to either restrict the 'off canvas' part of the nav or have the 
+// content position change as the
+.off-canvas {
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100%;
+
+    & .off-canvas__nav {
+        position: absolute;
+    }
+
+    // Active state
+    & .off-canvas--active {
+
+        // Position the content
+        // & ~ .off-canvas__content {
+        //     position: absolute;
+        // }
+    }
+}

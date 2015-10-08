@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Uber accordion tests</title>
+    <!-- Load local QUnit. -->
+    <link rel="stylesheet" href="../../../bower_components/qunit/qunit/qunit.css" media="screen">
+    <script src="../../../bower_components/qunit/qunit/qunit.js"></script>
+    <!-- Load local lib and tests. -->
+    <script src="../../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../../../bower_components/jquery/jquery.js"></script>
+    <script src="../js/plugin.js"></script>
+    <script src="spec.js"></script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+        <div class="accordion">
+            <a href="#one" class="accordion__button">Button 1</a>
+            <a href="#two" class="accordion__button">Button 2</a>
+            <a href="#three" class="accordion__button">Button 3</a>
+
+            <div id="one" class="accordion__target">
+                Target One
+            </div>
+
+            <div id="two" class="accordion__target">
+                Target Two
+            </div>
+
+            <div id="three" class="accordion__target">
+                Target Three
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>

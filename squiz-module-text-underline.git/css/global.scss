@@ -1,0 +1,3 @@
+a.text-underline {
+    @include sq-text-underline($line-offset:1.2);
+}

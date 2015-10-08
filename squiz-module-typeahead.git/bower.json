@@ -1,0 +1,11 @@
+{
+  "name": "squiz-module-typeahead",
+  "version": "0.1.2",
+  "description": "Twitter typeahead (Autocomplete)",
+  "keywords": [],
+  "dependencies": {
+      "typeahead.js": "~0.9.3"
+   },
+  "license": "Squiz",
+  "private": true
+}

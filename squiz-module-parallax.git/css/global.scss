@@ -1,0 +1,29 @@
+.parallax {
+    position: relative;
+    // You can set this based on the design styles, don't just stick with what
+    // is here as a default. A min height is very useful if you don't have enough
+    // content inside the box to make the rest of it visible
+    min-height: $parallax__image-height/2;
+}
+
+.parallax__layer {
+    position: absolute;
+    // Push the parallax later into the background
+    z-index: -1;
+}
+
+.parallax__layer-background {
+    width: $parallax__image-width;
+}
+
+// Foreground generally isn't desirable on smaller screens, but you
+// can remove this rule if necessary
+.parallax__layer-foreground {
+    display: none;
+}
+
+// Center the layer horizontally when we know how wide the contained image/element is going to be
+.parallax__layer--center {
+    left: 50%;
+    margin-left: -($parallax__image-width/2);
+}

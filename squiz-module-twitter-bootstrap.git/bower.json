@@ -1,0 +1,14 @@
+{
+  "name": "squiz-module-twitter-boostrap",
+  "version": "0.1.4",
+  "authors": [
+    "abarnes@squiz.com.au"
+  ],
+  "description": "Twitter Bootstrap",
+  "license": "",
+  "private": true,
+  "ignore": [],
+  "dependencies": {
+    "bootstrap-sass": "*"
+  }
+}

@@ -1,0 +1,17 @@
+.parallax__layer-background {
+    min-width: $parallax__image-width;
+    width: 100%;
+    & img {
+        width: 100%;
+        min-width: 100%;
+    }
+}
+
+.parallax__layer-foreground {
+    display: block;
+}
+
+.parallax__layer-center {
+    left: 0;
+    margin: 0 auto;
+}
