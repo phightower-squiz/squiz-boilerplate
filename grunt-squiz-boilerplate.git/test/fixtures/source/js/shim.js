@@ -1,0 +1,1 @@
+var shimFn = require('./needsShim.js');

@@ -1,0 +1,42 @@
+{
+  "name": "grunt-squiz-boilerplate",
+  "version": "0.1.4",
+  "description": "Grunt tasks for Squiz Boilerplate",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.squiz.net/boilerplate/grunt-squiz-boilerplate.git"
+  },
+  "private": "true",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "keywords": [
+    "squiz",
+    "boilerplate",
+    "grunt"
+  ],
+  "dependencies": {
+    "async": "~0.9.0",
+    "browserify": "~8.0.0",
+    "browserify-shim": "^3.8.0",
+    "chalk": "~0.5.1",
+    "extend": "^2.0.0",
+    "grunt": "~0.4.5",
+    "handlebars": "^2.0.0",
+    "highlight.js": "^8.3.0",
+    "htmlparser2": "~3.7.3",
+    "lodash": "~2.4.1",
+    "marked": "^0.3.2",
+    "node-sass": "3.x",
+    "optimist": "^0.6.1",
+    "underscore.string": "^3.0.2"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.4.1"
+  },
+  "author": "abarnes@squiz.com.au",
+  "license": "Squiz"
+}

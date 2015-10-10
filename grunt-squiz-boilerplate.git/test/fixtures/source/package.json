@@ -1,0 +1,13 @@
+{
+  "browser": {
+    "shimmed": "./js/needsShim.js"
+  },
+  "browserify-shim": {
+    "shimmed": { "exports": "MyAwesomeFunction" }
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  }
+}
